@@ -559,6 +559,10 @@ html,body{height:100%;overflow:hidden;background:var(--bg-deep);color:var(--text
           <span class="zoom-label" id="zoom-label">100%</span>
           <button class="zoom-btn" id="btn-zoom-in">+</button>
           <button class="zoom-btn" style="font-size:11px;width:auto;padding:0 8px;" id="btn-zoom-reset">Reset</button>
+            <span style="color:var(--text-tertiary);font-size:11px;margin:0 4px;">Y:</span>
+            <button class="zoom-btn" id="btn-zoom-y-out">−</button>
+            <span id="zoom-y-label" style="color:var(--text-secondary);font-size:12px;min-width:36px;text-align:center;">100%</span>
+            <button class="zoom-btn" id="btn-zoom-y-in">+</button>
         </div>
       </div>
     </div>
@@ -1240,19 +1244,21 @@ const PAD_RIGHT = 80;
 const PAD_BOTTOM = 40;
 
 let zoomLevel = 1.0;
+let zoomY = 1.0;
 let pxPerYear = PX_PER_YEAR_BASE;
+let laneH = LANE_H;
 
 function canvasW() {
   return LABEL_W + (MAX_YEAR - MIN_YEAR) * pxPerYear + PAD_RIGHT;
 }
 function canvasH() {
-  return YEAR_AXIS_H + THREADS.length * (LANE_H + LANE_GAP) - LANE_GAP + PAD_BOTTOM;
+  return YEAR_AXIS_H + THREADS.length * (laneH + LANE_GAP) - laneH + LANE_H + PAD_BOTTOM;
 }
 function yearX(year) {
   return LABEL_W + (year - MIN_YEAR) * pxPerYear;
 }
 function threadY(threadIdx) {
-  return YEAR_AXIS_H + threadIdx * (LANE_H + LANE_GAP) + LANE_H / 2;
+  return YEAR_AXIS_H + threadIdx * (laneH + LANE_GAP) + laneH / 2;
 }
 function threadIdxById(tid) {
   return THREADS.findIndex(t => t.id === tid);
@@ -1456,8 +1462,8 @@ function buildThreadLanes() {
     lane.className = 'thread-lane';
     lane.dataset.thread = thread.id;
     const y = threadY(idx);
-    lane.style.top = (y - LANE_H / 2) + 'px';
-    lane.style.height = LANE_H + 'px';
+    lane.style.top = (y - laneH / 2) + 'px';
+    lane.style.height = laneH + 'px';
 
     const stripe = document.createElement('div');
     stripe.style.cssText = `position:absolute;inset:0;background:${thread.color}08;border-bottom:1px solid ${thread.color}15;`;
@@ -1465,12 +1471,12 @@ function buildThreadLanes() {
 
     const line = document.createElement('div');
     line.className = 'lane-line';
-    line.style.cssText = `left:${LABEL_W}px;right:${PAD_RIGHT}px;top:${LANE_H / 2}px;background:${thread.color};opacity:0.25;`;
+    line.style.cssText = `left:${LABEL_W}px;right:${PAD_RIGHT}px;top:${laneH / 2}px;background:${thread.color};opacity:0.25;`;
     lane.appendChild(line);
 
     const label = document.createElement('div');
     label.className = 'lane-label';
-    label.style.cssText = `color:${thread.color};height:${LANE_H}px;line-height:${LANE_H}px;width:${LABEL_W}px;background:linear-gradient(to right,#0b0b0b 75%,transparent);`;
+    label.style.cssText = `color:${thread.color};height:${laneH}px;line-height:${laneH}px;width:${LABEL_W}px;background:linear-gradient(to right,#0b0b0b 75%,transparent);`;
     label.textContent = thread.short.toUpperCase();
     lane.appendChild(label);
 
@@ -1869,10 +1875,16 @@ function scrollToNode(paperId) {
 // ZOOM
 // =========================================================
 
-function setZoom(z) {
-  zoomLevel = Math.min(2.0, Math.max(0.5, z));
-  pxPerYear = PX_PER_YEAR_BASE * zoomLevel;
-  document.getElementById('zoom-label').textContent = Math.round(zoomLevel * 100) + '%';
+function setZoom(z, axis) {
+  if (axis === 'y') {
+    zoomY = Math.min(2.5, Math.max(0.5, z));
+    laneH = LANE_H * zoomY;
+    document.getElementById('zoom-y-label').textContent = Math.round(zoomY * 100) + '%';
+  } else {
+    zoomLevel = Math.min(2.5, Math.max(0.5, z));
+    pxPerYear = PX_PER_YEAR_BASE * zoomLevel;
+    document.getElementById('zoom-label').textContent = Math.round(zoomLevel * 100) + '%';
+  }
   rebuildCanvas();
 }
 
@@ -1914,9 +1926,11 @@ document.getElementById('canvas-scroller').addEventListener('wheel', e => {
   }
 }, { passive: false });
 
-document.getElementById('btn-zoom-in').addEventListener('click', () => setZoom(zoomLevel + 0.1));
-document.getElementById('btn-zoom-out').addEventListener('click', () => setZoom(zoomLevel - 0.1));
-document.getElementById('btn-zoom-reset').addEventListener('click', () => setZoom(1.0));
+document.getElementById('btn-zoom-in').addEventListener('click', () => setZoom(zoomLevel + 0.1, 'x'));
+document.getElementById('btn-zoom-out').addEventListener('click', () => setZoom(zoomLevel - 0.1, 'x'));
+document.getElementById('btn-zoom-reset').addEventListener('click', () => { setZoom(1.0, 'x'); setZoom(1.0, 'y'); });
+document.getElementById('btn-zoom-y-in').addEventListener('click', () => setZoom(zoomY + 0.15, 'y'));
+document.getElementById('btn-zoom-y-out').addEventListener('click', () => setZoom(zoomY - 0.15, 'y'));
 
 // =========================================================
 // KEYBOARD
