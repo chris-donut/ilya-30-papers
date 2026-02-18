@@ -8,10 +8,20 @@
     "build": "echo 'Static site — no build step needed'",
     "preview": "npx serve . -l 4173"
   },
-  "keywords": ["ai", "machine-learning", "deep-learning", "ilya-sutskever", "papers", "visualization"],
+  "keywords": [
+    "ai",
+    "machine-learning",
+    "deep-learning",
+    "ilya-sutskever",
+    "papers",
+    "visualization"
+  ],
   "author": "",
   "license": "MIT",
   "devDependencies": {
     "serve": "^14.2.1"
+  },
+  "dependencies": {
+    "vercel": "^50.18.2"
   }
 }
