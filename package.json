@@ -1,0 +1,17 @@
+{
+  "name": "ilya-30-papers",
+  "version": "1.0.0",
+  "description": "Ilya's 30 Papers — Research Evolution Tree. An interactive visualization of Ilya Sutskever's famous AI reading list.",
+  "private": true,
+  "scripts": {
+    "dev": "npx serve . -l 3000",
+    "build": "echo 'Static site — no build step needed'",
+    "preview": "npx serve . -l 4173"
+  },
+  "keywords": ["ai", "machine-learning", "deep-learning", "ilya-sutskever", "papers", "visualization"],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "serve": "^14.2.1"
+  }
+}
