@@ -1231,9 +1231,9 @@ function toggleRead(paperId) {
 
 const MIN_YEAR = 1993;
 const MAX_YEAR = 2026;
-const PX_PER_YEAR_BASE = 65;
+const PX_PER_YEAR_BASE = 110;
 const LABEL_W = 150;
-const LANE_H = 90;
+const LANE_H = 110;
 const LANE_GAP = 14;
 const YEAR_AXIS_H = 38;
 const PAD_RIGHT = 80;
@@ -1275,26 +1275,44 @@ function computeInfluence() {
 const influence = computeInfluence();
 const maxInfluence = Math.max(...Object.values(influence));
 
-// Group papers by (thread, year) — multiple papers at same position need y-offset
-const posGroups = {};
+// Group papers by thread, then detect clusters (papers within 2 years of each other)
+const threadPapers = {};
 PAPERS.forEach(paper => {
-  const key = `${paper.thread}_${paper.year}`;
-  if (!posGroups[key]) posGroups[key] = [];
-  posGroups[key].push(paper.id);
+  if (!threadPapers[paper.thread]) threadPapers[paper.thread] = [];
+  threadPapers[paper.thread].push(paper);
+});
+// Sort by year within each thread
+Object.values(threadPapers).forEach(arr => arr.sort((a, b) => a.year - b.year));
+
+// Assign y-offsets for papers that are too close on the same track
+const paperYOffsets = {};
+Object.entries(threadPapers).forEach(([thread, papers]) => {
+  // Find clusters: papers within 2 years of each other
+  const clusters = [];
+  let currentCluster = [papers[0]];
+  for (let i = 1; i < papers.length; i++) {
+    if (papers[i].year - currentCluster[currentCluster.length - 1].year <= 2) {
+      currentCluster.push(papers[i]);
+    } else {
+      clusters.push(currentCluster);
+      currentCluster = [papers[i]];
+    }
+  }
+  clusters.push(currentCluster);
+  
+  clusters.forEach(cluster => {
+    if (cluster.length <= 1) { paperYOffsets[cluster[0].id] = 0; return; }
+    const SPACING = 28;
+    cluster.forEach((p, idx) => {
+      paperYOffsets[p.id] = (idx - (cluster.length - 1) / 2) * SPACING;
+    });
+  });
 });
 
-// Get actual y coordinate for a paper node (offset when multiple papers share thread+year)
 function getPaperY(paper) {
-  const key = `${paper.thread}_${paper.year}`;
-  const group = posGroups[key];
-  const groupIdx = group.indexOf(paper.id);
-  const groupSize = group.length;
   const tidx = threadIdxById(paper.thread);
   const baseY = threadY(tidx);
-  if (groupSize === 1) return baseY;
-  // Spread papers evenly around lane center (22px spacing)
-  const SPACING = 22;
-  return baseY + (groupIdx - (groupSize - 1) / 2) * SPACING;
+  return baseY + (paperYOffsets[paper.id] || 0);
 }
 
 function nodeRadius(paperId) {
