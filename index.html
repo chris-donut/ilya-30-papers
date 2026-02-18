@@ -1278,6 +1278,34 @@ function computeInfluence() {
   return counts;
 }
 
+const PDF_MAP = {
+  "05":"papers/05-recurrent-neural-network-regularization.pdf",
+  "06":"papers/06-keeping-networks-simple-mdl.pdf",
+  "07":"papers/07-pointer-networks.pdf",
+  "08":"papers/08-alexnet-imagenet-classification.pdf",
+  "09":"papers/09-order-matters-seq2seq-sets.pdf",
+  "10":"papers/10-gpipe-pipeline-parallelism.pdf",
+  "11":"papers/11-resnet-deep-residual-learning.pdf",
+  "12":"papers/12-dilated-convolutions-context.pdf",
+  "13":"papers/13-neural-message-passing-chemistry.pdf",
+  "14":"papers/14-attention-is-all-you-need.pdf",
+  "15":"papers/15-neural-machine-translation-attention.pdf",
+  "16":"papers/16-identity-mappings-resnet.pdf",
+  "17":"papers/17-relational-reasoning-module.pdf",
+  "18":"papers/18-variational-lossy-autoencoder.pdf",
+  "19":"papers/19-relational-recurrent-networks.pdf",
+  "20":"papers/20-neural-turing-machines.pdf",
+  "21":"papers/21-deep-speech-2.pdf",
+  "22":"papers/22-scaling-laws-language-models.pdf",
+  "23":"papers/23-minimum-description-length.pdf",
+  "24":"papers/24-grokking-generalization.pdf",
+  "25":"papers/25-neural-probabilistic-language-model.pdf",
+  "27":"papers/27-generative-adversarial-nets.pdf",
+  "28":"papers/28-adam-optimizer.pdf",
+  "29":"papers/29-dropout-regularization.pdf",
+  "30":"papers/30-batch-normalization.pdf"
+};
+
 const influence = computeInfluence();
 const maxInfluence = Math.max(...Object.values(influence));
 
