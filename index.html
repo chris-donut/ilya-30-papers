@@ -612,14 +612,12 @@ html,body{height:100%;overflow:hidden;background:var(--bg-deep);color:var(--text
 
     <!-- ── READING PATHS VIEW ── -->
     <div class="tab-view" id="view-paths">
-      <div id="view-paths">
-        <div class="paths-container">
-          <div class="paths-header">
-            <h2>📚 Guided Reading Paths</h2>
-            <p>Structured sequences through Ilya's 30 papers, organized by learning goal. Click any paper card to open it in the Evolution Tree.</p>
-          </div>
-          <div id="paths-content"></div>
+      <div class="paths-container">
+        <div class="paths-header">
+          <h2>📚 Guided Reading Paths</h2>
+          <p>Structured sequences through Ilya's 30 papers, organized by learning goal. Click any paper card to open it in the Evolution Tree.</p>
         </div>
+        <div id="paths-content"></div>
       </div>
     </div>
 
@@ -1255,7 +1253,10 @@ function canvasH() {
   return YEAR_AXIS_H + THREADS.length * (laneH + LANE_GAP) - laneH + LANE_H + PAD_BOTTOM;
 }
 function yearX(year) {
-  return LABEL_W + (year - MIN_YEAR) * pxPerYear;
+  // Quantize to grid columns (every 2 years)
+  const GRID_YEARS = 2;
+  const quantizedYear = Math.round(year / GRID_YEARS) * GRID_YEARS;
+  return LABEL_W + (quantizedYear - MIN_YEAR) * pxPerYear;
 }
 function threadY(threadIdx) {
   return YEAR_AXIS_H + threadIdx * (laneH + LANE_GAP) + laneH / 2;
@@ -1321,11 +1322,14 @@ Object.values(threadPapers).forEach(arr => arr.sort((a, b) => a.year - b.year));
 // Assign y-offsets for papers that are too close on the same track
 const paperYOffsets = {};
 Object.entries(threadPapers).forEach(([thread, papers]) => {
-  // Find clusters: papers within 2 years of each other
+  // Find clusters: papers within 2 years of each other (quantized positions)
   const clusters = [];
   let currentCluster = [papers[0]];
   for (let i = 1; i < papers.length; i++) {
-    if (papers[i].year - currentCluster[currentCluster.length - 1].year <= 2) {
+    // Check quantized year positions to determine clusters
+    const prevQuantized = Math.round(currentCluster[currentCluster.length - 1].year / 2) * 2;
+    const currQuantized = Math.round(papers[i].year / 2) * 2;
+    if (currQuantized === prevQuantized) {
       currentCluster.push(papers[i]);
     } else {
       clusters.push(currentCluster);
@@ -1336,9 +1340,10 @@ Object.entries(threadPapers).forEach(([thread, papers]) => {
   
   clusters.forEach(cluster => {
     if (cluster.length <= 1) { paperYOffsets[cluster[0].id] = 0; return; }
-    const SPACING = 28;
+    // Use uniform grid spacing: 32px increments
+    const GRID_SPACING = 32;
     cluster.forEach((p, idx) => {
-      paperYOffsets[p.id] = (idx - (cluster.length - 1) / 2) * SPACING;
+      paperYOffsets[p.id] = (idx - (cluster.length - 1) / 2) * GRID_SPACING;
     });
   });
 });
@@ -1629,22 +1634,38 @@ function buildConnections() {
     const sameThread = from.thread === to.thread;
 
     let d;
+    let opacity;
+    
+    // Count connections for this source node to adjust opacity
+    const fromConnections = allEdges.filter(([fid, tid]) => fid === fromId || tid === fromId).length;
+    
     if (sameThread) {
+      // Same-thread: simple gentle arc
       const cx = (x1 + x2) / 2;
       const cy = Math.min(y1, y2) - 28;
       d = `M ${x1} ${y1} Q ${cx} ${cy} ${x2} ${y2}`;
+      opacity = '0.3';
     } else {
-      const dx = (x2 - x1);
-      const cx1 = x1 + dx * 0.4;
-      const cx2 = x2 - dx * 0.4;
-      d = `M ${x1} ${y1} C ${cx1} ${y1} ${cx2} ${y2} ${x2} ${y2}`;
+      // Cross-thread: orthogonal (circuit-board style) routing
+      // Horizontal → Vertical → Horizontal
+      const midX = (x1 + x2) / 2;
+      
+      // Add small random offset to prevent exact overlap of parallel vertical segments
+      const verticalOffset = (Math.abs(fromId * 7 + toId * 11) % 10 - 5) * 2;
+      const adjustedMidX = midX + verticalOffset;
+      
+      // Route: start horizontal, then vertical, then horizontal to target
+      d = `M ${x1} ${y1} L ${adjustedMidX} ${y1} L ${adjustedMidX} ${y2} L ${x2} ${y2}`;
+      
+      // Reduce opacity for nodes with many connections
+      opacity = fromConnections > 3 ? '0.12' : '0.18';
     }
 
     const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
     path.setAttribute('d', d);
     path.setAttribute('class', `conn-path ${sameThread ? 'conn-same' : 'conn-cross'}`);
     path.setAttribute('stroke', fromThread.color);
-    path.setAttribute('stroke-opacity', sameThread ? '0.3' : '0.2');
+    path.setAttribute('stroke-opacity', opacity);
     path.dataset.from = fromId;
     path.dataset.to = toId;
     path.dataset.sameThread = sameThread ? '1' : '0';
