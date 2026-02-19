@@ -351,6 +351,14 @@ html,body{height:100%;overflow:hidden;background:var(--bg-deep);color:var(--text
 }
 .dp-read-btn:hover{border-color:var(--green);color:var(--green);}
 .dp-read-btn.marked{background:rgba(13,201,92,0.12);border-color:var(--green);color:var(--green);}
+.dp-pdf-btn{
+  display:inline-flex;align-items:center;gap:4px;
+  font-size:12px;font-weight:600;padding:4px 12px;border-radius:6px;
+  background:rgba(172,170,255,0.1);border:1px solid var(--purple-primary);
+  color:var(--purple-primary);cursor:pointer;text-decoration:none;
+  transition:all 0.15s;margin-left:6px;font-family:var(--font-sans);
+}
+.dp-pdf-btn:hover{background:rgba(172,170,255,0.25);}
 .dp-summary{
   padding:10px 16px 0;
   font-size:12px;color:var(--text-secondary);font-style:italic;line-height:1.5;
@@ -1818,6 +1826,7 @@ function renderDetailPanel(paper) {
             <button class="dp-read-btn ${isRead ? 'marked' : ''}" id="dp-read-btn" data-id="${paper.id}">
               ${isRead ? '✓ Marked Read' : 'Mark as Read'}
             </button>
+            ${PDF_MAP[paper.id] ? `<a class="dp-pdf-btn" href="${PDF_MAP[paper.id]}" download title="Download PDF">⬇ PDF</a>` : ''}
           </div>
         </div>
         <button class="dp-close" id="dp-close">×</button>
