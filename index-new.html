@@ -241,18 +241,12 @@ html, body {
   padding: 40px 24px;
 }
 
-.radar-dashboard::-webkit-scrollbar {
-  width: 8px;
-}
-
-.radar-dashboard::-webkit-scrollbar-track {
-  background: var(--bg-surface);
-}
-
-.radar-dashboard::-webkit-scrollbar-thumb {
-  background: var(--border);
-  border-radius: 4px;
-}
+/* Global thin scrollbar for dark theme */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(153,151,255,0.25); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(153,151,255,0.4); }
+* { scrollbar-width: thin; scrollbar-color: rgba(153,151,255,0.25) transparent; }
 
 .dashboard-header {
   max-width: 1400px;
