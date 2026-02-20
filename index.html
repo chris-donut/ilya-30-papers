@@ -370,6 +370,99 @@ html, body {
   font-family: var(--font-mono);
 }
 
+/* ===== READING PATHS ===== */
+.paths-scroll-container {
+  flex: 1; overflow-y: auto; padding: 40px 24px; min-height: 0;
+}
+.paths-scroll-container::-webkit-scrollbar { width: 6px; }
+.paths-scroll-container::-webkit-scrollbar-track { background: transparent; }
+.paths-scroll-container::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+.paths-header { max-width: 900px; margin: 0 auto 32px; }
+.paths-header h2 {
+  font-size: 22px; font-weight: 700; margin-bottom: 8px;
+  background: linear-gradient(90deg, #f1f1f1 0%, #acaaff 60%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.paths-header p { color: var(--text-secondary); font-size: 14px; }
+
+.path-card {
+  max-width: 900px; margin: 0 auto 24px;
+  background: var(--bg-surface); border: 1px solid var(--border);
+  border-radius: 16px; padding: 24px; transition: border-color 0.2s;
+}
+.path-card:hover { border-color: rgba(172,170,255,0.35); }
+.path-name {
+  font-size: 16px; font-weight: 700; margin-bottom: 6px;
+  display: flex; align-items: center; gap: 10px;
+}
+.path-desc { font-size: 13px; color: var(--text-secondary); margin-bottom: 18px; line-height: 1.5; }
+.path-papers { display: flex; align-items: center; flex-wrap: wrap; gap: 0; }
+.path-paper {
+  display: flex; flex-direction: column;
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 10px; padding: 10px 14px; cursor: pointer;
+  transition: all 0.18s; min-width: 120px; max-width: 160px; position: relative;
+}
+.path-paper:hover {
+  border-color: var(--pp-color, #acaaff);
+  box-shadow: 0 0 12px rgba(172,170,255,0.2);
+  transform: translateY(-2px);
+}
+.path-paper.completed {
+  background: rgba(13,201,92,0.06); border-color: rgba(13,201,92,0.3);
+}
+.path-paper .pp-num { font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: var(--pp-color, #acaaff); margin-bottom: 4px; }
+.path-paper .pp-title { font-size: 12px; font-weight: 600; color: var(--text-primary); line-height: 1.3; margin-bottom: 6px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.path-paper .pp-year { font-size: 10px; font-family: var(--font-mono); color: var(--text-tertiary); }
+.path-paper .pp-check { position: absolute; top: 6px; right: 6px; font-size: 12px; opacity: 0; transition: opacity 0.15s; }
+.path-paper.completed .pp-check { opacity: 1; }
+.path-arrow { font-size: 18px; color: var(--text-tertiary); padding: 0 6px; flex-shrink: 0; display: flex; align-items: center; }
+.path-source-tag { font-size: 10px; padding: 2px 6px; border-radius: 4px; margin-left: 8px; }
+
+/* ===== GLOSSARY ===== */
+.glossary-scroll-container {
+  flex: 1; overflow-y: auto; padding: 40px 24px; min-height: 0;
+}
+.glossary-scroll-container::-webkit-scrollbar { width: 6px; }
+.glossary-scroll-container::-webkit-scrollbar-track { background: transparent; }
+.glossary-scroll-container::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+.glossary-header { max-width: 1000px; margin: 0 auto 28px; }
+.glossary-header h2 {
+  font-size: 22px; font-weight: 700; margin-bottom: 8px;
+  background: linear-gradient(90deg, #f1f1f1 0%, #acaaff 60%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.glossary-header p { color: var(--text-secondary); font-size: 14px; }
+.glossary-search-wrap { position: relative; max-width: 360px; margin-top: 16px; }
+.glossary-search {
+  background: var(--bg-card); border: 1px solid var(--border);
+  color: var(--text-primary); font-family: var(--font-sans); font-size: 14px;
+  padding: 8px 12px 8px 36px; border-radius: 10px; width: 100%; outline: none; transition: border-color 0.15s;
+}
+.glossary-search:focus { border-color: var(--purple-primary); }
+.glossary-search::placeholder { color: var(--text-tertiary); }
+.glossary-search-icon { position: absolute; left: 11px; top: 50%; transform: translateY(-50%); color: var(--text-tertiary); font-size: 14px; pointer-events: none; }
+.glossary-count { font-size: 12px; color: var(--text-tertiary); margin-top: 8px; max-width: 1000px; margin-left: auto; margin-right: auto; }
+.glossary-grid {
+  max-width: 1000px; margin: 20px auto 0;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px;
+}
+.gloss-card {
+  background: var(--bg-surface); border: 1px solid var(--border);
+  border-radius: 12px; padding: 16px; transition: border-color 0.2s;
+}
+.gloss-card:hover { border-color: rgba(172,170,255,0.35); }
+.gloss-card.hidden { display: none; }
+.gloss-term { font-size: 14px; font-weight: 700; color: var(--text-primary); margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
+.gloss-tag {
+  font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.4px;
+  padding: 2px 7px; border-radius: 8px; background: rgba(172,170,255,0.1);
+  border: 1px solid rgba(172,170,255,0.2); color: var(--purple-primary);
+}
+.gloss-def { font-size: 13px; color: var(--text-secondary); line-height: 1.55; }
+
 /* ===== THEME DETAIL VIEW ===== */
 .theme-detail {
   display: flex;
@@ -859,26 +952,29 @@ html, body {
     </div>
 
     <!-- Reading Paths View -->
-    <div class="tab-view" id="view-paths" style="min-height:0;">
-      <div style="max-width: 900px; margin: 0 auto; padding: 40px 24px; width: 100%; overflow-y: auto;">
-        <h2 style="font-size: 20px; margin-bottom: 8px;">🗺️ Reading Paths</h2>
-        <p style="color: var(--text-secondary); font-size: 14px; margin-bottom: 24px;">Structured sequences organized by learning goal. Covers both Ilya's 30 canonical papers and Research Radar themes.</p>
+    <div class="tab-view" id="view-paths">
+      <div class="paths-scroll-container">
+        <div class="paths-header">
+          <h2>🗺️ Reading Paths</h2>
+          <p>Structured sequences organized by learning goal. Follow the arrows left-to-right.</p>
+        </div>
         <div id="paths-content"></div>
       </div>
     </div>
 
     <!-- Glossary View -->
-    <div class="tab-view" id="view-glossary" style="min-height:0;">
-      <div style="max-width: 900px; margin: 0 auto; padding: 40px 24px; width: 100%; overflow-y: auto;">
-        <h2 style="font-size: 20px; margin-bottom: 8px;">📖 AI/ML Glossary</h2>
-        <p style="color: var(--text-secondary); font-size: 14px;">Key concepts from Ilya's 30 papers and Research Radar — from foundational math to frontier research.</p>
-        <div style="position: relative; max-width: 360px; margin-top: 16px;">
-          <span style="position: absolute; left: 11px; top: 50%; transform: translateY(-50%); color: var(--text-tertiary); font-size: 14px; pointer-events: none;">🔍</span>
-          <input id="glossary-search" type="text" placeholder="Search concepts…" autocomplete="off"
-            style="background: var(--bg-card); border: 1px solid var(--border); color: var(--text-primary); font-family: var(--font-sans); font-size: 13px; padding: 8px 12px 8px 32px; border-radius: 8px; width: 100%; outline: none;">
+    <div class="tab-view" id="view-glossary">
+      <div class="glossary-scroll-container">
+        <div class="glossary-header">
+          <h2>📖 AI/ML Glossary</h2>
+          <p>Key concepts from Ilya's 30 papers and Research Radar themes.</p>
+          <div class="glossary-search-wrap">
+            <span class="glossary-search-icon">🔍</span>
+            <input id="glossary-search" class="glossary-search" type="text" placeholder="Search concepts…" autocomplete="off">
+          </div>
+          <div id="glossary-count" class="glossary-count"></div>
         </div>
-        <div id="glossary-count" style="font-size: 12px; color: var(--text-tertiary); margin-top: 8px;"></div>
-        <div id="glossary-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; margin-top: 20px;"></div>
+        <div id="glossary-grid" class="glossary-grid"></div>
       </div>
     </div>
 
@@ -1243,123 +1339,189 @@ function renderDetailPanel(paper) {
 }
 
 // ===== INITIALIZATION =====
-// ===== READING PATHS DATA =====
-const READING_PATHS_ILYA = [
+// ===== ILYA 30 PAPERS DATA (for reading paths) =====
+const ILYA_PAPERS = [
+  {id:1,num:'01',title:'The Annotated Transformer',year:2018,thread:1},
+  {id:2,num:'02',title:'The First Law of Complexodynamics',year:2011,thread:8},
+  {id:3,num:'03',title:'Unreasonable Effectiveness of RNNs',year:2015,thread:3},
+  {id:4,num:'04',title:'Understanding LSTM Networks',year:2015,thread:3},
+  {id:5,num:'05',title:'RNN Regularization',year:2014,thread:3},
+  {id:6,num:'06',title:'Keeping Networks Simple (MDL)',year:1993,thread:8},
+  {id:7,num:'07',title:'Pointer Networks',year:2015,thread:1},
+  {id:8,num:'08',title:'AlexNet (ImageNet Classification)',year:2012,thread:2},
+  {id:9,num:'09',title:'Order Matters: Seq2Seq for Sets',year:2016,thread:1},
+  {id:10,num:'10',title:'GPipe: Efficient Training of Giant Networks',year:2019,thread:7},
+  {id:11,num:'11',title:'ResNet: Deep Residual Learning',year:2016,thread:2},
+  {id:12,num:'12',title:'Dilated Convolutions',year:2016,thread:2},
+  {id:13,num:'13',title:'Neural Message Passing (MPNN)',year:2017,thread:8},
+  {id:14,num:'14',title:'Attention Is All You Need (Transformer)',year:2017,thread:1},
+  {id:15,num:'15',title:'Bahdanau Attention',year:2015,thread:1},
+  {id:16,num:'16',title:'Identity Mappings in Deep Residual Networks',year:2016,thread:2},
+  {id:17,num:'17',title:'A Simple Neural Network Module for Relational Reasoning',year:2017,thread:5},
+  {id:18,num:'18',title:'Variational Lossy Autoencoder (VLAE)',year:2017,thread:6},
+  {id:19,num:'19',title:'Relational Recurrent Neural Networks',year:2018,thread:5},
+  {id:20,num:'20',title:'Neural Turing Machines',year:2014,thread:5},
+  {id:21,num:'21',title:'Deep Speech 2',year:2016,thread:3},
+  {id:22,num:'22',title:'Scaling Laws for Neural Language Models',year:2020,thread:7},
+  {id:23,num:'23',title:'MDL Tutorial (Grünwald)',year:2004,thread:8},
+  {id:24,num:'24',title:'Grokking: Generalization Beyond Overfitting',year:2022,thread:7},
+  {id:25,num:'25',title:'A Neural Probabilistic Language Model',year:2003,thread:3},
+  {id:26,num:'26',title:'Machine Super Intelligence',year:2008,thread:8},
+  {id:27,num:'27',title:'Generative Adversarial Nets (GANs)',year:2014,thread:6},
+  {id:28,num:'28',title:'Adam: A Method for Stochastic Optimization',year:2015,thread:4},
+  {id:29,num:'29',title:'Dropout',year:2014,thread:4},
+  {id:30,num:'30',title:'Batch Normalization',year:2015,thread:4},
+];
+
+const ILYA_THREADS = [
+  {id:1,name:'Attention & Transformers',color:'#588afd'},
+  {id:2,name:'Vision',color:'#0dc95c'},
+  {id:3,name:'Sequence Models & Language',color:'#acaaff'},
+  {id:4,name:'Optimization',color:'#fea149'},
+  {id:5,name:'Reasoning & Memory',color:'#f17421'},
+  {id:6,name:'Generative Models',color:'#ec4d4d'},
+  {id:7,name:'Scaling & Emergence',color:'#01a78b'},
+  {id:8,name:'Meta / Philosophy',color:'#d4d4f5'},
+];
+
+const READING_PATHS = [
   {
-    name: 'I Want to Understand LLMs',
-    icon: '🧠', color: '#588afd',
-    desc: 'Start from sequence modeling roots, through attention, to transformers and why scaling works.',
-    source: 'ilya',
-    papers: ['The Annotated Transformer', 'Attention Is All You Need', 'GPT-2', 'Scaling Laws'],
+    name: 'I Want to Understand LLMs', icon: '🧠', color: '#588afd', source: 'ilya',
+    desc: 'Start from sequence modeling roots, through attention, to transformers and why scaling works. The core LLM lineage from RNNs to GPT-4.',
+    papers: [3, 5, 7, 9, 14, 10, 22],
   },
   {
-    name: 'Computer Vision Journey',
-    icon: '👁️', color: '#0dc95c',
-    desc: 'From AlexNet\'s breakthrough through ResNet skip connections to modern architectures.',
-    source: 'ilya',
-    papers: ['AlexNet', 'ResNet', 'Batch Normalization'],
+    name: 'Computer Vision Journey', icon: '👁️', color: '#0dc95c', source: 'ilya',
+    desc: 'From AlexNet\'s breakthrough moment through ResNet skip connections to modern architectures.',
+    papers: [8, 11, 12, 16],
   },
   {
-    name: 'Generative AI Foundations',
-    icon: '🎨', color: '#ec4d4d',
-    desc: 'GANs, VAEs, latent spaces, and why diffusion models now dominate generation.',
-    source: 'ilya',
-    papers: ['Generative Adversarial Networks', 'VAE'],
+    name: 'Generative AI Foundations', icon: '🎨', color: '#ec4d4d', source: 'ilya',
+    desc: 'The generative modeling arc: GANs, VAEs, latent spaces, and why diffusion models now dominate.',
+    papers: [27, 18, 7, 9],
   },
   {
-    name: 'AI Safety & Alignment',
-    icon: '🛡️', color: '#01a78b',
+    name: 'AI Safety & Alignment', icon: '🛡️', color: '#01a78b', source: 'ilya',
     desc: 'Graph reasoning, compression/MDL, complexity theory, intelligence measurement, and grokking.',
-    source: 'ilya',
-    papers: ['Kolmogorov Complexity', 'Grokking'],
+    papers: [13, 6, 2, 23, 26, 24],
   },
 ];
 
-// Radar-based reading paths (auto-generated from themes)
-function getRadarPaths() {
-  if (!PAPERS_DATA) return [];
-  const paths = [];
-  Object.entries(THEMES).forEach(([slug, meta]) => {
-    const themePapers = PAPERS_DATA.papers.filter(p => p.themes.includes(slug));
-    if (themePapers.length < 3) return;
-    // Sort by date, pick key papers
-    const sorted = themePapers.sort((a, b) => new Date(a.datePublished) - new Date(b.datePublished));
-    paths.push({
-      name: meta.name,
-      icon: meta.icon,
-      color: meta.color,
-      desc: `${sorted.length} papers tracking the ${meta.name.toLowerCase()} research frontier.`,
-      source: 'radar',
-      paperObjects: sorted,
-    });
-  });
-  return paths;
-}
+const ilyaPaperMap = {};
+ILYA_PAPERS.forEach(p => ilyaPaperMap[p.id] = p);
 
 function renderReadingPaths() {
   const container = document.getElementById('paths-content');
   if (!container) return;
   container.innerHTML = '';
   
-  const allPaths = [...READING_PATHS_ILYA, ...getRadarPaths()];
+  // --- Ilya Canonical Paths ---
+  const ilyaSection = document.createElement('div');
+  ilyaSection.innerHTML = '<div style="font-size:13px;font-weight:600;color:var(--purple-primary);margin-bottom:16px;max-width:900px;margin-left:auto;margin-right:auto;">ILYA\'S 30 CANONICAL PAPERS</div>';
+  container.appendChild(ilyaSection);
   
-  allPaths.forEach(path => {
+  READING_PATHS.forEach(path => {
     const card = document.createElement('div');
-    card.style.cssText = 'background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 12px; cursor: pointer; transition: border-color 0.15s;';
-    card.onmouseenter = () => card.style.borderColor = path.color;
-    card.onmouseleave = () => card.style.borderColor = 'var(--border)';
+    card.className = 'path-card';
     
-    const sourceTag = path.source === 'ilya' 
-      ? '<span style="font-size:10px;padding:2px 6px;border-radius:4px;background:#312b48;color:#acaaff;margin-left:8px;">Ilya 30</span>'
-      : '<span style="font-size:10px;padding:2px 6px;border-radius:4px;background:#1a2332;color:#588afd;margin-left:8px;">Radar</span>';
-    
-    let papersHtml = '';
-    if (path.paperObjects) {
-      // Radar path - show actual papers
-      papersHtml = path.paperObjects.slice(0, 8).map(p => {
-        const isRead = state.readStatus[p.id];
-        return `<div style="font-size: 12px; padding: 4px 8px; background: ${isRead ? 'rgba(13,201,92,0.1)' : 'rgba(255,255,255,0.04)'}; border-radius: 4px; color: ${isRead ? 'var(--green)' : 'var(--text-secondary)'}; cursor: pointer;" data-paper-id="${p.id}" class="path-paper-chip">${isRead ? '✓ ' : ''}${p.title.length > 50 ? p.title.slice(0,47)+'...' : p.title}</div>`;
-      }).join('');
-      if (path.paperObjects.length > 8) {
-        papersHtml += `<div style="font-size:11px;color:var(--text-tertiary);padding:4px 8px;">+${path.paperObjects.length - 8} more</div>`;
-      }
-    } else {
-      // Ilya path - show paper names
-      papersHtml = path.papers.map(name => 
-        `<div style="font-size: 12px; padding: 4px 8px; background: rgba(255,255,255,0.04); border-radius: 4px; color: var(--text-secondary);">${name}</div>`
-      ).join('');
-    }
+    const papersHtml = path.papers.map((pid, i) => {
+      const p = ilyaPaperMap[pid];
+      if (!p) return '';
+      const thread = ILYA_THREADS.find(t => t.id === p.thread);
+      const color = thread ? thread.color : '#acaaff';
+      const arrow = i < path.papers.length - 1 ? '<span class="path-arrow">→</span>' : '';
+      return `
+        <div class="path-paper" data-id="${pid}" style="--pp-color:${color}" title="${p.title}">
+          <span class="pp-check">✓</span>
+          <div class="pp-num">[${p.num}]</div>
+          <div class="pp-title">${p.title}</div>
+          <span class="pp-year">${p.year}</span>
+        </div>${arrow}
+      `;
+    }).join('');
     
     card.innerHTML = `
-      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+      <div class="path-name" style="color:${path.color}">
         <span style="font-size:20px;">${path.icon}</span>
-        <span style="font-size:15px;font-weight:600;color:${path.color};">${path.name}</span>
-        ${sourceTag}
+        ${path.name}
+        <span class="path-source-tag" style="background:#312b48;color:#acaaff;">Ilya 30</span>
       </div>
-      <p style="font-size:13px;color:var(--text-secondary);margin-bottom:12px;">${path.desc}</p>
-      <div style="display:flex;flex-wrap:wrap;gap:6px;">${papersHtml}</div>
+      <div class="path-desc">${path.desc}</div>
+      <div class="path-papers">${papersHtml}</div>
     `;
     
-    // Click paper chips to show detail
-    card.querySelectorAll('.path-paper-chip').forEach(chip => {
-      chip.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const paperId = chip.dataset.paperId;
-        const paper = PAPERS_DATA?.papers.find(p => p.id === paperId);
-        if (paper) showDetailPanel(paper);
+    // Click paper → open in Ilya Canon tab (iframe)
+    card.querySelectorAll('.path-paper').forEach(el => {
+      el.addEventListener('click', () => {
+        switchView('canon');
       });
     });
     
-    // Click card to switch to radar theme view
-    if (path.source === 'radar') {
-      card.addEventListener('click', () => {
-        const themeSlug = Object.entries(THEMES).find(([_, m]) => m.name === path.name)?.[0];
-        if (themeSlug) {
+    container.appendChild(card);
+  });
+  
+  // --- Research Radar Paths ---
+  if (!PAPERS_DATA) return;
+  
+  const radarSection = document.createElement('div');
+  radarSection.innerHTML = '<div style="font-size:13px;font-weight:600;color:#588afd;margin:32px auto 16px;max-width:900px;">RESEARCH RADAR THEMES</div>';
+  container.appendChild(radarSection);
+  
+  Object.entries(THEMES).forEach(([slug, meta]) => {
+    const themePapers = PAPERS_DATA.papers
+      .filter(p => p.collection === 'radar' && p.themes.includes(slug))
+      .sort((a, b) => new Date(a.datePublished) - new Date(b.datePublished));
+    if (themePapers.length < 2) return;
+    
+    const card = document.createElement('div');
+    card.className = 'path-card';
+    card.style.cursor = 'pointer';
+    
+    // Show up to 6 key papers as cards with arrows
+    const showPapers = themePapers.slice(0, 6);
+    const papersHtml = showPapers.map((p, i) => {
+      const isRead = state.readStatus[p.id];
+      const arrow = i < showPapers.length - 1 ? '<span class="path-arrow">→</span>' : '';
+      return `
+        <div class="path-paper${isRead ? ' completed' : ''}" data-paper-id="${p.id}" style="--pp-color:${meta.color}" title="${p.title}">
+          <span class="pp-check">✓</span>
+          <div class="pp-num">${p.datePublished}</div>
+          <div class="pp-title">${p.title}</div>
+        </div>${arrow}
+      `;
+    }).join('');
+    
+    const remaining = themePapers.length - showPapers.length;
+    const moreHtml = remaining > 0 ? `<span class="path-arrow">→</span><div style="display:flex;align-items:center;font-size:12px;color:var(--text-tertiary);padding:0 8px;">+${remaining} more</div>` : '';
+    
+    card.innerHTML = `
+      <div class="path-name" style="color:${meta.color}">
+        <span style="font-size:20px;">${meta.icon}</span>
+        ${meta.name}
+        <span class="path-source-tag" style="background:#1a2332;color:#588afd;">Radar · ${themePapers.length}</span>
+      </div>
+      <div class="path-desc">${themePapers.length} papers tracking the ${meta.name.toLowerCase()} research frontier.</div>
+      <div class="path-papers">${papersHtml}${moreHtml}</div>
+    `;
+    
+    // Click paper chip → show detail
+    card.querySelectorAll('.path-paper[data-paper-id]').forEach(el => {
+      el.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const paper = PAPERS_DATA.papers.find(p => p.id === el.dataset.paperId);
+        if (paper) {
           switchView('radar');
-          showThemeDetail(themeSlug);
+          showThemeDetail(slug);
+          showDetailPanel(paper);
         }
       });
-    }
+    });
+    
+    // Click card → go to theme
+    card.addEventListener('click', () => {
+      switchView('radar');
+      showThemeDetail(slug);
+    });
     
     container.appendChild(card);
   });
@@ -1367,43 +1529,52 @@ function renderReadingPaths() {
 
 // ===== GLOSSARY DATA & RENDERING =====
 const GLOSSARY_ITEMS = [
-  {term:'Attention Mechanism',tag:'Architecture',def:'A neural network component that computes weighted sums over input elements, where weights determine which inputs to focus on. Core of transformers.'},
-  {term:'Transformer',tag:'Architecture',def:'Neural architecture built entirely on self-attention and feed-forward layers, replacing recurrence. Now dominant for language, vision, and beyond.'},
-  {term:'LSTM',tag:'Architecture',def:'Recurrent network with gated cell states solving vanishing gradients. Gates control what to keep, forget, or output. Predecessor to Transformers.'},
-  {term:'Residual Connection',tag:'Architecture',def:'Additive shortcut x + F(x) bypassing layers, enabling gradient flow in deep networks. Introduced in ResNet; now universal.'},
-  {term:'Self-Attention',tag:'Architecture',def:'Attention where a sequence attends to itself — every position can attend to every other position, capturing long-range dependencies.'},
-  {term:'Dropout',tag:'Training',def:'Regularization that randomly zeros neuron outputs during training. Prevents co-adaptation; acts as training an exponential ensemble.'},
-  {term:'Batch Normalization',tag:'Training',def:'Normalizes layer activations per mini-batch, then re-scales with learned parameters. Speeds training, allows higher learning rates.'},
-  {term:'Adam Optimizer',tag:'Training',def:'Adaptive optimizer maintaining per-parameter learning rates via gradient moments. Default for most deep learning.'},
-  {term:'Scaling Laws',tag:'Theory',def:'Power-law relationships between performance and compute/size/data. Discovered by Kaplan (2020), corrected by Chinchilla (2022).'},
-  {term:'MDL (Minimum Description Length)',tag:'Theory',def:'Best model minimizes combined description length of model + data misfit. Frames learning as compression.'},
-  {term:'Grokking',tag:'Theory',def:'Models first memorize training data, then suddenly generalize long after training loss plateaued. Reveals phase transitions in learning.'},
-  {term:'VAE',tag:'Generative',def:'Learns structured latent space via ELBO. Encoder maps to distribution; decoder reconstructs. Foundation for latent diffusion.'},
-  {term:'GAN',tag:'Generative',def:'Generator-discriminator framework. Generator fools discriminator trained to distinguish real from fake. First major image synthesis success.'},
-  {term:'Diffusion Models',tag:'Generative',def:'Learn to reverse gradual noising. Dominant for image/video generation. Stable Diffusion, DALL-E 3, Sora use latent diffusion.'},
-  {term:'GNN (Graph Neural Network)',tag:'Architecture',def:'Neural architecture on graph-structured data via message passing. Used for molecules, social networks, knowledge graphs.'},
-  {term:'Pointer Network',tag:'Architecture',def:'Uses attention to select input elements as outputs — solving problems where output is a subset/permutation of inputs.'},
-  {term:'Kolmogorov Complexity',tag:'Theory',def:'Length of shortest program producing a string. Connects compression and intelligence; motivates MDL and generalization theory.'},
+  // Foundational (Ilya 30)
+  {term:'Attention Mechanism',tag:'Architecture',def:'Computes weighted sums over inputs where weights determine focus. The core operation underlying transformers.'},
+  {term:'Transformer',tag:'Architecture',def:'Architecture built on self-attention + FFN, replacing recurrence. Dominant for language, vision, and beyond.'},
+  {term:'LSTM',tag:'Architecture',def:'Recurrent network with gated cell states solving vanishing gradients. Predecessor to Transformers.'},
+  {term:'Residual Connection',tag:'Architecture',def:'Additive shortcut x + F(x) bypassing layers, enabling gradient flow in deep networks. Universal since ResNet.'},
+  {term:'Self-Attention',tag:'Architecture',def:'Sequence attends to itself — every position can attend to every other, capturing long-range dependencies.'},
+  {term:'Dropout',tag:'Training',def:'Randomly zeros neuron outputs during training. Prevents co-adaptation; implicit ensemble.'},
+  {term:'Batch Normalization',tag:'Training',def:'Normalizes activations per mini-batch, then rescales. Speeds training, allows higher learning rates.'},
+  {term:'Adam Optimizer',tag:'Training',def:'Adaptive optimizer with per-parameter learning rates via gradient moments. Default for most deep learning.'},
+  {term:'Scaling Laws',tag:'Theory',def:'Power-law relationships between performance and compute/size/data. Kaplan (2020), Chinchilla (2022).'},
+  {term:'MDL',tag:'Theory',def:'Minimum Description Length — best model minimizes combined description of model + data. Learning as compression.'},
+  {term:'Grokking',tag:'Theory',def:'Models memorize, then suddenly generalize long after training loss plateaus. Phase transitions in learning.'},
+  {term:'VAE',tag:'Generative',def:'Learns structured latent space via ELBO. Foundation for latent diffusion models.'},
+  {term:'GAN',tag:'Generative',def:'Generator-discriminator game. First major success in neural image synthesis.'},
+  {term:'Diffusion Models',tag:'Generative',def:'Learn to reverse gradual noising. Dominant for images/video (Stable Diffusion, DALL-E, Sora).'},
+  {term:'GNN',tag:'Architecture',def:'Neural architecture on graph-structured data via message passing. Molecules, social networks, knowledge graphs.'},
+  {term:'Kolmogorov Complexity',tag:'Theory',def:'Shortest program producing a string. Connects compression and intelligence; motivates MDL.'},
   {term:'In-Context Learning',tag:'Emergence',def:'LLMs performing new tasks from prompt examples without weight updates. Emerged at scale in GPT-3.'},
-  {term:'RLHF',tag:'Alignment',def:'Fine-tunes LLMs to human preferences via reward model. Used in ChatGPT, Claude, Gemini for alignment.'},
-  {term:'Mechanistic Interpretability',tag:'Alignment',def:'Reverse-engineering neural networks into human-understandable algorithms. Grokking and circuit analysis are key tools.'},
-  {term:'MoE (Mixture of Experts)',tag:'Architecture',def:'Only a subset of expert networks activate per input via routing. Enables very large models to be computationally tractable.'},
-  {term:'Test-Time Compute',tag:'Scaling',def:'Scaling performance via more inference-time computation (chain-of-thought, search) rather than larger models. Introduced with o1.'},
-  {term:'Emergent Abilities',tag:'Emergence',def:'Capabilities appearing suddenly above certain scale — not present in smaller models. May be real phase transitions or measurement artifacts.'},
-  {term:'Latent Diffusion',tag:'Generative',def:'Diffusion in compressed VAE latent space rather than pixel space. Dramatically reduces cost. Foundation of Stable Diffusion, FLUX, Sora.'},
-  {term:'KV Cache',tag:'Systems',def:'Cached key-value pairs from previous attention computations enabling efficient autoregressive inference without recomputing context.'},
-  {term:'Tokenization',tag:'Systems',def:'Converting raw text/images/audio into discrete tokens. BPE and SentencePiece are standard. Next token prediction is the core LLM task.'},
-  {term:'Pipeline Parallelism',tag:'Systems',def:'Splitting model layers across accelerators, pipelining micro-batches. Key for training billion-parameter models.'},
-  {term:'Vanishing Gradient',tag:'Theory',def:'Gradients become extremely small during backprop through deep networks. Solved by LSTM gates, skip connections, normalization.'},
-  {term:'Word Embeddings',tag:'Representation',def:'Dense vectors where similar words are geometrically close. Now superseded by contextual embeddings from transformers.'},
-  // Research Radar concepts
-  {term:'Self-Evolving Agents',tag:'Agents',def:'AI systems that autonomously improve their own capabilities through self-play, self-reflection, or automated curriculum generation.'},
-  {term:'Verifiers / Reward Models',tag:'Scaling',def:'Models trained to score or verify outputs, enabling search-based scaling at inference time. Key to o1/o3-style reasoning.'},
-  {term:'Science Agents',tag:'Agents',def:'AI systems designed to autonomously conduct scientific research — hypothesis generation, experiment design, data analysis.'},
-  {term:'Memory & Reflection',tag:'Agents',def:'Mechanisms for agents to store, retrieve, and reflect on past experiences to improve future performance.'},
-  {term:'Multi-Agent Orchestration',tag:'Agents',def:'Coordinating multiple specialized AI agents to solve complex tasks. Includes delegation, communication protocols, and conflict resolution.'},
-  {term:'World Models',tag:'Agents',def:'Internal models of environment dynamics that enable agents to plan, simulate outcomes, and reason about counterfactuals.'},
+  {term:'RLHF',tag:'Alignment',def:'Fine-tunes LLMs to human preferences via reward model. ChatGPT, Claude, Gemini.'},
+  {term:'MoE',tag:'Architecture',def:'Mixture of Experts — subset of experts activate per input via routing. Enables massive but tractable models.'},
+  {term:'Test-Time Compute',tag:'Scaling',def:'Performance via more inference-time computation (CoT, search trees) not larger models. o1/o3.'},
+  {term:'KV Cache',tag:'Systems',def:'Cached key-value pairs for efficient autoregressive inference without recomputing full context.'},
+  {term:'Vanishing Gradient',tag:'Theory',def:'Gradients shrink through deep backprop. Solved by LSTM gates, skip connections, normalization.'},
+  // Research Radar — Agent concepts
+  {term:'Self-Evolving Agents',tag:'Agents',def:'AI systems autonomously improving capabilities via self-play, reflection, or automated curriculum.'},
+  {term:'Verifiers / Reward Models',tag:'Scaling',def:'Models scoring/verifying outputs, enabling search-based scaling at inference time. Key to o1/o3.'},
+  {term:'Science Agents',tag:'Agents',def:'AI autonomously conducting research — hypothesis generation, experiment design, data analysis.'},
+  {term:'Memory & Reflection',tag:'Agents',def:'Mechanisms for agents to store, retrieve, and reflect on past experiences for improvement.'},
+  {term:'Multi-Agent Orchestration',tag:'Agents',def:'Coordinating specialized agents for complex tasks. Delegation, communication, conflict resolution.'},
+  {term:'World Models',tag:'Agents',def:'Internal environment models enabling planning, outcome simulation, and counterfactual reasoning.'},
+  {term:'Proactive Agents',tag:'Agents',def:'Agents that anticipate needs and act without explicit prompting, based on context and goals.'},
+  {term:'Persistent Memory',tag:'Agents',def:'Long-term storage mechanisms allowing agents to maintain state across sessions and tasks.'},
+  {term:'Human-Agent Interaction',tag:'Agents',def:'Research on natural, safe, and effective collaboration between humans and AI agents.'},
+  {term:'Test-Time Learning',tag:'Agents',def:'Adapting model parameters at inference time to specific inputs, beyond fixed-weight inference.'},
+  {term:'Evolutionary LLM',tag:'Agents',def:'Combining evolutionary computation with LLMs for optimization, architecture search, and self-improvement.'},
+  {term:'Tool Use',tag:'Agents',def:'Agents learning to call APIs, execute code, search the web — extending capabilities beyond text generation.'},
+  {term:'Agent Benchmarks',tag:'Agents',def:'Standardized evaluations (WebArena, SWE-bench, GAIA) measuring agent performance on real-world tasks.'},
+  {term:'MCP (Model Context Protocol)',tag:'Agents',def:'Standardized protocol for connecting AI agents to external tools and data sources securely.'},
+  {term:'Skill Libraries',tag:'Agents',def:'Reusable, composable action modules that agents can discover, learn, and chain for complex tasks.'},
 ];
+
+const TAG_COLORS = {
+  'Architecture':'#588afd','Training':'#0dc95c','Theory':'#fea149',
+  'Generative':'#ec4d4d','Emergence':'#acaaff','Alignment':'#01a78b',
+  'Systems':'#8c8c8c','Scaling':'#f17421','Agents':'#ff6b9d',
+};
 
 function renderGlossary() {
   const grid = document.getElementById('glossary-grid');
@@ -1413,31 +1584,20 @@ function renderGlossary() {
   
   grid.innerHTML = '';
   
-  // Group by tag
-  const tagColors = {
-    'Architecture': '#588afd', 'Training': '#0dc95c', 'Theory': '#fea149',
-    'Generative': '#ec4d4d', 'Emergence': '#acaaff', 'Alignment': '#01a78b',
-    'Systems': '#8c8c8c', 'Representation': '#d4d4f5', 'Scaling': '#f17421',
-    'Agents': '#ff6b9d', 'Memory': '#9d50bb',
-  };
-  
   GLOSSARY_ITEMS.forEach(item => {
     const card = document.createElement('div');
+    card.className = 'gloss-card';
     card.dataset.term = item.term.toLowerCase();
     card.dataset.def = item.def.toLowerCase();
     card.dataset.tag = item.tag.toLowerCase();
-    const tagColor = tagColors[item.tag] || '#acaaff';
-    
-    card.style.cssText = 'background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 14px; transition: border-color 0.15s;';
-    card.onmouseenter = () => card.style.borderColor = tagColor;
-    card.onmouseleave = () => card.style.borderColor = 'var(--border)';
+    const tagColor = TAG_COLORS[item.tag] || '#acaaff';
     
     card.innerHTML = `
-      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
-        <span style="font-size:14px;font-weight:600;color:var(--text-primary);">${item.term}</span>
-        <span style="font-size:10px;padding:2px 6px;border-radius:4px;border:1px solid ${tagColor}33;color:${tagColor};">${item.tag}</span>
+      <div class="gloss-term">
+        ${item.term}
+        <span class="gloss-tag" style="color:${tagColor};border-color:${tagColor}33;background:${tagColor}15;">${item.tag}</span>
       </div>
-      <p style="font-size:12px;color:var(--text-secondary);line-height:1.5;">${item.def}</p>
+      <div class="gloss-def">${item.def}</div>
     `;
     
     grid.appendChild(card);
@@ -1449,9 +1609,9 @@ function renderGlossary() {
   searchEl.addEventListener('input', () => {
     const q = searchEl.value.trim().toLowerCase();
     let visible = 0;
-    grid.querySelectorAll('div[data-term]').forEach(card => {
+    grid.querySelectorAll('.gloss-card').forEach(card => {
       const match = !q || card.dataset.term.includes(q) || card.dataset.def.includes(q) || card.dataset.tag.includes(q);
-      card.style.display = match ? '' : 'none';
+      card.classList.toggle('hidden', !match);
       if (match) visible++;
     });
     countEl.textContent = q ? `${visible} of ${total} concepts` : `${total} concepts`;
