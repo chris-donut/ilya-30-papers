@@ -1,0 +1,5296 @@
+{
+  "version": "1.0",
+  "generated": "2026-02-20T03:50:37.768Z",
+  "collections": {
+    "canon": {
+      "name": "Ilya's 30 Papers",
+      "count": 3,
+      "themes": [
+        "attention",
+        "vision",
+        "sequence",
+        "optimization",
+        "memory",
+        "generative",
+        "scaling",
+        "meta"
+      ]
+    },
+    "radar": {
+      "name": "Chris's Research Radar",
+      "count": 255,
+      "themes": [
+        "self-evolve",
+        "verifiers-as-scaling-lever",
+        "adjacent-science-agents",
+        "memory---reflection-primitives",
+        "test-time-learning---parameter-adaptation",
+        "spawn---multi-agent-orchestration",
+        "proactive-agents",
+        "agent-persistent-memory",
+        "human-agent-interaction",
+        "world-models-for-agents",
+        "evo-llm"
+      ]
+    }
+  },
+  "papers": [
+    {
+      "id": "ilya-01",
+      "num": "01",
+      "title": "The Annotated Transformer",
+      "year": 2018,
+      "datePublished": "2018-01",
+      "collection": "canon",
+      "themes": [
+        "attention"
+      ],
+      "subCategory": null,
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://nlp.seas.harvard.edu/annotated-transformer/"
+        }
+      ],
+      "summary": "Line-by-line pedagogical PyTorch implementation making the Transformer mechanistically clear.",
+      "origin": "Sasha Rush and Harvard NLP created a line-by-line pedagogical re-implementation of \"Attention Is All You Need\" in PyTorch with inline commentary. Ilya included it because understanding the Transformer mechanistically — not just using it — is essential. The annotated form forces readers to understand every tensor operation, building intuition that abstractions hide.",
+      "evolution": [
+        {
+          "year": 2018,
+          "text": "Published; became the de facto tutorial for learning the Transformer architecture"
+        },
+        {
+          "year": 2020,
+          "text": "Updated to reflect pre-LayerNorm convention and integrated BERT/GPT-2 insights"
+        },
+        {
+          "year": 2022,
+          "text": "v2 updated for modern PyTorch idioms; extended for GPT-2 and T5"
+        },
+        {
+          "year": 2023,
+          "text": "Community forks added Flash Attention, multi-query attention, RoPE positional encoding"
+        },
+        {
+          "year": 2025,
+          "text": "\"Annotated\" genre spread: Mamba, Llama 3, DeepSeek — format became a pedagogical standard"
+        }
+      ],
+      "frontier": "The teaching tradition it started is the active frontier. Modern equivalents: Karpathy's nanoGPT, annotated Llama 2. Used to explain Flash Attention 3, GQA, KV cache management, and Mamba SSM blocks.",
+      "connected": [
+        14,
+        15,
+        4
+      ],
+      "status": "unread",
+      "priority": null,
+      "difficulty": "easy",
+      "readingTime": "1–2 hrs",
+      "frontierActive": false
+    },
+    {
+      "id": "ilya-02",
+      "num": "02",
+      "title": "The First Law of Complexodynamics",
+      "year": 2011,
+      "datePublished": "2011-01",
+      "collection": "canon",
+      "themes": [
+        "meta"
+      ],
+      "subCategory": null,
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://scottaaronson.blog/?p=762"
+        }
+      ],
+      "summary": "Connects computational complexity to thermodynamics — frames what \"complex\" means for neural learning.",
+      "origin": "Scott Aaronson's blog post argues that a complex state (neither maximally ordered nor disordered) must first increase then decrease in complexity over time. Ilya included it because it frames a deep question about what complexity means — central to understanding what neural networks are learning and what intelligence is.",
+      "evolution": [
+        {
+          "year": 2011,
+          "text": "Aaronson's blog post; a thought experiment about physics and computation"
+        },
+        {
+          "year": 2016,
+          "text": "Connection to Kolmogorov complexity and MDL starts appearing in ML literature"
+        },
+        {
+          "year": 2020,
+          "text": "Ilya Sutskever publicly cites this in discussions about neural network understanding"
+        },
+        {
+          "year": 2022,
+          "text": "Grokking paper implicitly touches this — delayed generalization as a complexity phase transition"
+        },
+        {
+          "year": 2024,
+          "text": "Mechanistic interpretability researchers use complexity/circuit analysis to understand grokking"
+        }
+      ],
+      "frontier": "Connects to mechanistic interpretability (Anthropic interpretability team) and complexity as a lens for alignment. If you can measure the complexity of what a model represents, you can audit it. Resonates with the 2025 debate: \"does scaling give understanding or just pattern matching?\"",
+      "connected": [
+        6,
+        23,
+        24
+      ],
+      "status": "unread",
+      "priority": null,
+      "difficulty": "hard",
+      "readingTime": "4–8 hrs",
+      "frontierActive": true
+    },
+    {
+      "id": "ilya-03",
+      "num": "03",
+      "title": "Unreasonable Effectiveness of RNNs",
+      "year": 2015,
+      "datePublished": "2015-01",
+      "collection": "canon",
+      "themes": [
+        "sequence"
+      ],
+      "subCategory": null,
+      "resources": [
+        {
+          "type": "paper",
+          "url": "http://karpathy.github.io/2015/05/21/rnn-effectiveness/"
+        }
+      ],
+      "summary": "Demonstrated character-level RNNs can generate code, Shakespeare, and LaTeX — proving sequence models learn deep structure.",
+      "origin": "Andrej Karpathy's blog post demonstrated that character-level LSTMs could generate syntactically plausible code, Shakespeare, Wikipedia markup, and LaTeX proofs — surprising everyone with how much sequential structure they could learn from raw text. Ilya included it as a visceral proof-of-concept that sequence models can learn deep structure from data alone.",
+      "evolution": [
+        {
+          "year": 2015,
+          "text": "Karpathy's blog post published; char-rnn becomes viral, inspiring thousands"
+        },
+        {
+          "year": 2017,
+          "text": "OpenAI sentiment neuron: LSTMs learn interpretable features (single neuron tracking sentiment)"
+        },
+        {
+          "year": 2019,
+          "text": "GPT-2 and GPT-3 vindicate the key insight: scale up autoregressive prediction → emergent capabilities"
+        },
+        {
+          "year": 2023,
+          "text": "Karpathy's nanoGPT and makemore continue the same pedagogical mission with transformers"
+        }
+      ],
+      "frontier": "The \"unreasonable effectiveness\" thesis is now established fact at scale. The frontier: what else is unreasonably effective? Video tokens, audio tokens, action tokens in robotics (RT-2, π0). Mamba/SSM models revisit whether O(n) sequence models can match transformer quality.",
+      "connected": [
+        4,
+        5,
+        25,
+        14,
+        22
+      ],
+      "status": "unread",
+      "priority": null,
+      "difficulty": "easy",
+      "readingTime": "1–2 hrs",
+      "frontierActive": false
+    },
+    {
+      "id": "radar-self-evolve-001",
+      "title": "AlphaEvolve (white paper)",
+      "year": 2025,
+      "datePublished": "2025-06",
+      "collection": "radar",
+      "themes": [
+        "self-evolve"
+      ],
+      "subCategory": "Evolutionary coding agents / discovery systems",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2506.13131"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-self-evolve-002",
+      "title": "AlphaEvolve (DeepMind blog)",
+      "year": 2025,
+      "datePublished": "2025-01",
+      "collection": "radar",
+      "themes": [
+        "self-evolve"
+      ],
+      "subCategory": "Evolutionary coding agents / discovery systems",
+      "resources": [
+        {
+          "type": "blog",
+          "url": "https://deepmind.google/blog/alphaevolve-a-gemini-powered-coding-agent-for-designing-advanced-algorithms/"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-self-evolve-003",
+      "title": "Mathematical exploration at scale (AlphaEvolve experiments)",
+      "year": 2025,
+      "datePublished": "2025-11",
+      "collection": "radar",
+      "themes": [
+        "self-evolve"
+      ],
+      "subCategory": "Evolutionary coding agents / discovery systems",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2511.02864"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-self-evolve-004",
+      "title": "Terence Tao blog discussion + pitfalls",
+      "year": 2025,
+      "datePublished": "2025-01",
+      "collection": "radar",
+      "themes": [
+        "self-evolve"
+      ],
+      "subCategory": "Evolutionary coding agents / discovery systems",
+      "resources": [
+        {
+          "type": "blog",
+          "url": "https://terrytao.wordpress.com/2025/11/05/mathematical-exploration-and-discovery-at-scale/"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-self-evolve-005",
+      "title": "LoongFlow (Plan–Execute–Summarize + hybrid evolutionary memory)",
+      "year": 2025,
+      "datePublished": "2025-12",
+      "collection": "radar",
+      "themes": [
+        "self-evolve"
+      ],
+      "subCategory": "Evolutionary coding agents / discovery systems",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2512.24077"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-self-evolve-006",
+      "title": "LoongFlow HTML",
+      "year": 2025,
+      "datePublished": "2025-12",
+      "collection": "radar",
+      "themes": [
+        "self-evolve"
+      ],
+      "subCategory": "Evolutionary coding agents / discovery systems",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/html/2512.24077v1"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-self-evolve-007",
+      "title": "ShinkaEvolve (sample-efficient program evolution)",
+      "year": 2025,
+      "datePublished": "2025-09",
+      "collection": "radar",
+      "themes": [
+        "self-evolve"
+      ],
+      "subCategory": "Evolutionary coding agents / discovery systems",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2509.19349"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-self-evolve-008",
+      "title": "ShinkaEvolve Code",
+      "year": 2025,
+      "datePublished": "2025-01",
+      "collection": "radar",
+      "themes": [
+        "self-evolve"
+      ],
+      "subCategory": "Evolutionary coding agents / discovery systems",
+      "resources": [
+        {
+          "type": "code",
+          "url": "https://github.com/SakanaAI/ShinkaEvolve"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-self-evolve-009",
+      "title": "ShinkaEvolve Blog",
+      "year": 2025,
+      "datePublished": "2025-01",
+      "collection": "radar",
+      "themes": [
+        "self-evolve"
+      ],
+      "subCategory": "Evolutionary coding agents / discovery systems",
+      "resources": [
+        {
+          "type": "blog",
+          "url": "https://sakana.ai/shinka-evolve/"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-self-evolve-010",
+      "title": "OpenEvolve (open-source AlphaEvolve-style)",
+      "year": 2025,
+      "datePublished": "2025-01",
+      "collection": "radar",
+      "themes": [
+        "self-evolve"
+      ],
+      "subCategory": "Evolutionary coding agents / discovery systems",
+      "resources": [
+        {
+          "type": "code",
+          "url": "https://github.com/algorithmicsuperintelligence/openevolve"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-self-evolve-011",
+      "title": "ThetaEvolve (test-time learning on open problems)",
+      "year": 2025,
+      "datePublished": "2025-11",
+      "collection": "radar",
+      "themes": [
+        "self-evolve"
+      ],
+      "subCategory": "Evolutionary coding agents / discovery systems",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2511.23473"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-self-evolve-012",
+      "title": "AFlow (workflow search via MCTS over code-represented agentic graphs)",
+      "year": 2024,
+      "datePublished": "2024-10",
+      "collection": "radar",
+      "themes": [
+        "self-evolve"
+      ],
+      "subCategory": "Evolutionary coding agents / discovery systems",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2410.10762"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-self-evolve-013",
+      "title": "AFlow Code",
+      "year": 2025,
+      "datePublished": "2025-01",
+      "collection": "radar",
+      "themes": [
+        "self-evolve"
+      ],
+      "subCategory": "Evolutionary coding agents / discovery systems",
+      "resources": [
+        {
+          "type": "code",
+          "url": "https://github.com/FoundationAgents/AFlow"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-self-evolve-014",
+      "title": "Alita (minimal predefinition + maximal self-evolution; MCP generation/reuse)",
+      "year": 2025,
+      "datePublished": "2025-05",
+      "collection": "radar",
+      "themes": [
+        "self-evolve"
+      ],
+      "subCategory": "Self-evolving agents (MCP/tool/module synthesis + co-evolution)",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2505.20286"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-self-evolve-015",
+      "title": "Alita Code",
+      "year": 2025,
+      "datePublished": "2025-01",
+      "collection": "radar",
+      "themes": [
+        "self-evolve"
+      ],
+      "subCategory": "Self-evolving agents (MCP/tool/module synthesis + co-evolution)",
+      "resources": [
+        {
+          "type": "code",
+          "url": "https://github.com/CharlesQ9/Alita"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-self-evolve-016",
+      "title": "AgentDistill (training-free agent distillation via reusable \"MCP boxes\")",
+      "year": 2025,
+      "datePublished": "2025-06",
+      "collection": "radar",
+      "themes": [
+        "self-evolve"
+      ],
+      "subCategory": "Self-evolving agents (MCP/tool/module synthesis + co-evolution)",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2506.14728"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-self-evolve-017",
+      "title": "Survey (taxonomy + evaluation + failure modes; TMLR 01/2026)",
+      "year": 2025,
+      "datePublished": "2025-07",
+      "collection": "radar",
+      "themes": [
+        "self-evolve"
+      ],
+      "subCategory": "Self-evolving agents (MCP/tool/module synthesis + co-evolution)",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2507.21046"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-self-evolve-018",
+      "title": "Survey Repo",
+      "year": 2025,
+      "datePublished": "2025-01",
+      "collection": "radar",
+      "themes": [
+        "self-evolve"
+      ],
+      "subCategory": "Self-evolving agents (MCP/tool/module synthesis + co-evolution)",
+      "resources": [
+        {
+          "type": "code",
+          "url": "https://github.com/CharlesQ9/Self-Evolving-Agents"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-self-evolve-019",
+      "title": "AgentEvolver (self-questioning + self-navigating + self-attributing)",
+      "year": 2025,
+      "datePublished": "2025-11",
+      "collection": "radar",
+      "themes": [
+        "self-evolve"
+      ],
+      "subCategory": "Self-evolving agents (MCP/tool/module synthesis + co-evolution)",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2511.10395"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-self-evolve-020",
+      "title": "AgentEvolver Repo",
+      "year": 2025,
+      "datePublished": "2025-01",
+      "collection": "radar",
+      "themes": [
+        "self-evolve"
+      ],
+      "subCategory": "Self-evolving agents (MCP/tool/module synthesis + co-evolution)",
+      "resources": [
+        {
+          "type": "code",
+          "url": "https://github.com/modelscope/AgentEvolver"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-self-evolve-021",
+      "title": "AutoAgents (auto-generate + coordinate task-specific team)",
+      "year": 2023,
+      "datePublished": "2023-09",
+      "collection": "radar",
+      "themes": [
+        "self-evolve"
+      ],
+      "subCategory": "Self-evolving agents (MCP/tool/module synthesis + co-evolution)",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2309.17288"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-self-evolve-022",
+      "title": "AutoAgents Code",
+      "year": 2025,
+      "datePublished": "2025-01",
+      "collection": "radar",
+      "themes": [
+        "self-evolve"
+      ],
+      "subCategory": "Self-evolving agents (MCP/tool/module synthesis + co-evolution)",
+      "resources": [
+        {
+          "type": "code",
+          "url": "https://github.com/Link-AGI/AutoAgents"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-self-evolve-023",
+      "title": "Agent0 (curriculum agent vs executor agent co-evolution)",
+      "year": 2025,
+      "datePublished": "2025-11",
+      "collection": "radar",
+      "themes": [
+        "self-evolve"
+      ],
+      "subCategory": "Self-evolving agents (MCP/tool/module synthesis + co-evolution)",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2511.16043"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-self-evolve-024",
+      "title": "Agent0 Code",
+      "year": 2025,
+      "datePublished": "2025-01",
+      "collection": "radar",
+      "themes": [
+        "self-evolve"
+      ],
+      "subCategory": "Self-evolving agents (MCP/tool/module synthesis + co-evolution)",
+      "resources": [
+        {
+          "type": "code",
+          "url": "https://github.com/aiming-lab/Agent0"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-self-evolve-025",
+      "title": "ECHO (co-evolving critic for open-world agent learning)",
+      "year": 2026,
+      "datePublished": "2026-01",
+      "collection": "radar",
+      "themes": [
+        "self-evolve"
+      ],
+      "subCategory": "Co-evolving evaluators / critics / judges",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2601.06794"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-self-evolve-026",
+      "title": "Multi-Agent Evolve (Proposer/Solver/Judge co-evolution + RL)",
+      "year": 2025,
+      "datePublished": "2025-10",
+      "collection": "radar",
+      "themes": [
+        "self-evolve"
+      ],
+      "subCategory": "Co-evolving evaluators / critics / judges",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2510.23595"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-self-evolve-027",
+      "title": "Generative Adversarial Reasoner (co-evolving reasoner + discriminator)",
+      "year": 2025,
+      "datePublished": "2025-12",
+      "collection": "radar",
+      "themes": [
+        "self-evolve"
+      ],
+      "subCategory": "Co-evolving evaluators / critics / judges",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2512.16917"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-self-evolve-028",
+      "title": "Live-Evo",
+      "year": 2026,
+      "datePublished": "2026-02",
+      "collection": "radar",
+      "themes": [
+        "self-evolve"
+      ],
+      "subCategory": "Further works citing Alita",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2602.02369"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-self-evolve-029",
+      "title": "Bifrost",
+      "year": 2026,
+      "datePublished": "2026-02",
+      "collection": "radar",
+      "themes": [
+        "self-evolve"
+      ],
+      "subCategory": "Further works citing Alita",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2602.05810"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-self-evolve-030",
+      "title": "Yunjue Agent",
+      "year": 2026,
+      "datePublished": "2026-01",
+      "collection": "radar",
+      "themes": [
+        "self-evolve"
+      ],
+      "subCategory": "Further works citing Alita",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2601.18226"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-self-evolve-031",
+      "title": "Alignment Tipping Process / ATP",
+      "year": 2025,
+      "datePublished": "2025-10",
+      "collection": "radar",
+      "themes": [
+        "self-evolve"
+      ],
+      "subCategory": "Further works citing Alita",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2510.04860"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-self-evolve-032",
+      "title": "AlphaApollo",
+      "year": 2025,
+      "datePublished": "2025-10",
+      "collection": "radar",
+      "themes": [
+        "self-evolve"
+      ],
+      "subCategory": "Further works citing Alita",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2510.06261"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-self-evolve-033",
+      "title": "MemEvolve",
+      "year": 2025,
+      "datePublished": "2025-12",
+      "collection": "radar",
+      "themes": [
+        "self-evolve"
+      ],
+      "subCategory": "Self-evolving memory systems",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2512.18746"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-self-evolve-034",
+      "title": "MemGen",
+      "year": 2025,
+      "datePublished": "2025-09",
+      "collection": "radar",
+      "themes": [
+        "self-evolve"
+      ],
+      "subCategory": "Self-evolving memory systems",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2509.24704"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-self-evolve-035",
+      "title": "A-MEM",
+      "year": 2025,
+      "datePublished": "2025-02",
+      "collection": "radar",
+      "themes": [
+        "self-evolve"
+      ],
+      "subCategory": "Self-evolving memory systems",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2502.12110"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-self-evolve-036",
+      "title": "A-MEM Eval",
+      "year": 2025,
+      "datePublished": "2025-01",
+      "collection": "radar",
+      "themes": [
+        "self-evolve"
+      ],
+      "subCategory": "Self-evolving memory systems",
+      "resources": [
+        {
+          "type": "code",
+          "url": "https://github.com/WujiangXu/A-mem"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-self-evolve-037",
+      "title": "A-MEM System",
+      "year": 2025,
+      "datePublished": "2025-01",
+      "collection": "radar",
+      "themes": [
+        "self-evolve"
+      ],
+      "subCategory": "Self-evolving memory systems",
+      "resources": [
+        {
+          "type": "code",
+          "url": "https://github.com/WujiangXu/A-mem-sys"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-self-evolve-038",
+      "title": "LLM Critics Help Catch LLM Bugs",
+      "year": 2024,
+      "datePublished": "2024-07",
+      "collection": "radar",
+      "themes": [
+        "self-evolve"
+      ],
+      "subCategory": "Verifier/critic assistance",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2407.00215"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-self-evolve-039",
+      "title": "MCP Security Bench",
+      "year": 2025,
+      "datePublished": "2025-10",
+      "collection": "radar",
+      "themes": [
+        "self-evolve"
+      ],
+      "subCategory": "MCP security",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2510.15994"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-self-evolve-040",
+      "title": "MCP landscape + threat taxonomy + safeguards",
+      "year": 2025,
+      "datePublished": "2025-03",
+      "collection": "radar",
+      "themes": [
+        "self-evolve"
+      ],
+      "subCategory": "MCP security",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2503.23278"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-self-evolve-041",
+      "title": "Live-SWE-agent",
+      "year": 2025,
+      "datePublished": "2025-11",
+      "collection": "radar",
+      "themes": [
+        "self-evolve"
+      ],
+      "subCategory": "Self-evolving SE agents",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2511.13646"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-self-evolve-042",
+      "title": "SE-Agent",
+      "year": 2025,
+      "datePublished": "2025-08",
+      "collection": "radar",
+      "themes": [
+        "self-evolve"
+      ],
+      "subCategory": "Self-evolving SE agents",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2508.02085"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-self-evolve-043",
+      "title": "SkillWeaver",
+      "year": 2025,
+      "datePublished": "2025-04",
+      "collection": "radar",
+      "themes": [
+        "self-evolve"
+      ],
+      "subCategory": "Web agents via skill libraries",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2504.07079"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-self-evolve-044",
+      "title": "Self-Challenging Language Model Agents (Code-as-Task)",
+      "year": 2025,
+      "datePublished": "2025-06",
+      "collection": "radar",
+      "themes": [
+        "self-evolve"
+      ],
+      "subCategory": "Self-generated tasks w/ verifiable feedback",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2506.01716"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-verifiers-as-scaling-lever-001",
+      "title": "Training Verifiers to Solve Math Word Problems",
+      "year": 2021,
+      "datePublished": "2021-10",
+      "collection": "radar",
+      "themes": [
+        "verifiers-as-scaling-lever"
+      ],
+      "subCategory": null,
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2110.14168"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-adjacent-science-agents-001",
+      "title": "Physics Supernova",
+      "year": 2025,
+      "datePublished": "2025-09",
+      "collection": "radar",
+      "themes": [
+        "adjacent-science-agents"
+      ],
+      "subCategory": null,
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2509.01659"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-adjacent-science-agents-002",
+      "title": "Physics Supernova Code",
+      "year": 2025,
+      "datePublished": "2025-01",
+      "collection": "radar",
+      "themes": [
+        "adjacent-science-agents"
+      ],
+      "subCategory": null,
+      "resources": [
+        {
+          "type": "code",
+          "url": "https://github.com/CharlesQ9/Physics-Supernova"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-adjacent-science-agents-003",
+      "title": "LabOS",
+      "year": 2025,
+      "datePublished": "2025-10",
+      "collection": "radar",
+      "themes": [
+        "adjacent-science-agents"
+      ],
+      "subCategory": null,
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2510.14861"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-memory---reflection-primitives-001",
+      "title": "Reflexion",
+      "year": 2023,
+      "datePublished": "2023-03",
+      "collection": "radar",
+      "themes": [
+        "memory---reflection-primitives"
+      ],
+      "subCategory": null,
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2303.11366"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-memory---reflection-primitives-002",
+      "title": "ReAct",
+      "year": 2022,
+      "datePublished": "2022-10",
+      "collection": "radar",
+      "themes": [
+        "memory---reflection-primitives"
+      ],
+      "subCategory": null,
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2210.03629"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-memory---reflection-primitives-003",
+      "title": "MAP-Elites",
+      "year": 2015,
+      "datePublished": "2015-04",
+      "collection": "radar",
+      "themes": [
+        "memory---reflection-primitives"
+      ],
+      "subCategory": null,
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/1504.04909"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-memory---reflection-primitives-004",
+      "title": "Voyager",
+      "year": 2023,
+      "datePublished": "2023-05",
+      "collection": "radar",
+      "themes": [
+        "memory---reflection-primitives"
+      ],
+      "subCategory": null,
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2305.16291"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-memory---reflection-primitives-005",
+      "title": "ExpeL",
+      "year": 2023,
+      "datePublished": "2023-08",
+      "collection": "radar",
+      "themes": [
+        "memory---reflection-primitives"
+      ],
+      "subCategory": null,
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2308.10144"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-memory---reflection-primitives-006",
+      "title": "CRITIC",
+      "year": 2023,
+      "datePublished": "2023-05",
+      "collection": "radar",
+      "themes": [
+        "memory---reflection-primitives"
+      ],
+      "subCategory": null,
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2305.11738"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-test-time-learning---parameter-adaptation-001",
+      "title": "TTT",
+      "year": 2024,
+      "datePublished": "2024-11",
+      "collection": "radar",
+      "themes": [
+        "test-time-learning---parameter-adaptation"
+      ],
+      "subCategory": null,
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2411.07279"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-test-time-learning---parameter-adaptation-002",
+      "title": "TLM / TTL for LLMs",
+      "year": 2025,
+      "datePublished": "2025-05",
+      "collection": "radar",
+      "themes": [
+        "test-time-learning---parameter-adaptation"
+      ],
+      "subCategory": null,
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2505.20633"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-test-time-learning---parameter-adaptation-003",
+      "title": "TTT-E2E",
+      "year": 2025,
+      "datePublished": "2025-12",
+      "collection": "radar",
+      "themes": [
+        "test-time-learning---parameter-adaptation"
+      ],
+      "subCategory": null,
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2512.23675"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-test-time-learning---parameter-adaptation-004",
+      "title": "LoRA-TTT",
+      "year": 2025,
+      "datePublished": "2025-02",
+      "collection": "radar",
+      "themes": [
+        "test-time-learning---parameter-adaptation"
+      ],
+      "subCategory": null,
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2502.02069"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-test-time-learning---parameter-adaptation-005",
+      "title": "Tent",
+      "year": 2020,
+      "datePublished": "2020-06",
+      "collection": "radar",
+      "themes": [
+        "test-time-learning---parameter-adaptation"
+      ],
+      "subCategory": null,
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2006.10726"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-test-time-learning---parameter-adaptation-006",
+      "title": "Darwin Gödel Machine / DGM",
+      "year": 2025,
+      "datePublished": "2025-05",
+      "collection": "radar",
+      "themes": [
+        "test-time-learning---parameter-adaptation"
+      ],
+      "subCategory": null,
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2505.22954"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-test-time-learning---parameter-adaptation-007",
+      "title": "Test-Time Tool Evolution / TTE + SciEvo",
+      "year": 2026,
+      "datePublished": "2026-01",
+      "collection": "radar",
+      "themes": [
+        "test-time-learning---parameter-adaptation"
+      ],
+      "subCategory": null,
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2601.07641"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-test-time-learning---parameter-adaptation-008",
+      "title": "FLEX",
+      "year": 2025,
+      "datePublished": "2025-11",
+      "collection": "radar",
+      "themes": [
+        "test-time-learning---parameter-adaptation"
+      ],
+      "subCategory": null,
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2511.06449"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-test-time-learning---parameter-adaptation-009",
+      "title": "WebCoach",
+      "year": 2025,
+      "datePublished": "2025-11",
+      "collection": "radar",
+      "themes": [
+        "test-time-learning---parameter-adaptation"
+      ],
+      "subCategory": null,
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2511.12997"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-test-time-learning---parameter-adaptation-010",
+      "title": "CASCADE",
+      "year": 2025,
+      "datePublished": "2025-12",
+      "collection": "radar",
+      "themes": [
+        "test-time-learning---parameter-adaptation"
+      ],
+      "subCategory": null,
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2512.23880"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-spawn---multi-agent-orchestration-001",
+      "title": "AgentOrchestra TEA protocol",
+      "year": 2025,
+      "datePublished": "2025-06",
+      "collection": "radar",
+      "themes": [
+        "spawn---multi-agent-orchestration"
+      ],
+      "subCategory": "Core multi-agent orchestration systems",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2506.12508"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-spawn---multi-agent-orchestration-002",
+      "title": "Lemon Agent (AgentCortex)",
+      "year": 2026,
+      "datePublished": "2026-02",
+      "collection": "radar",
+      "themes": [
+        "spawn---multi-agent-orchestration"
+      ],
+      "subCategory": "Core multi-agent orchestration systems",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2602.07092"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-spawn---multi-agent-orchestration-003",
+      "title": "Puppeteer-style RL orchestrator",
+      "year": 2025,
+      "datePublished": "2025-05",
+      "collection": "radar",
+      "themes": [
+        "spawn---multi-agent-orchestration"
+      ],
+      "subCategory": "Core multi-agent orchestration systems",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2505.19591"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-spawn---multi-agent-orchestration-004",
+      "title": "OPERA",
+      "year": 2025,
+      "datePublished": "2025-08",
+      "collection": "radar",
+      "themes": [
+        "spawn---multi-agent-orchestration"
+      ],
+      "subCategory": "Core multi-agent orchestration systems",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2508.16438"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-spawn---multi-agent-orchestration-005",
+      "title": "ORCH",
+      "year": 2026,
+      "datePublished": "2026-02",
+      "collection": "radar",
+      "themes": [
+        "spawn---multi-agent-orchestration"
+      ],
+      "subCategory": "Core multi-agent orchestration systems",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2602.01797"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-spawn---multi-agent-orchestration-006",
+      "title": "CASTER",
+      "year": 2026,
+      "datePublished": "2026-01",
+      "collection": "radar",
+      "themes": [
+        "spawn---multi-agent-orchestration"
+      ],
+      "subCategory": "Core multi-agent orchestration systems",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2601.19793"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-spawn---multi-agent-orchestration-007",
+      "title": "TalkHier",
+      "year": 2025,
+      "datePublished": "2025-02",
+      "collection": "radar",
+      "themes": [
+        "spawn---multi-agent-orchestration"
+      ],
+      "subCategory": "Communication protocols",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2502.11098"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-spawn---multi-agent-orchestration-008",
+      "title": "SEMAP",
+      "year": 2025,
+      "datePublished": "2025-10",
+      "collection": "radar",
+      "themes": [
+        "spawn---multi-agent-orchestration"
+      ],
+      "subCategory": "Communication protocols",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2510.12120"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-spawn---multi-agent-orchestration-009",
+      "title": "AgentNet++",
+      "year": 2025,
+      "datePublished": "2025-12",
+      "collection": "radar",
+      "themes": [
+        "spawn---multi-agent-orchestration"
+      ],
+      "subCategory": "Communication protocols",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2512.00614"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-spawn---multi-agent-orchestration-010",
+      "title": "Internet of Agents / IoA",
+      "year": 2024,
+      "datePublished": "2024-07",
+      "collection": "radar",
+      "themes": [
+        "spawn---multi-agent-orchestration"
+      ],
+      "subCategory": "Communication protocols",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2407.07061"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-spawn---multi-agent-orchestration-011",
+      "title": "E-mem",
+      "year": 2026,
+      "datePublished": "2026-01",
+      "collection": "radar",
+      "themes": [
+        "spawn---multi-agent-orchestration"
+      ],
+      "subCategory": "Communication protocols",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2601.21714"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-spawn---multi-agent-orchestration-012",
+      "title": "MAST",
+      "year": 2025,
+      "datePublished": "2025-03",
+      "collection": "radar",
+      "themes": [
+        "spawn---multi-agent-orchestration"
+      ],
+      "subCategory": "Fault tolerance and failure analysis",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2503.13657"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-spawn---multi-agent-orchestration-013",
+      "title": "MAST Project",
+      "year": 2025,
+      "datePublished": "2025-01",
+      "collection": "radar",
+      "themes": [
+        "spawn---multi-agent-orchestration"
+      ],
+      "subCategory": "Fault tolerance and failure analysis",
+      "resources": [
+        {
+          "type": "blog",
+          "url": "https://sky.cs.berkeley.edu/project/mast/"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-spawn---multi-agent-orchestration-014",
+      "title": "CP-WBFT",
+      "year": 2025,
+      "datePublished": "2025-11",
+      "collection": "radar",
+      "themes": [
+        "spawn---multi-agent-orchestration"
+      ],
+      "subCategory": "Fault tolerance and failure analysis",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2511.10400"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-spawn---multi-agent-orchestration-015",
+      "title": "Who&When",
+      "year": 2025,
+      "datePublished": "2025-05",
+      "collection": "radar",
+      "themes": [
+        "spawn---multi-agent-orchestration"
+      ],
+      "subCategory": "Fault tolerance and failure analysis",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2505.00212"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-spawn---multi-agent-orchestration-016",
+      "title": "MTTR-A",
+      "year": 2025,
+      "datePublished": "2025-11",
+      "collection": "radar",
+      "themes": [
+        "spawn---multi-agent-orchestration"
+      ],
+      "subCategory": "Fault tolerance and failure analysis",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2511.20663"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-spawn---multi-agent-orchestration-017",
+      "title": "MyAntFarm",
+      "year": 2025,
+      "datePublished": "2025-11",
+      "collection": "radar",
+      "themes": [
+        "spawn---multi-agent-orchestration"
+      ],
+      "subCategory": "Fault tolerance and failure analysis",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2511.15755"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-spawn---multi-agent-orchestration-018",
+      "title": "Aura agent OS",
+      "year": 2026,
+      "datePublished": "2026-02",
+      "collection": "radar",
+      "themes": [
+        "spawn---multi-agent-orchestration"
+      ],
+      "subCategory": "Security and trust",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2602.10915"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-spawn---multi-agent-orchestration-019",
+      "title": "TRiSM for Agentic AI",
+      "year": 2025,
+      "datePublished": "2025-06",
+      "collection": "radar",
+      "themes": [
+        "spawn---multi-agent-orchestration"
+      ],
+      "subCategory": "Security and trust",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2506.04133"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-spawn---multi-agent-orchestration-020",
+      "title": "SEMAP behavioral contracts",
+      "year": 2025,
+      "datePublished": "2025-10",
+      "collection": "radar",
+      "themes": [
+        "spawn---multi-agent-orchestration"
+      ],
+      "subCategory": "Security and trust",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2510.12120"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-spawn---multi-agent-orchestration-021",
+      "title": "AgentArk",
+      "year": 2026,
+      "datePublished": "2026-02",
+      "collection": "radar",
+      "themes": [
+        "spawn---multi-agent-orchestration"
+      ],
+      "subCategory": "Multi-agent distillation",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2602.03955"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-spawn---multi-agent-orchestration-022",
+      "title": "Chain-of-Agents",
+      "year": 2025,
+      "datePublished": "2025-08",
+      "collection": "radar",
+      "themes": [
+        "spawn---multi-agent-orchestration"
+      ],
+      "subCategory": "Multi-agent distillation",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2508.13167"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-spawn---multi-agent-orchestration-023",
+      "title": "MapCoder-Lite",
+      "year": 2025,
+      "datePublished": "2025-09",
+      "collection": "radar",
+      "themes": [
+        "spawn---multi-agent-orchestration"
+      ],
+      "subCategory": "Multi-agent distillation",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2509.17489"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-spawn---multi-agent-orchestration-024",
+      "title": "Towards a Science of Scaling Agent Systems",
+      "year": 2025,
+      "datePublished": "2025-12",
+      "collection": "radar",
+      "themes": [
+        "spawn---multi-agent-orchestration"
+      ],
+      "subCategory": "Scaling laws",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2512.08296"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-spawn---multi-agent-orchestration-025",
+      "title": "Difficulty-aware orchestration",
+      "year": 2025,
+      "datePublished": "2025-09",
+      "collection": "radar",
+      "themes": [
+        "spawn---multi-agent-orchestration"
+      ],
+      "subCategory": "Scaling laws",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2509.11079"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-spawn---multi-agent-orchestration-026",
+      "title": "LLM-powered swarm intelligence",
+      "year": 2025,
+      "datePublished": "2025-03",
+      "collection": "radar",
+      "themes": [
+        "spawn---multi-agent-orchestration"
+      ],
+      "subCategory": "Scaling laws",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2503.03800"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-spawn---multi-agent-orchestration-027",
+      "title": "LLM-MAS collaboration survey",
+      "year": 2025,
+      "datePublished": "2025-01",
+      "collection": "radar",
+      "themes": [
+        "spawn---multi-agent-orchestration"
+      ],
+      "subCategory": "Surveys",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2501.06322"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-spawn---multi-agent-orchestration-028",
+      "title": "Communication-centric survey",
+      "year": 2025,
+      "datePublished": "2025-02",
+      "collection": "radar",
+      "themes": [
+        "spawn---multi-agent-orchestration"
+      ],
+      "subCategory": "Surveys",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2502.14321"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-spawn---multi-agent-orchestration-029",
+      "title": "Agentic AI survey",
+      "year": 2026,
+      "datePublished": "2026-01",
+      "collection": "radar",
+      "themes": [
+        "spawn---multi-agent-orchestration"
+      ],
+      "subCategory": "Surveys",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2601.12560"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-spawn---multi-agent-orchestration-030",
+      "title": "CrewAI",
+      "year": 2025,
+      "datePublished": "2025-01",
+      "collection": "radar",
+      "themes": [
+        "spawn---multi-agent-orchestration"
+      ],
+      "subCategory": "Frameworks (open-source)",
+      "resources": [
+        {
+          "type": "code",
+          "url": "https://github.com/crewAIInc/crewAI"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-spawn---multi-agent-orchestration-031",
+      "title": "LangGraph",
+      "year": 2025,
+      "datePublished": "2025-01",
+      "collection": "radar",
+      "themes": [
+        "spawn---multi-agent-orchestration"
+      ],
+      "subCategory": "Frameworks (open-source)",
+      "resources": [
+        {
+          "type": "code",
+          "url": "https://github.com/langchain-ai/langgraph"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-spawn---multi-agent-orchestration-032",
+      "title": "AutoGen / AG2",
+      "year": 2025,
+      "datePublished": "2025-01",
+      "collection": "radar",
+      "themes": [
+        "spawn---multi-agent-orchestration"
+      ],
+      "subCategory": "Frameworks (open-source)",
+      "resources": [
+        {
+          "type": "code",
+          "url": "https://github.com/microsoft/autogen"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-spawn---multi-agent-orchestration-033",
+      "title": "OpenClaw",
+      "year": 2025,
+      "datePublished": "2025-01",
+      "collection": "radar",
+      "themes": [
+        "spawn---multi-agent-orchestration"
+      ],
+      "subCategory": "Frameworks (open-source)",
+      "resources": [
+        {
+          "type": "code",
+          "url": "https://github.com/openclaw/openclaw"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-spawn---multi-agent-orchestration-034",
+      "title": "Anthropic — Building Effective Agents",
+      "year": 2025,
+      "datePublished": "2025-01",
+      "collection": "radar",
+      "themes": [
+        "spawn---multi-agent-orchestration"
+      ],
+      "subCategory": "Production (non-paper)",
+      "resources": [
+        {
+          "type": "blog",
+          "url": "https://www.anthropic.com/engineering/building-effective-agents"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-spawn---multi-agent-orchestration-035",
+      "title": "MAST project page",
+      "year": 2025,
+      "datePublished": "2025-01",
+      "collection": "radar",
+      "themes": [
+        "spawn---multi-agent-orchestration"
+      ],
+      "subCategory": "Production (non-paper)",
+      "resources": [
+        {
+          "type": "blog",
+          "url": "https://sky.cs.berkeley.edu/project/mast/"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-spawn---multi-agent-orchestration-036",
+      "title": "ETOM",
+      "year": 2025,
+      "datePublished": "2025-10",
+      "collection": "radar",
+      "themes": [
+        "spawn---multi-agent-orchestration"
+      ],
+      "subCategory": "Benchmarks",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2510.19423"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-spawn---multi-agent-orchestration-037",
+      "title": "Conway Research / Automaton",
+      "year": 2025,
+      "datePublished": "2025-01",
+      "collection": "radar",
+      "themes": [
+        "spawn---multi-agent-orchestration"
+      ],
+      "subCategory": "Added 2026-02-18 (evolutionary spawn + infrastructure)",
+      "resources": [
+        {
+          "type": "code",
+          "url": "https://github.com/Conway-Research/automaton"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-spawn---multi-agent-orchestration-038",
+      "title": "WEB 4.0 essay",
+      "year": 2025,
+      "datePublished": "2025-01",
+      "collection": "radar",
+      "themes": [
+        "spawn---multi-agent-orchestration"
+      ],
+      "subCategory": "Added 2026-02-18 (evolutionary spawn + infrastructure)",
+      "resources": [
+        {
+          "type": "blog",
+          "url": "https://web4.ai"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-spawn---multi-agent-orchestration-039",
+      "title": "Conway Terminal",
+      "year": 2025,
+      "datePublished": "2025-01",
+      "collection": "radar",
+      "themes": [
+        "spawn---multi-agent-orchestration"
+      ],
+      "subCategory": "Added 2026-02-18 (evolutionary spawn + infrastructure)",
+      "resources": [
+        {
+          "type": "blog",
+          "url": "https://www.npmjs.com/package/conway-terminal"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-spawn---multi-agent-orchestration-040",
+      "title": "x402 protocol",
+      "year": 2025,
+      "datePublished": "2025-01",
+      "collection": "radar",
+      "themes": [
+        "spawn---multi-agent-orchestration"
+      ],
+      "subCategory": "Added 2026-02-18 (evolutionary spawn + infrastructure)",
+      "resources": [
+        {
+          "type": "blog",
+          "url": "https://x402.org"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-spawn---multi-agent-orchestration-041",
+      "title": "OpenX402",
+      "year": 2025,
+      "datePublished": "2025-01",
+      "collection": "radar",
+      "themes": [
+        "spawn---multi-agent-orchestration"
+      ],
+      "subCategory": "Added 2026-02-18 (evolutionary spawn + infrastructure)",
+      "resources": [
+        {
+          "type": "blog",
+          "url": "https://openx402.ai"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-spawn---multi-agent-orchestration-042",
+      "title": "ERC-8004",
+      "year": 2025,
+      "datePublished": "2025-01",
+      "collection": "radar",
+      "themes": [
+        "spawn---multi-agent-orchestration"
+      ],
+      "subCategory": "Added 2026-02-18 (evolutionary spawn + infrastructure)",
+      "resources": [
+        {
+          "type": "blog",
+          "url": "https://ethereum-magicians.org/t/erc-8004-autonomous-agent-identity/22268"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-proactive-agents-001",
+      "title": "ProactiveBench",
+      "year": 2024,
+      "datePublished": "2024-10",
+      "collection": "radar",
+      "themes": [
+        "proactive-agents"
+      ],
+      "subCategory": "Foundational benchmarks",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2410.12361"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-proactive-agents-002",
+      "title": "ProAgentBench",
+      "year": 2026,
+      "datePublished": "2026-02",
+      "collection": "radar",
+      "themes": [
+        "proactive-agents"
+      ],
+      "subCategory": "Foundational benchmarks",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2602.04482"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-proactive-agents-003",
+      "title": "PROBE",
+      "year": 2025,
+      "datePublished": "2025-10",
+      "collection": "radar",
+      "themes": [
+        "proactive-agents"
+      ],
+      "subCategory": "Foundational benchmarks",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2510.19771"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-proactive-agents-004",
+      "title": "PPP Training",
+      "year": 2025,
+      "datePublished": "2025-11",
+      "collection": "radar",
+      "themes": [
+        "proactive-agents"
+      ],
+      "subCategory": "Training paradigms",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2511.02208"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-proactive-agents-005",
+      "title": "BAO",
+      "year": 2026,
+      "datePublished": "2026-02",
+      "collection": "radar",
+      "themes": [
+        "proactive-agents"
+      ],
+      "subCategory": "Training paradigms",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2602.11351"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-proactive-agents-006",
+      "title": "1,000 Personas",
+      "year": 2026,
+      "datePublished": "2026-02",
+      "collection": "radar",
+      "themes": [
+        "proactive-agents"
+      ],
+      "subCategory": "Training paradigms",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2602.04000"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-proactive-agents-007",
+      "title": "FLARE",
+      "year": 2023,
+      "datePublished": "2023-05",
+      "collection": "radar",
+      "themes": [
+        "proactive-agents"
+      ],
+      "subCategory": "Proactive retrieval (push-based RAG)",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2305.06983"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-proactive-agents-008",
+      "title": "Self-RAG",
+      "year": 2023,
+      "datePublished": "2023-10",
+      "collection": "radar",
+      "themes": [
+        "proactive-agents"
+      ],
+      "subCategory": "Proactive retrieval (push-based RAG)",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2310.11511"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-proactive-agents-009",
+      "title": "ProCIS",
+      "year": 2024,
+      "datePublished": "2024-05",
+      "collection": "radar",
+      "themes": [
+        "proactive-agents"
+      ],
+      "subCategory": "Proactive retrieval (push-based RAG)",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2405.06460"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-proactive-agents-010",
+      "title": "PIR",
+      "year": 2026,
+      "datePublished": "2026-01",
+      "collection": "radar",
+      "themes": [
+        "proactive-agents"
+      ],
+      "subCategory": "Proactive clarification & intent inference",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2601.22139"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-proactive-agents-011",
+      "title": "PersonalAlign",
+      "year": 2026,
+      "datePublished": "2026-01",
+      "collection": "radar",
+      "themes": [
+        "proactive-agents"
+      ],
+      "subCategory": "Proactive clarification & intent inference",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2601.09636"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-proactive-agents-012",
+      "title": "ContextAgent",
+      "year": 2025,
+      "datePublished": "2025-05",
+      "collection": "radar",
+      "themes": [
+        "proactive-agents"
+      ],
+      "subCategory": "Context-aware & sensory proactive agents",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2505.14668"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-proactive-agents-013",
+      "title": "ProAgent-Sensory",
+      "year": 2025,
+      "datePublished": "2025-12",
+      "collection": "radar",
+      "themes": [
+        "proactive-agents"
+      ],
+      "subCategory": "Context-aware & sensory proactive agents",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2512.06721"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-proactive-agents-014",
+      "title": "Goldilocks Time Window",
+      "year": 2025,
+      "datePublished": "2025-04",
+      "collection": "radar",
+      "themes": [
+        "proactive-agents"
+      ],
+      "subCategory": "Timing & interaction design",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2504.09332"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-proactive-agents-015",
+      "title": "ComPeer",
+      "year": 2024,
+      "datePublished": "2024-07",
+      "collection": "radar",
+      "themes": [
+        "proactive-agents"
+      ],
+      "subCategory": "Timing & interaction design",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2407.18064"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-proactive-agents-016",
+      "title": "Voyager",
+      "year": 2023,
+      "datePublished": "2023-05",
+      "collection": "radar",
+      "themes": [
+        "proactive-agents"
+      ],
+      "subCategory": "Autonomous goal generation",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2305.16291"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-proactive-agents-017",
+      "title": "Devin 2025 Performance Review",
+      "year": 2025,
+      "datePublished": "2025-01",
+      "collection": "radar",
+      "themes": [
+        "proactive-agents"
+      ],
+      "subCategory": "Production deployment evidence",
+      "resources": [
+        {
+          "type": "blog",
+          "url": "https://cognition.ai/blog/devin-annual-performance-review-2025"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-proactive-agents-018",
+      "title": "Anthropic — How AI Is Transforming Work",
+      "year": 2025,
+      "datePublished": "2025-01",
+      "collection": "radar",
+      "themes": [
+        "proactive-agents"
+      ],
+      "subCategory": "Production deployment evidence",
+      "resources": [
+        {
+          "type": "blog",
+          "url": "https://www.anthropic.com/research/how-ai-is-transforming-work-at-anthropic"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-proactive-agents-019",
+      "title": "ChatGPT Scheduled Tasks",
+      "year": 2025,
+      "datePublished": "2025-01",
+      "collection": "radar",
+      "themes": [
+        "proactive-agents"
+      ],
+      "subCategory": "Production deployment evidence",
+      "resources": [
+        {
+          "type": "blog",
+          "url": "https://openai.com/index/introducing-chatgpt-agent/"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-proactive-agents-020",
+      "title": "Proactive Conversational AI (ACM TOIS 2025)",
+      "year": 2025,
+      "datePublished": "2025-01",
+      "collection": "radar",
+      "themes": [
+        "proactive-agents"
+      ],
+      "subCategory": "Surveys & taxonomies",
+      "resources": [
+        {
+          "type": "blog",
+          "url": "https://dl.acm.org/doi/10.1145/3715097"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-proactive-agents-021",
+      "title": "Agentic RAG Survey",
+      "year": 2025,
+      "datePublished": "2025-01",
+      "collection": "radar",
+      "themes": [
+        "proactive-agents"
+      ],
+      "subCategory": "Surveys & taxonomies",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2501.09136"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-proactive-agents-022",
+      "title": "Agent.xpu",
+      "year": 2025,
+      "datePublished": "2025-06",
+      "collection": "radar",
+      "themes": [
+        "proactive-agents"
+      ],
+      "subCategory": "Systems infrastructure",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2506.24045"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-agent-persistent-memory-001",
+      "title": "Survey on memory mechanism of LLM-based agents",
+      "year": 2024,
+      "datePublished": "2024-04",
+      "collection": "radar",
+      "themes": [
+        "agent-persistent-memory"
+      ],
+      "subCategory": "Surveys",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2404.13501"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-agent-persistent-memory-002",
+      "title": "Anthropic — Building Effective Agents",
+      "year": 2025,
+      "datePublished": "2025-01",
+      "collection": "radar",
+      "themes": [
+        "agent-persistent-memory"
+      ],
+      "subCategory": "Production perspectives",
+      "resources": [
+        {
+          "type": "blog",
+          "url": "https://www.anthropic.com/engineering/building-effective-agents"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-agent-persistent-memory-003",
+      "title": "Salesforce Agentic Memory",
+      "year": 2025,
+      "datePublished": "2025-01",
+      "collection": "radar",
+      "themes": [
+        "agent-persistent-memory"
+      ],
+      "subCategory": "Production perspectives",
+      "resources": [
+        {
+          "type": "blog",
+          "url": "https://engineering.salesforce.com/how-agentic-memory-enables-durable-reliable-ai-agents-across-millions-of-enterprise-users/"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-agent-persistent-memory-004",
+      "title": "MemoryBank",
+      "year": 2023,
+      "datePublished": "2023-05",
+      "collection": "radar",
+      "themes": [
+        "agent-persistent-memory"
+      ],
+      "subCategory": "Deeper dives",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2305.10250"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-agent-persistent-memory-005",
+      "title": "R³Mem",
+      "year": 2025,
+      "datePublished": "2025-02",
+      "collection": "radar",
+      "themes": [
+        "agent-persistent-memory"
+      ],
+      "subCategory": "Deeper dives",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2502.15957"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-agent-persistent-memory-006",
+      "title": "MemFly",
+      "year": 2026,
+      "datePublished": "2026-02",
+      "collection": "radar",
+      "themes": [
+        "agent-persistent-memory"
+      ],
+      "subCategory": "Deeper dives",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2602.07885"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-agent-persistent-memory-007",
+      "title": "Memory-R1",
+      "year": 2025,
+      "datePublished": "2025-08",
+      "collection": "radar",
+      "themes": [
+        "agent-persistent-memory"
+      ],
+      "subCategory": "RL-learned memory management",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2508.19828"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-agent-persistent-memory-008",
+      "title": "Mem-α",
+      "year": 2025,
+      "datePublished": "2025-09",
+      "collection": "radar",
+      "themes": [
+        "agent-persistent-memory"
+      ],
+      "subCategory": "RL-learned memory management",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2509.25911"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-agent-persistent-memory-009",
+      "title": "Lost in the Middle",
+      "year": 2023,
+      "datePublished": "2023-07",
+      "collection": "radar",
+      "themes": [
+        "agent-persistent-memory"
+      ],
+      "subCategory": "Context-window motivation",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2307.03172"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-agent-persistent-memory-010",
+      "title": "MAGMA",
+      "year": 2026,
+      "datePublished": "2026-01",
+      "collection": "radar",
+      "themes": [
+        "agent-persistent-memory"
+      ],
+      "subCategory": "To add (next pass)",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2601.03236"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-agent-persistent-memory-011",
+      "title": "TAME",
+      "year": 2026,
+      "datePublished": "2026-02",
+      "collection": "radar",
+      "themes": [
+        "agent-persistent-memory"
+      ],
+      "subCategory": "To add (next pass)",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2602.03224"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-agent-persistent-memory-012",
+      "title": "MemBench",
+      "year": 2025,
+      "datePublished": "2025-06",
+      "collection": "radar",
+      "themes": [
+        "agent-persistent-memory"
+      ],
+      "subCategory": "To add (next pass)",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2506.21605"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-agent-persistent-memory-013",
+      "title": "LoCoMo-Plus",
+      "year": 2026,
+      "datePublished": "2026-02",
+      "collection": "radar",
+      "themes": [
+        "agent-persistent-memory"
+      ],
+      "subCategory": "To add (next pass)",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2602.10715"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-human-agent-interaction-001",
+      "title": "LLM-HAS Survey (Zou et al.)",
+      "year": 2025,
+      "datePublished": "2025-05",
+      "collection": "radar",
+      "themes": [
+        "human-agent-interaction"
+      ],
+      "subCategory": "Core interaction frameworks & surveys",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2505.00753"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-human-agent-interaction-002",
+      "title": "LLM-HAS Position Paper",
+      "year": 2025,
+      "datePublished": "2025-06",
+      "collection": "radar",
+      "themes": [
+        "human-agent-interaction"
+      ],
+      "subCategory": "Core interaction frameworks & surveys",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2506.09420"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-human-agent-interaction-003",
+      "title": "Interaction as Intelligence",
+      "year": 2025,
+      "datePublished": "2025-07",
+      "collection": "radar",
+      "themes": [
+        "human-agent-interaction"
+      ],
+      "subCategory": "Core interaction frameworks & surveys",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2507.15759"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-human-agent-interaction-004",
+      "title": "Magentic-UI",
+      "year": 2025,
+      "datePublished": "2025-07",
+      "collection": "radar",
+      "themes": [
+        "human-agent-interaction"
+      ],
+      "subCategory": "Human-centered agent interfaces",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2507.22358"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-human-agent-interaction-005",
+      "title": "Magentic-UI Blog",
+      "year": 2025,
+      "datePublished": "2025-01",
+      "collection": "radar",
+      "themes": [
+        "human-agent-interaction"
+      ],
+      "subCategory": "Human-centered agent interfaces",
+      "resources": [
+        {
+          "type": "blog",
+          "url": "https://www.microsoft.com/en-us/research/blog/magentic-ui-an-experimental-human-centered-web-agent/"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-human-agent-interaction-006",
+      "title": "Magentic-UI Code",
+      "year": 2025,
+      "datePublished": "2025-01",
+      "collection": "radar",
+      "themes": [
+        "human-agent-interaction"
+      ],
+      "subCategory": "Human-centered agent interfaces",
+      "resources": [
+        {
+          "type": "code",
+          "url": "https://github.com/microsoft/magentic-ui"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-human-agent-interaction-007",
+      "title": "AIPOM",
+      "year": 2025,
+      "datePublished": "2025-09",
+      "collection": "radar",
+      "themes": [
+        "human-agent-interaction"
+      ],
+      "subCategory": "Human-centered agent interfaces",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2509.24826"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-human-agent-interaction-008",
+      "title": "ARIA",
+      "year": 2025,
+      "datePublished": "2025-07",
+      "collection": "radar",
+      "themes": [
+        "human-agent-interaction"
+      ],
+      "subCategory": "Human-centered agent interfaces",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2507.17131"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-human-agent-interaction-009",
+      "title": "ACT",
+      "year": 2024,
+      "datePublished": "2024-06",
+      "collection": "radar",
+      "themes": [
+        "human-agent-interaction"
+      ],
+      "subCategory": "Intent elicitation & clarification",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2406.00222"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-human-agent-interaction-010",
+      "title": "MAC",
+      "year": 2025,
+      "datePublished": "2025-12",
+      "collection": "radar",
+      "themes": [
+        "human-agent-interaction"
+      ],
+      "subCategory": "Intent elicitation & clarification",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2512.13154"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-human-agent-interaction-011",
+      "title": "ProactiveBench",
+      "year": 2024,
+      "datePublished": "2024-10",
+      "collection": "radar",
+      "themes": [
+        "human-agent-interaction"
+      ],
+      "subCategory": "Intent elicitation & clarification",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2410.12361"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-human-agent-interaction-012",
+      "title": "PersonalAlign",
+      "year": 2026,
+      "datePublished": "2026-01",
+      "collection": "radar",
+      "themes": [
+        "human-agent-interaction"
+      ],
+      "subCategory": "Intent elicitation & clarification",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2601.09636"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-human-agent-interaction-013",
+      "title": "PrefIx",
+      "year": 2026,
+      "datePublished": "2026-02",
+      "collection": "radar",
+      "themes": [
+        "human-agent-interaction"
+      ],
+      "subCategory": "Intent elicitation & clarification",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2602.06714"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-human-agent-interaction-014",
+      "title": "Empower",
+      "year": 2025,
+      "datePublished": "2025-10",
+      "collection": "radar",
+      "themes": [
+        "human-agent-interaction"
+      ],
+      "subCategory": "Autonomy control & empowerment",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2510.13709"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-human-agent-interaction-015",
+      "title": "PPP training",
+      "year": 2025,
+      "datePublished": "2025-11",
+      "collection": "radar",
+      "themes": [
+        "human-agent-interaction"
+      ],
+      "subCategory": "Autonomy control & empowerment",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2511.02208"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-human-agent-interaction-016",
+      "title": "UserRL",
+      "year": 2025,
+      "datePublished": "2025-09",
+      "collection": "radar",
+      "themes": [
+        "human-agent-interaction"
+      ],
+      "subCategory": "Autonomy control & empowerment",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2509.19736"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-human-agent-interaction-017",
+      "title": "Mode-switching study",
+      "year": 2025,
+      "datePublished": "2025-09",
+      "collection": "radar",
+      "themes": [
+        "human-agent-interaction"
+      ],
+      "subCategory": "Autonomy control & empowerment",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2509.20666"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-human-agent-interaction-018",
+      "title": "RLTHF",
+      "year": 2025,
+      "datePublished": "2025-02",
+      "collection": "radar",
+      "themes": [
+        "human-agent-interaction"
+      ],
+      "subCategory": "Autonomy control & empowerment",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2502.13417"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-human-agent-interaction-019",
+      "title": "SWEET-RL",
+      "year": 2025,
+      "datePublished": "2025-03",
+      "collection": "radar",
+      "themes": [
+        "human-agent-interaction"
+      ],
+      "subCategory": "Collaborative training & step-wise eval",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2503.15478"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-human-agent-interaction-020",
+      "title": "Collaborative Gym / Co-Gym",
+      "year": 2024,
+      "datePublished": "2024-12",
+      "collection": "radar",
+      "themes": [
+        "human-agent-interaction"
+      ],
+      "subCategory": "Collaborative training & step-wise eval",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2412.15701"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-human-agent-interaction-021",
+      "title": "τ²-bench",
+      "year": 2025,
+      "datePublished": "2025-06",
+      "collection": "radar",
+      "themes": [
+        "human-agent-interaction"
+      ],
+      "subCategory": "Evaluation methodology",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2506.07982"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-human-agent-interaction-022",
+      "title": "HAI-Eval",
+      "year": 2025,
+      "datePublished": "2025-12",
+      "collection": "radar",
+      "themes": [
+        "human-agent-interaction"
+      ],
+      "subCategory": "Evaluation methodology",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2512.04111"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-human-agent-interaction-023",
+      "title": "SPHERE",
+      "year": 2025,
+      "datePublished": "2025-04",
+      "collection": "radar",
+      "themes": [
+        "human-agent-interaction"
+      ],
+      "subCategory": "Evaluation methodology",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2504.07971"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-human-agent-interaction-024",
+      "title": "How can we assess human-agent interactions?",
+      "year": 2025,
+      "datePublished": "2025-10",
+      "collection": "radar",
+      "themes": [
+        "human-agent-interaction"
+      ],
+      "subCategory": "Evaluation methodology",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2510.09801"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-human-agent-interaction-025",
+      "title": "Behzad et al.",
+      "year": 2025,
+      "datePublished": "2025-08",
+      "collection": "radar",
+      "themes": [
+        "human-agent-interaction"
+      ],
+      "subCategory": "Trust calibration & explanation",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2508.09033"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-human-agent-interaction-026",
+      "title": "Interpreting Agentic Systems",
+      "year": 2026,
+      "datePublished": "2026-01",
+      "collection": "radar",
+      "themes": [
+        "human-agent-interaction"
+      ],
+      "subCategory": "Trust calibration & explanation",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2601.17168"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-human-agent-interaction-027",
+      "title": "XAgen",
+      "year": 2025,
+      "datePublished": "2025-12",
+      "collection": "radar",
+      "themes": [
+        "human-agent-interaction"
+      ],
+      "subCategory": "Trust calibration & explanation",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2512.17896"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-human-agent-interaction-028",
+      "title": "Echoing paper",
+      "year": 2025,
+      "datePublished": "2025-11",
+      "collection": "radar",
+      "themes": [
+        "human-agent-interaction"
+      ],
+      "subCategory": "Trust calibration & explanation",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2511.09710"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-human-agent-interaction-029",
+      "title": "Three-Pillar Model",
+      "year": 2026,
+      "datePublished": "2026-01",
+      "collection": "radar",
+      "themes": [
+        "human-agent-interaction"
+      ],
+      "subCategory": "Staged autonomy & safety",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2601.06223"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-human-agent-interaction-030",
+      "title": "EmoAgent",
+      "year": 2025,
+      "datePublished": "2025-04",
+      "collection": "radar",
+      "themes": [
+        "human-agent-interaction"
+      ],
+      "subCategory": "Staged autonomy & safety",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2504.09689"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-human-agent-interaction-031",
+      "title": "RLHF Trilemma",
+      "year": 2025,
+      "datePublished": "2025-11",
+      "collection": "radar",
+      "themes": [
+        "human-agent-interaction"
+      ],
+      "subCategory": "Staged autonomy & safety",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2511.19504"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-human-agent-interaction-032",
+      "title": "6-month AI peer RCT",
+      "year": 2026,
+      "datePublished": "2026-02",
+      "collection": "radar",
+      "themes": [
+        "human-agent-interaction"
+      ],
+      "subCategory": "Staged autonomy & safety",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2602.01918"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-human-agent-interaction-033",
+      "title": "ICSE 2025 HITL study",
+      "year": 2024,
+      "datePublished": "2024-11",
+      "collection": "radar",
+      "themes": [
+        "human-agent-interaction"
+      ],
+      "subCategory": "HITL practice",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2411.12924"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-human-agent-interaction-034",
+      "title": "Anthropic — Building Effective Agents",
+      "year": 2025,
+      "datePublished": "2025-01",
+      "collection": "radar",
+      "themes": [
+        "human-agent-interaction"
+      ],
+      "subCategory": "HITL practice",
+      "resources": [
+        {
+          "type": "blog",
+          "url": "https://www.anthropic.com/engineering/building-effective-agents"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-human-agent-interaction-035",
+      "title": "18 Guidelines for Human-AI Interaction (CHI 2019)",
+      "year": 2025,
+      "datePublished": "2025-01",
+      "collection": "radar",
+      "themes": [
+        "human-agent-interaction"
+      ],
+      "subCategory": "Design guidelines",
+      "resources": [
+        {
+          "type": "blog",
+          "url": "https://www.microsoft.com/en-us/research/project/guidelines-for-human-ai-interaction/"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-world-models-for-agents-001",
+      "title": "WebDreamer",
+      "year": 2024,
+      "datePublished": "2024-11",
+      "collection": "radar",
+      "themes": [
+        "world-models-for-agents"
+      ],
+      "subCategory": "Core \"LLM-as-world-model\" papers",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2411.06559"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-world-models-for-agents-002",
+      "title": "DynaWeb",
+      "year": 2026,
+      "datePublished": "2026-01",
+      "collection": "radar",
+      "themes": [
+        "world-models-for-agents"
+      ],
+      "subCategory": "Core \"LLM-as-world-model\" papers",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2601.22149"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-world-models-for-agents-003",
+      "title": "RWML",
+      "year": 2026,
+      "datePublished": "2026-02",
+      "collection": "radar",
+      "themes": [
+        "world-models-for-agents"
+      ],
+      "subCategory": "Core \"LLM-as-world-model\" papers",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2602.05842"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-world-models-for-agents-004",
+      "title": "UI-Simulator",
+      "year": 2025,
+      "datePublished": "2025-10",
+      "collection": "radar",
+      "themes": [
+        "world-models-for-agents"
+      ],
+      "subCategory": "Core \"LLM-as-world-model\" papers",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2510.14969"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-world-models-for-agents-005",
+      "title": "INTENT",
+      "year": 2026,
+      "datePublished": "2026-02",
+      "collection": "radar",
+      "themes": [
+        "world-models-for-agents"
+      ],
+      "subCategory": "Core \"LLM-as-world-model\" papers",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2602.11541"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-world-models-for-agents-006",
+      "title": "DreamerV3 (Nature)",
+      "year": 2025,
+      "datePublished": "2025-01",
+      "collection": "radar",
+      "themes": [
+        "world-models-for-agents"
+      ],
+      "subCategory": "Latent dynamics / MBRL",
+      "resources": [
+        {
+          "type": "blog",
+          "url": "https://www.nature.com/articles/s41586-025-08744-2"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-world-models-for-agents-007",
+      "title": "State-Space World Models",
+      "year": 2025,
+      "datePublished": "2025-02",
+      "collection": "radar",
+      "themes": [
+        "world-models-for-agents"
+      ],
+      "subCategory": "Latent dynamics / MBRL",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2502.20168"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-world-models-for-agents-008",
+      "title": "RWM-U",
+      "year": 2025,
+      "datePublished": "2025-04",
+      "collection": "radar",
+      "themes": [
+        "world-models-for-agents"
+      ],
+      "subCategory": "Latent dynamics / MBRL",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2504.16680"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-world-models-for-agents-009",
+      "title": "GW-Dreamer",
+      "year": 2025,
+      "datePublished": "2025-02",
+      "collection": "radar",
+      "themes": [
+        "world-models-for-agents"
+      ],
+      "subCategory": "Latent dynamics / MBRL",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2502.21142"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-world-models-for-agents-010",
+      "title": "VLWM",
+      "year": 2025,
+      "datePublished": "2025-09",
+      "collection": "radar",
+      "themes": [
+        "world-models-for-agents"
+      ],
+      "subCategory": "Latent dynamics / MBRL",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2509.02722"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-world-models-for-agents-011",
+      "title": "WorldMind",
+      "year": 2026,
+      "datePublished": "2026-01",
+      "collection": "radar",
+      "themes": [
+        "world-models-for-agents"
+      ],
+      "subCategory": "Hybrid symbolic + latent",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2601.13247"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-world-models-for-agents-012",
+      "title": "Agent2World",
+      "year": 2025,
+      "datePublished": "2025-12",
+      "collection": "radar",
+      "themes": [
+        "world-models-for-agents"
+      ],
+      "subCategory": "Hybrid symbolic + latent",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2512.22336"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-world-models-for-agents-013",
+      "title": "Object-centric causality-aware modeling",
+      "year": 2025,
+      "datePublished": "2025-11",
+      "collection": "radar",
+      "themes": [
+        "world-models-for-agents"
+      ],
+      "subCategory": "Hybrid symbolic + latent",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2511.14262"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-world-models-for-agents-014",
+      "title": "Cosmos WFM (NVIDIA)",
+      "year": 2025,
+      "datePublished": "2025-01",
+      "collection": "radar",
+      "themes": [
+        "world-models-for-agents"
+      ],
+      "subCategory": "Video generative world models",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2501.03575"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-world-models-for-agents-015",
+      "title": "Cosmos-Predict2.5",
+      "year": 2025,
+      "datePublished": "2025-11",
+      "collection": "radar",
+      "themes": [
+        "world-models-for-agents"
+      ],
+      "subCategory": "Video generative world models",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2511.00062"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-world-models-for-agents-016",
+      "title": "Genie 3 (blog)",
+      "year": 2025,
+      "datePublished": "2025-01",
+      "collection": "radar",
+      "themes": [
+        "world-models-for-agents"
+      ],
+      "subCategory": "Video generative world models",
+      "resources": [
+        {
+          "type": "blog",
+          "url": "https://deepmind.google/blog/genie-3-a-new-frontier-for-world-models/"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-world-models-for-agents-017",
+      "title": "Genie Envisioner",
+      "year": 2025,
+      "datePublished": "2025-08",
+      "collection": "radar",
+      "themes": [
+        "world-models-for-agents"
+      ],
+      "subCategory": "Video generative world models",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2508.05635"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-world-models-for-agents-018",
+      "title": "World-Gymnast",
+      "year": 2026,
+      "datePublished": "2026-02",
+      "collection": "radar",
+      "themes": [
+        "world-models-for-agents"
+      ],
+      "subCategory": "Video generative world models",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2602.02454"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-world-models-for-agents-019",
+      "title": "WorldVLA",
+      "year": 2025,
+      "datePublished": "2025-06",
+      "collection": "radar",
+      "themes": [
+        "world-models-for-agents"
+      ],
+      "subCategory": "Video generative world models",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2506.21539"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-world-models-for-agents-020",
+      "title": "DriveVLA-W0",
+      "year": 2025,
+      "datePublished": "2025-10",
+      "collection": "radar",
+      "themes": [
+        "world-models-for-agents"
+      ],
+      "subCategory": "Video generative world models",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2510.12796"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-world-models-for-agents-021",
+      "title": "LingBot-World",
+      "year": 2026,
+      "datePublished": "2026-01",
+      "collection": "radar",
+      "themes": [
+        "world-models-for-agents"
+      ],
+      "subCategory": "Video generative world models",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2601.20540"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-world-models-for-agents-022",
+      "title": "World4RL",
+      "year": 2025,
+      "datePublished": "2025-09",
+      "collection": "radar",
+      "themes": [
+        "world-models-for-agents"
+      ],
+      "subCategory": "Video generative world models",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2509.19080"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-world-models-for-agents-023",
+      "title": "RLVR-World",
+      "year": 2025,
+      "datePublished": "2025-05",
+      "collection": "radar",
+      "themes": [
+        "world-models-for-agents"
+      ],
+      "subCategory": "Video generative world models",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2505.13934"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-world-models-for-agents-024",
+      "title": "LeCun JEPA position",
+      "year": 2025,
+      "datePublished": "2025-01",
+      "collection": "radar",
+      "themes": [
+        "world-models-for-agents"
+      ],
+      "subCategory": "JEPA / latent prediction",
+      "resources": [
+        {
+          "type": "blog",
+          "url": "https://openreview.net/pdf?id=BZ5a1r-kVsf"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-world-models-for-agents-025",
+      "title": "V-JEPA",
+      "year": 2024,
+      "datePublished": "2024-04",
+      "collection": "radar",
+      "themes": [
+        "world-models-for-agents"
+      ],
+      "subCategory": "JEPA / latent prediction",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2404.08471"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-world-models-for-agents-026",
+      "title": "V-JEPA 2",
+      "year": 2025,
+      "datePublished": "2025-06",
+      "collection": "radar",
+      "themes": [
+        "world-models-for-agents"
+      ],
+      "subCategory": "JEPA / latent prediction",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2506.09985"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-world-models-for-agents-027",
+      "title": "ARTIS",
+      "year": 2026,
+      "datePublished": "2026-02",
+      "collection": "radar",
+      "themes": [
+        "world-models-for-agents"
+      ],
+      "subCategory": "Evaluation and verification",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2602.01709"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-world-models-for-agents-028",
+      "title": "ViSA",
+      "year": 2025,
+      "datePublished": "2025-12",
+      "collection": "radar",
+      "themes": [
+        "world-models-for-agents"
+      ],
+      "subCategory": "Evaluation and verification",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2512.05809"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-world-models-for-agents-029",
+      "title": "Benchmarking World-Model Learning",
+      "year": 2025,
+      "datePublished": "2025-10",
+      "collection": "radar",
+      "themes": [
+        "world-models-for-agents"
+      ],
+      "subCategory": "Evaluation and verification",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2510.19788"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-world-models-for-agents-030",
+      "title": "Epistemic querying",
+      "year": 2026,
+      "datePublished": "2026-02",
+      "collection": "radar",
+      "themes": [
+        "world-models-for-agents"
+      ],
+      "subCategory": "Evaluation and verification",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2602.03974"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-world-models-for-agents-031",
+      "title": "World Models for Embodied AI (survey)",
+      "year": 2025,
+      "datePublished": "2025-10",
+      "collection": "radar",
+      "themes": [
+        "world-models-for-agents"
+      ],
+      "subCategory": "Surveys and frameworks",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2510.16732"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-world-models-for-agents-032",
+      "title": "Understanding World or Predicting Future? (CSUR taxonomy)",
+      "year": 2024,
+      "datePublished": "2024-11",
+      "collection": "radar",
+      "themes": [
+        "world-models-for-agents"
+      ],
+      "subCategory": "Surveys and frameworks",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2411.14499"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-world-models-for-agents-033",
+      "title": "A Step Toward World Models: Robot Manipulation (survey)",
+      "year": 2025,
+      "datePublished": "2025-11",
+      "collection": "radar",
+      "themes": [
+        "world-models-for-agents"
+      ],
+      "subCategory": "Surveys and frameworks",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2511.02097"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-world-models-for-agents-034",
+      "title": "Embodied AI Agents: Modeling the World (framework)",
+      "year": 2025,
+      "datePublished": "2025-06",
+      "collection": "radar",
+      "themes": [
+        "world-models-for-agents"
+      ],
+      "subCategory": "Surveys and frameworks",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2506.22355"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-world-models-for-agents-035",
+      "title": "Digital Twin AI",
+      "year": 2026,
+      "datePublished": "2026-01",
+      "collection": "radar",
+      "themes": [
+        "world-models-for-agents"
+      ],
+      "subCategory": "Surveys and frameworks",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2601.01321"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-world-models-for-agents-036",
+      "title": "Mixed-Reality Digital Twins",
+      "year": 2024,
+      "datePublished": "2024-03",
+      "collection": "radar",
+      "themes": [
+        "world-models-for-agents"
+      ],
+      "subCategory": "Sim-to-real and grounding",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2403.10996"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-world-models-for-agents-037",
+      "title": "Agents underuse world models for foresight",
+      "year": 2026,
+      "datePublished": "2026-01",
+      "collection": "radar",
+      "themes": [
+        "world-models-for-agents"
+      ],
+      "subCategory": "Sim-to-real and grounding",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2601.03905"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-world-models-for-agents-038",
+      "title": "Bayesian filtering frame for LLM decision loops",
+      "year": 2025,
+      "datePublished": "2025-12",
+      "collection": "radar",
+      "themes": [
+        "world-models-for-agents"
+      ],
+      "subCategory": "Sim-to-real and grounding",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2512.18489"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-world-models-for-agents-039",
+      "title": "Quantization of world models",
+      "year": 2026,
+      "datePublished": "2026-02",
+      "collection": "radar",
+      "themes": [
+        "world-models-for-agents"
+      ],
+      "subCategory": "Sim-to-real and grounding",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2602.02110"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-world-models-for-agents-040",
+      "title": "VLM RL in Synthetic Worlds",
+      "year": 2025,
+      "datePublished": "2025-08",
+      "collection": "radar",
+      "themes": [
+        "world-models-for-agents"
+      ],
+      "subCategory": "Adjacent",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2508.04280"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-world-models-for-agents-041",
+      "title": "Test-time mixtures of world models",
+      "year": 2026,
+      "datePublished": "2026-01",
+      "collection": "radar",
+      "themes": [
+        "world-models-for-agents"
+      ],
+      "subCategory": "Adjacent",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2601.22647"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-world-models-for-agents-042",
+      "title": "Atomic Fact Augmentation + Lookahead Search",
+      "year": 2025,
+      "datePublished": "2025-06",
+      "collection": "radar",
+      "themes": [
+        "world-models-for-agents"
+      ],
+      "subCategory": "Adjacent",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2506.09171"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-evo-llm-001",
+      "title": "EvoPrompt",
+      "year": 2023,
+      "datePublished": "2023-09",
+      "collection": "radar",
+      "themes": [
+        "evo-llm"
+      ],
+      "subCategory": "Direction 1: EC → LLM",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2309.08532"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-evo-llm-002",
+      "title": "Promptbreeder",
+      "year": 2023,
+      "datePublished": "2023-09",
+      "collection": "radar",
+      "themes": [
+        "evo-llm"
+      ],
+      "subCategory": "Direction 1: EC → LLM",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2309.16797"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-evo-llm-003",
+      "title": "Evolutionary model merging (Sakana AI)",
+      "year": 2024,
+      "datePublished": "2024-03",
+      "collection": "radar",
+      "themes": [
+        "evo-llm"
+      ],
+      "subCategory": "Direction 1: EC → LLM",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2403.13187"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-evo-llm-004",
+      "title": "CycleQD (QD-based model merging)",
+      "year": 2024,
+      "datePublished": "2024-10",
+      "collection": "radar",
+      "themes": [
+        "evo-llm"
+      ],
+      "subCategory": "Direction 1: EC → LLM",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2410.14735"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-evo-llm-005",
+      "title": "M2N2 (niche-based model evolution)",
+      "year": 2025,
+      "datePublished": "2025-08",
+      "collection": "radar",
+      "themes": [
+        "evo-llm"
+      ],
+      "subCategory": "Direction 1: EC → LLM",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2508.16204"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-evo-llm-006",
+      "title": "DEEVO / Tournament of Prompts",
+      "year": 2025,
+      "datePublished": "2025-06",
+      "collection": "radar",
+      "themes": [
+        "evo-llm"
+      ],
+      "subCategory": "Direction 1: EC → LLM",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2506.00178"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-evo-llm-007",
+      "title": "ARTEMIS",
+      "year": 2025,
+      "datePublished": "2025-12",
+      "collection": "radar",
+      "themes": [
+        "evo-llm"
+      ],
+      "subCategory": "Direction 1: EC → LLM",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2512.09108"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-evo-llm-008",
+      "title": "Evolution Strategies at Scale",
+      "year": 2025,
+      "datePublished": "2025-09",
+      "collection": "radar",
+      "themes": [
+        "evo-llm"
+      ],
+      "subCategory": "Direction 1: EC → LLM",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2509.24372"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-evo-llm-009",
+      "title": "Evolution through Large Models / ELM",
+      "year": 2022,
+      "datePublished": "2022-06",
+      "collection": "radar",
+      "themes": [
+        "evo-llm"
+      ],
+      "subCategory": "Direction 2: LLM → EC",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2206.08896"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-evo-llm-010",
+      "title": "Language Model Crossover / LMX",
+      "year": 2023,
+      "datePublished": "2023-02",
+      "collection": "radar",
+      "themes": [
+        "evo-llm"
+      ],
+      "subCategory": "Direction 2: LLM → EC",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2302.12170"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-evo-llm-011",
+      "title": "FunSearch (Nature 2024)",
+      "year": 2025,
+      "datePublished": "2025-01",
+      "collection": "radar",
+      "themes": [
+        "evo-llm"
+      ],
+      "subCategory": "Direction 2: LLM → EC",
+      "resources": [
+        {
+          "type": "blog",
+          "url": "https://www.nature.com/articles/s41586-023-06924-6"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-evo-llm-012",
+      "title": "AlphaEvolve",
+      "year": 2025,
+      "datePublished": "2025-06",
+      "collection": "radar",
+      "themes": [
+        "evo-llm"
+      ],
+      "subCategory": "Direction 2: LLM → EC",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2506.13131"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-evo-llm-013",
+      "title": "QDAIF",
+      "year": 2023,
+      "datePublished": "2023-10",
+      "collection": "radar",
+      "themes": [
+        "evo-llm"
+      ],
+      "subCategory": "Direction 2: LLM → EC",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2310.13032"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-evo-llm-014",
+      "title": "Eureka",
+      "year": 2023,
+      "datePublished": "2023-10",
+      "collection": "radar",
+      "themes": [
+        "evo-llm"
+      ],
+      "subCategory": "Direction 2: LLM → EC",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2310.12931"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-evo-llm-015",
+      "title": "LLMs As Evolution Strategies",
+      "year": 2024,
+      "datePublished": "2024-02",
+      "collection": "radar",
+      "themes": [
+        "evo-llm"
+      ],
+      "subCategory": "Direction 2: LLM → EC",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2402.18381"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-evo-llm-016",
+      "title": "Can LLMs Be Trusted as Evolutionary Optimizers?",
+      "year": 2025,
+      "datePublished": "2025-01",
+      "collection": "radar",
+      "themes": [
+        "evo-llm"
+      ],
+      "subCategory": "Direction 2: LLM → EC",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2501.15081"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-evo-llm-017",
+      "title": "TTT-Discover",
+      "year": 2026,
+      "datePublished": "2026-01",
+      "collection": "radar",
+      "themes": [
+        "evo-llm"
+      ],
+      "subCategory": "Direction 2: LLM → EC",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2601.16175"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-evo-llm-018",
+      "title": "Darwin Gödel Machine / DGM",
+      "year": 2025,
+      "datePublished": "2025-05",
+      "collection": "radar",
+      "themes": [
+        "evo-llm"
+      ],
+      "subCategory": "Direction 3: Co-evolutionary / Open-ended",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2505.22954"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-evo-llm-019",
+      "title": "ASAL",
+      "year": 2024,
+      "datePublished": "2024-12",
+      "collection": "radar",
+      "themes": [
+        "evo-llm"
+      ],
+      "subCategory": "Direction 3: Co-evolutionary / Open-ended",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2412.17799"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-evo-llm-020",
+      "title": "The AI Scientist",
+      "year": 2024,
+      "datePublished": "2024-08",
+      "collection": "radar",
+      "themes": [
+        "evo-llm"
+      ],
+      "subCategory": "Direction 3: Co-evolutionary / Open-ended",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2408.06292"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-evo-llm-021",
+      "title": "ShinkaEvolve",
+      "year": 2025,
+      "datePublished": "2025-09",
+      "collection": "radar",
+      "themes": [
+        "evo-llm"
+      ],
+      "subCategory": "Direction 3: Co-evolutionary / Open-ended",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2509.19349"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-evo-llm-022",
+      "title": "LoongFlow",
+      "year": 2025,
+      "datePublished": "2025-12",
+      "collection": "radar",
+      "themes": [
+        "evo-llm"
+      ],
+      "subCategory": "Direction 3: Co-evolutionary / Open-ended",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2512.24077"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-evo-llm-023",
+      "title": "DeepEvolve",
+      "year": 2025,
+      "datePublished": "2025-10",
+      "collection": "radar",
+      "themes": [
+        "evo-llm"
+      ],
+      "subCategory": "Direction 3: Co-evolutionary / Open-ended",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2510.06056"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-evo-llm-024",
+      "title": "Evolutionary Computation in the Era of LLM",
+      "year": 2024,
+      "datePublished": "2024-01",
+      "collection": "radar",
+      "themes": [
+        "evo-llm"
+      ],
+      "subCategory": "Surveys",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2401.10034"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-evo-llm-025",
+      "title": "When LLMs Meet EA",
+      "year": 2024,
+      "datePublished": "2024-01",
+      "collection": "radar",
+      "themes": [
+        "evo-llm"
+      ],
+      "subCategory": "Surveys",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2401.10510"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-evo-llm-026",
+      "title": "EC and LLM: Methods, Synergies, and Applications",
+      "year": 2025,
+      "datePublished": "2025-05",
+      "collection": "radar",
+      "themes": [
+        "evo-llm"
+      ],
+      "subCategory": "Surveys",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2505.15741"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-evo-llm-027",
+      "title": "LLMs for Algorithm Design",
+      "year": 2024,
+      "datePublished": "2024-10",
+      "collection": "radar",
+      "themes": [
+        "evo-llm"
+      ],
+      "subCategory": "Surveys",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2410.14716"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-evo-llm-028",
+      "title": "OpenEvolve",
+      "year": 2025,
+      "datePublished": "2025-01",
+      "collection": "radar",
+      "themes": [
+        "evo-llm"
+      ],
+      "subCategory": "Open-source frameworks",
+      "resources": [
+        {
+          "type": "code",
+          "url": "https://github.com/algorithmicsuperintelligence/openevolve"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-evo-llm-029",
+      "title": "OpenELM",
+      "year": 2025,
+      "datePublished": "2025-01",
+      "collection": "radar",
+      "themes": [
+        "evo-llm"
+      ],
+      "subCategory": "Open-source frameworks",
+      "resources": [
+        {
+          "type": "code",
+          "url": "https://github.com/CarperAI/OpenELM"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-evo-llm-030",
+      "title": "ShinkaEvolve",
+      "year": 2025,
+      "datePublished": "2025-01",
+      "collection": "radar",
+      "themes": [
+        "evo-llm"
+      ],
+      "subCategory": "Open-source frameworks",
+      "resources": [
+        {
+          "type": "code",
+          "url": "https://github.com/SakanaAI/ShinkaEvolve"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-evo-llm-031",
+      "title": "PhyloEvolve",
+      "year": 2026,
+      "datePublished": "2026-01",
+      "collection": "radar",
+      "themes": [
+        "evo-llm"
+      ],
+      "subCategory": "Recent additions (Feb 2026)",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2601.14523"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-evo-llm-032",
+      "title": "ImprovEvolve",
+      "year": 2026,
+      "datePublished": "2026-02",
+      "collection": "radar",
+      "themes": [
+        "evo-llm"
+      ],
+      "subCategory": "Recent additions (Feb 2026)",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2602.10233"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-evo-llm-033",
+      "title": "Sparsity-Aware Evolution",
+      "year": 2026,
+      "datePublished": "2026-02",
+      "collection": "radar",
+      "themes": [
+        "evo-llm"
+      ],
+      "subCategory": "Recent additions (Feb 2026)",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2602.08218"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-evo-llm-034",
+      "title": "Transport and Merge",
+      "year": 2026,
+      "datePublished": "2026-02",
+      "collection": "radar",
+      "themes": [
+        "evo-llm"
+      ],
+      "subCategory": "Recent additions (Feb 2026)",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2602.05495"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-evo-llm-035",
+      "title": "CCTS",
+      "year": 2026,
+      "datePublished": "2026-02",
+      "collection": "radar",
+      "themes": [
+        "evo-llm"
+      ],
+      "subCategory": "Recent additions (Feb 2026)",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2602.03132"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-evo-llm-036",
+      "title": "Landscape-aware Automated Algorithm Design",
+      "year": 2026,
+      "datePublished": "2026-02",
+      "collection": "radar",
+      "themes": [
+        "evo-llm"
+      ],
+      "subCategory": "Recent additions (Feb 2026)",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2602.04529"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    },
+    {
+      "id": "radar-evo-llm-037",
+      "title": "Position: Agentic Evolution is the Path to Evolving LLMs",
+      "year": 2026,
+      "datePublished": "2026-02",
+      "collection": "radar",
+      "themes": [
+        "evo-llm"
+      ],
+      "subCategory": "Recent additions (Feb 2026)",
+      "resources": [
+        {
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2602.00359"
+        }
+      ],
+      "summary": "",
+      "status": "unread",
+      "priority": null
+    }
+  ]
+}

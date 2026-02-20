@@ -1,0 +1,1255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ilya's 30 Papers + Research Radar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* ===== RESET & BASE ===== */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  /* Colors */
+  --bg-deep: #0b0b0b;
+  --bg-surface: #111116;
+  --bg-card: #1b1b1b;
+  --text-primary: #f1f1f1;
+  --text-secondary: #a6a6a6;
+  --text-tertiary: #8c8c8c;
+  --purple-primary: #acaaff;
+  --purple-light: #7255e7;
+  --purple-dark: #312b48;
+  --green: #0dc95c;
+  --orange: #fea149;
+  --red: #ec4d4d;
+  --border: rgba(153,151,255,0.2);
+  --glow: inset 0 0 12px 0 rgba(153,151,255,0.4);
+  
+  /* Fonts */
+  --font-sans: 'Open Sans', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  
+  /* Layout */
+  --header-h: 90px;
+}
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+  background: var(--bg-deep);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* ===== HEADER ===== */
+#app-header {
+  height: var(--header-h);
+  min-height: var(--header-h);
+  background: var(--bg-surface);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 10px 20px 0;
+  z-index: 100;
+  flex-shrink: 0;
+}
+
+.header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.app-title {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(90deg, #f1f1f1 0%, #acaaff 60%, #7255e7 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  flex-shrink: 0;
+}
+
+.app-title .donut-emoji {
+  -webkit-text-fill-color: initial;
+  font-size: 20px;
+}
+
+.app-subtitle {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--text-secondary);
+  -webkit-text-fill-color: var(--text-secondary);
+  margin-left: 4px;
+}
+
+/* Header controls */
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.progress-display {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 5px 10px;
+}
+
+.progress-text {
+  font-size: 12px;
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  white-space: nowrap;
+}
+
+.progress-bar-outer {
+  width: 60px;
+  height: 5px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progress-bar-inner {
+  height: 100%;
+  background: linear-gradient(90deg, #0dc95c, #acaaff);
+  border-radius: 3px;
+  transition: width 0.3s;
+}
+
+/* Search bar */
+.search-wrap {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.search-input {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  padding: 5px 10px 5px 32px;
+  border-radius: 8px;
+  width: 200px;
+  outline: none;
+  transition: border-color 0.15s, width 0.2s;
+}
+
+.search-input:focus {
+  border-color: var(--purple-primary);
+  width: 240px;
+}
+
+.search-input::placeholder {
+  color: var(--text-tertiary);
+}
+
+.search-icon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 13px;
+  color: var(--text-tertiary);
+  pointer-events: none;
+}
+
+/* Navigation tabs */
+.nav-tabs {
+  display: flex;
+  gap: 2px;
+  align-items: center;
+  padding-bottom: 0;
+}
+
+.nav-tab {
+  background: transparent;
+  border: none;
+  color: var(--text-tertiary);
+  font-size: 13px;
+  font-weight: 500;
+  padding: 7px 16px;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.15s;
+  font-family: var(--font-sans);
+  white-space: nowrap;
+  border-radius: 6px 6px 0 0;
+}
+
+.nav-tab:hover {
+  color: var(--text-primary);
+  background: rgba(255,255,255,0.04);
+}
+
+.nav-tab.active {
+  color: var(--purple-primary);
+  border-bottom-color: var(--purple-primary);
+  background: rgba(172,170,255,0.06);
+}
+
+/* ===== MAIN BODY ===== */
+#app-body {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* Tab views */
+.tab-view {
+  display: none;
+  flex: 1;
+  overflow: hidden;
+}
+
+.tab-view.active {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===== RADAR DASHBOARD ===== */
+.radar-dashboard {
+  flex: 1;
+  overflow-y: auto;
+  padding: 40px 24px;
+}
+
+.radar-dashboard::-webkit-scrollbar {
+  width: 8px;
+}
+
+.radar-dashboard::-webkit-scrollbar-track {
+  background: var(--bg-surface);
+}
+
+.radar-dashboard::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+
+.dashboard-header {
+  max-width: 1400px;
+  margin: 0 auto 32px;
+}
+
+.dashboard-header h2 {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  background: linear-gradient(90deg, #f1f1f1 0%, #acaaff 60%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.dashboard-header p {
+  color: var(--text-secondary);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.dashboard-stats {
+  display: flex;
+  gap: 16px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+.stat-item {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-size: 12px;
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+}
+
+.stat-item strong {
+  color: var(--purple-primary);
+  font-weight: 700;
+}
+
+.theme-grid {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.theme-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.theme-card:hover {
+  border-color: rgba(172,170,255,0.4);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+}
+
+.theme-card-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.theme-icon {
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.theme-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-primary);
+  flex: 1;
+}
+
+.theme-count {
+  font-size: 11px;
+  font-family: var(--font-mono);
+  color: var(--text-tertiary);
+}
+
+.theme-progress {
+  margin-top: 12px;
+}
+
+.theme-progress-bar-outer {
+  width: 100%;
+  height: 6px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 6px;
+}
+
+.theme-progress-bar-inner {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.3s;
+}
+
+.theme-progress-text {
+  font-size: 11px;
+  color: var(--text-tertiary);
+  font-family: var(--font-mono);
+}
+
+/* ===== THEME DETAIL VIEW ===== */
+.theme-detail {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow: hidden;
+}
+
+.theme-detail-header {
+  background: var(--bg-surface);
+  border-bottom: 1px solid var(--border);
+  padding: 16px 20px;
+  flex-shrink: 0;
+}
+
+.theme-detail-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.back-btn {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  font-size: 14px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: var(--font-sans);
+}
+
+.back-btn:hover {
+  background: var(--purple-dark);
+  border-color: var(--purple-primary);
+}
+
+.theme-detail-name {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-primary);
+  flex: 1;
+}
+
+.theme-detail-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px;
+}
+
+.subcategory-section {
+  margin-bottom: 24px;
+}
+
+.subcategory-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 0;
+  cursor: pointer;
+  user-select: none;
+}
+
+.subcategory-toggle {
+  font-size: 14px;
+  color: var(--text-tertiary);
+  transition: transform 0.2s;
+}
+
+.subcategory-section.collapsed .subcategory-toggle {
+  transform: rotate(-90deg);
+}
+
+.subcategory-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.subcategory-count {
+  font-size: 11px;
+  font-family: var(--font-mono);
+  color: var(--text-tertiary);
+}
+
+.paper-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.subcategory-section.collapsed .paper-list {
+  display: none;
+}
+
+.paper-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.paper-item:hover {
+  border-color: var(--purple-primary);
+  box-shadow: 0 2px 8px rgba(172,170,255,0.15);
+}
+
+.paper-checkbox {
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--border);
+  border-radius: 4px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-size: 11px;
+}
+
+.paper-item.read .paper-checkbox {
+  background: var(--green);
+  border-color: var(--green);
+  color: white;
+}
+
+.paper-title {
+  flex: 1;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.paper-resources {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.resource-icon {
+  font-size: 14px;
+  opacity: 0.6;
+  transition: opacity 0.15s;
+}
+
+.resource-icon:hover {
+  opacity: 1;
+}
+
+.paper-date {
+  font-size: 11px;
+  font-family: var(--font-mono);
+  color: var(--text-tertiary);
+  flex-shrink: 0;
+  min-width: 60px;
+  text-align: right;
+}
+
+/* ===== DETAIL PANEL ===== */
+#detail-panel {
+  width: 400px;
+  min-width: 400px;
+  max-width: 400px;
+  background: var(--bg-surface);
+  border-left: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: width 0.3s;
+}
+
+#detail-empty {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 40px;
+  text-align: center;
+}
+
+.empty-icon {
+  font-size: 40px;
+  margin-bottom: 8px;
+}
+
+#detail-empty p {
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+#detail-content {
+  flex: 1;
+  overflow-y: auto;
+  display: none;
+}
+
+#detail-content.visible {
+  display: block;
+}
+
+#detail-content::-webkit-scrollbar {
+  width: 4px;
+}
+
+#detail-content::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 2px;
+}
+
+.dp-header {
+  padding: 16px 16px 12px;
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  background: var(--bg-surface);
+  z-index: 10;
+}
+
+.dp-header-top {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.dp-title {
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--text-primary);
+  flex: 1;
+}
+
+.dp-close {
+  background: transparent;
+  border: none;
+  color: var(--text-tertiary);
+  font-size: 20px;
+  cursor: pointer;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  transition: all 0.15s;
+  flex-shrink: 0;
+}
+
+.dp-close:hover {
+  background: var(--bg-card);
+  color: var(--text-primary);
+}
+
+.dp-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 6px;
+  flex-wrap: wrap;
+}
+
+.dp-year {
+  font-size: 12px;
+  font-family: var(--font-mono);
+  color: var(--text-secondary);
+}
+
+.dp-theme-badge {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  border: 1px solid;
+}
+
+.dp-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.dp-btn {
+  flex: 1;
+  background: rgba(172,170,255,0.1);
+  border: 1px solid var(--purple-primary);
+  color: var(--purple-primary);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: var(--font-sans);
+  text-align: center;
+  text-decoration: none;
+}
+
+.dp-btn:hover {
+  background: rgba(172,170,255,0.25);
+}
+
+.dp-btn.read {
+  background: rgba(13,201,92,0.12);
+  border-color: var(--green);
+  color: var(--green);
+}
+
+.dp-summary {
+  padding: 14px 16px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  border-bottom: 1px solid var(--border);
+}
+
+.dp-section {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.dp-section:last-child {
+  border-bottom: none;
+}
+
+.dp-section-title {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-tertiary);
+  margin-bottom: 8px;
+}
+
+.dp-resources {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.dp-resource-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--purple-primary);
+  text-decoration: none;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: all 0.15s;
+}
+
+.dp-resource-link:hover {
+  background: rgba(172,170,255,0.1);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 900px) {
+  #detail-panel {
+    width: 320px;
+    min-width: 320px;
+    max-width: 320px;
+  }
+  
+  .theme-grid {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .search-input {
+    width: 140px;
+  }
+  
+  .search-input:focus {
+    width: 160px;
+  }
+  
+  #detail-panel {
+    width: 100%;
+    min-width: unset;
+    max-width: unset;
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 200;
+    transform: translateX(100%);
+    transition: transform 0.3s;
+  }
+  
+  #detail-panel.visible {
+    transform: translateX(0);
+  }
+  
+  .theme-grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+</head>
+<body>
+<div id="app">
+  <header id="app-header">
+    <div class="header-top">
+      <h1 class="app-title">
+        <span class="donut-emoji">🍩</span>
+        Ilya's 30 Papers + Research Radar
+      </h1>
+      <div class="header-right">
+        <div class="progress-display" id="progress-display">
+          <span class="progress-text" id="progress-text">0 / 310 read</span>
+          <div class="progress-bar-outer">
+            <div class="progress-bar-inner" id="progress-bar" style="width:0%"></div>
+          </div>
+        </div>
+        <div class="search-wrap" id="search-wrap">
+          <span class="search-icon">🔍</span>
+          <input class="search-input" id="search-input" type="text" placeholder="Search papers…" autocomplete="off">
+        </div>
+      </div>
+    </div>
+    
+    <div class="nav-tabs">
+      <button class="nav-tab active" data-view="radar">🔬 Research Radar</button>
+      <button class="nav-tab" data-view="canon">📚 Ilya Canon</button>
+      <button class="nav-tab" data-view="trending">🔥 Trending</button>
+    </div>
+  </header>
+
+  <div id="app-body">
+    <!-- Research Radar View -->
+    <div class="tab-view active" id="view-radar">
+      <div class="radar-dashboard" id="radar-dashboard">
+        <div class="dashboard-header">
+          <h2>Research Radar — 11 Active Themes</h2>
+          <p>Chris's actively tracked research across self-evolving agents, verifiers, science agents, and more.</p>
+          <div class="dashboard-stats">
+            <div class="stat-item"><strong id="total-papers">280</strong> papers</div>
+            <div class="stat-item"><strong id="total-read">0</strong> read</div>
+            <div class="stat-item"><strong>11</strong> themes</div>
+          </div>
+        </div>
+        <div class="theme-grid" id="theme-grid"></div>
+      </div>
+      
+      <div class="theme-detail" id="theme-detail" style="display:none;">
+        <div class="theme-detail-header">
+          <div class="theme-detail-title">
+            <button class="back-btn" id="back-to-dashboard">← Back</button>
+            <span class="theme-icon" id="theme-detail-icon"></span>
+            <span class="theme-detail-name" id="theme-detail-name"></span>
+          </div>
+        </div>
+        <div class="theme-detail-body" id="theme-detail-body"></div>
+      </div>
+    </div>
+
+    <!-- Ilya Canon View -->
+    <div class="tab-view" id="view-canon">
+      <div class="radar-dashboard">
+        <div class="dashboard-header">
+          <h2>📚 Ilya's 30 Papers — Evolution Tree</h2>
+          <p>The canonical reading list Ilya Sutskever recommended to John Carmack (2016–2025).</p>
+        </div>
+        <div style="padding: 40px; text-align: center; color: var(--text-secondary);">
+          <p>Evolution tree view coming soon...</p>
+          <p style="margin-top: 8px; font-size: 13px;">For now, use the original <a href="./index-original.html" style="color: var(--purple-primary);">Evolution Tree view</a></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Trending View -->
+    <div class="tab-view" id="view-trending">
+      <div class="radar-dashboard">
+        <div class="dashboard-header">
+          <h2>🔥 Trending — Recent Papers</h2>
+          <p>Papers from the last 6 months across all themes.</p>
+        </div>
+        <div id="trending-content" style="max-width: 1000px; margin: 0 auto;"></div>
+      </div>
+    </div>
+
+    <!-- Detail Panel (shared) -->
+    <div id="detail-panel">
+      <div id="detail-empty">
+        <div class="empty-icon">🔬</div>
+        <p>Click any paper to explore details</p>
+      </div>
+      <div id="detail-content"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ===== DATA =====
+// This will be embedded from papers.json
+
+const THEMES = {
+  'self-evolve': { name: 'Self-Evolving Agents', color: '#588afd', icon: '🧬' },
+  'verifiers-as-scaling-lever': { name: 'Verifiers as Scaling Lever', color: '#0dc95c', icon: '✓' },
+  'adjacent-science-agents': { name: 'Science Agents', color: '#acaaff', icon: '🧪' },
+  'memory---reflection-primitives': { name: 'Memory & Reflection', color: '#fea149', icon: '🧠' },
+  'test-time-learning---parameter-adaptation': { name: 'Test-Time Learning', color: '#f17421', icon: '⚡' },
+  'spawn---multi-agent-orchestration': { name: 'Spawn & Orchestration', color: '#ec4d4d', icon: '🎭' },
+  'proactive-agents': { name: 'Proactive Agents', color: '#01a78b', icon: '🎯' },
+  'agent-persistent-memory': { name: 'Persistent Memory', color: '#d4d4f5', icon: '💾' },
+  'human-agent-interaction': { name: 'Human-Agent Interaction', color: '#ff6b9d', icon: '🤝' },
+  'world-models-for-agents': { name: 'World Models', color: '#9d50bb', icon: '🌍' },
+  'evo-llm': { name: 'Evolutionary Computation + LLM', color: '#ffd700', icon: '🧬' },
+};
+
+// Load papers data (will be embedded)
+let PAPERS_DATA = null;
+
+// Load from papers.json
+fetch('papers.json')
+  .then(r => r.json())
+  .then(data => {
+    PAPERS_DATA = data;
+    initApp();
+  })
+  .catch(err => {
+    console.error('Failed to load papers.json:', err);
+    document.getElementById('radar-dashboard').innerHTML = `
+      <div style="padding: 40px; text-align: center;">
+        <p style="color: var(--red);">Failed to load papers data</p>
+        <p style="color: var(--text-secondary); margin-top: 8px;">Error: ${err.message}</p>
+      </div>
+    `;
+  });
+
+// ===== STATE =====
+let state = {
+  activeView: 'radar',
+  activeTheme: null,
+  activePaper: null,
+  searchQuery: '',
+  readStatus: {},
+};
+
+// ===== LOCALSTORAGE =====
+const LS_KEY = 'ilya-radar-read-status';
+
+function loadReadStatus() {
+  try {
+    const saved = localStorage.getItem(LS_KEY);
+    if (saved) {
+      state.readStatus = JSON.parse(saved);
+    }
+  } catch (e) {
+    console.error('Failed to load read status:', e);
+  }
+}
+
+function saveReadStatus() {
+  try {
+    localStorage.setItem(LS_KEY, JSON.stringify(state.readStatus));
+  } catch (e) {
+    console.error('Failed to save read status:', e);
+  }
+}
+
+function toggleRead(paperId) {
+  state.readStatus[paperId] = !state.readStatus[paperId];
+  saveReadStatus();
+  updateProgressUI();
+  
+  // Update UI elements
+  document.querySelectorAll(`[data-paper-id="${paperId}"]`).forEach(el => {
+    el.classList.toggle('read', state.readStatus[paperId]);
+  });
+  
+  // Update detail panel button if open
+  if (state.activePaper?.id === paperId) {
+    renderDetailPanel(state.activePaper);
+  }
+  
+  // Update theme cards
+  renderDashboard();
+}
+
+function updateProgressUI() {
+  const totalPapers = PAPERS_DATA?.papers.length || 0;
+  const readCount = Object.values(state.readStatus).filter(Boolean).length;
+  
+  document.getElementById('progress-text').textContent = `${readCount} / ${totalPapers} read`;
+  document.getElementById('progress-bar').style.width = totalPapers > 0 ? `${(readCount / totalPapers) * 100}%` : '0%';
+  document.getElementById('total-read').textContent = readCount;
+}
+
+// ===== NAVIGATION =====
+function switchView(view) {
+  state.activeView = view;
+  
+  document.querySelectorAll('.nav-tab').forEach(tab => {
+    tab.classList.toggle('active', tab.dataset.view === view);
+  });
+  
+  document.querySelectorAll('.tab-view').forEach(v => {
+    v.classList.toggle('active', v.id === 'view-' + view);
+  });
+}
+
+// ===== DASHBOARD RENDERING =====
+function renderDashboard() {
+  if (!PAPERS_DATA) return;
+  
+  const grid = document.getElementById('theme-grid');
+  grid.innerHTML = '';
+  
+  // Group papers by theme and count
+  const themeCounts = {};
+  const themeReadCounts = {};
+  
+  PAPERS_DATA.papers.forEach(paper => {
+    if (paper.collection !== 'radar') return;
+    
+    paper.themes.forEach(theme => {
+      themeCounts[theme] = (themeCounts[theme] || 0) + 1;
+      if (state.readStatus[paper.id]) {
+        themeReadCounts[theme] = (themeReadCounts[theme] || 0) + 1;
+      }
+    });
+  });
+  
+  // Render theme cards
+  Object.entries(THEMES).forEach(([slug, meta]) => {
+    const count = themeCounts[slug] || 0;
+    const readCount = themeReadCounts[slug] || 0;
+    const progress = count > 0 ? (readCount / count) * 100 : 0;
+    
+    const card = document.createElement('div');
+    card.className = 'theme-card';
+    card.innerHTML = `
+      <div class="theme-card-header">
+        <span class="theme-icon">${meta.icon}</span>
+        <span class="theme-name">${meta.name}</span>
+      </div>
+      <div class="theme-count">${count} paper${count !== 1 ? 's' : ''}</div>
+      <div class="theme-progress">
+        <div class="theme-progress-bar-outer">
+          <div class="theme-progress-bar-inner" style="width: ${progress}%; background: ${meta.color};"></div>
+        </div>
+        <div class="theme-progress-text">${readCount} / ${count} read</div>
+      </div>
+    `;
+    
+    card.addEventListener('click', () => showThemeDetail(slug));
+    grid.appendChild(card);
+  });
+}
+
+// ===== THEME DETAIL VIEW =====
+function showThemeDetail(themeSlug) {
+  state.activeTheme = themeSlug;
+  
+  const dashboard = document.getElementById('radar-dashboard');
+  const detail = document.getElementById('theme-detail');
+  
+  dashboard.style.display = 'none';
+  detail.style.display = 'flex';
+  
+  // Update header
+  const theme = THEMES[themeSlug];
+  document.getElementById('theme-detail-icon').textContent = theme.icon;
+  document.getElementById('theme-detail-name').textContent = theme.name;
+  
+  // Render papers
+  renderThemeDetail(themeSlug);
+}
+
+function hideThemeDetail() {
+  document.getElementById('radar-dashboard').style.display = 'block';
+  document.getElementById('theme-detail').style.display = 'none';
+  state.activeTheme = null;
+}
+
+function renderThemeDetail(themeSlug) {
+  const body = document.getElementById('theme-detail-body');
+  body.innerHTML = '';
+  
+  // Get papers for this theme
+  const themePapers = PAPERS_DATA.papers.filter(p => 
+    p.collection === 'radar' && p.themes.includes(themeSlug)
+  );
+  
+  // Group by subcategory
+  const subcategories = {};
+  themePapers.forEach(paper => {
+    const subcat = paper.subCategory || 'Other';
+    if (!subcategories[subcat]) subcategories[subcat] = [];
+    subcategories[subcat].push(paper);
+  });
+  
+  // Render each subcategory
+  Object.entries(subcategories).forEach(([subcat, papers]) => {
+    const section = document.createElement('div');
+    section.className = 'subcategory-section';
+    
+    const header = document.createElement('div');
+    header.className = 'subcategory-header';
+    header.innerHTML = `
+      <span class="subcategory-toggle">▼</span>
+      <span class="subcategory-name">${subcat}</span>
+      <span class="subcategory-count">(${papers.length})</span>
+    `;
+    header.addEventListener('click', () => {
+      section.classList.toggle('collapsed');
+    });
+    
+    const list = document.createElement('div');
+    list.className = 'paper-list';
+    
+    papers.forEach(paper => {
+      const item = document.createElement('div');
+      item.className = 'paper-item';
+      item.classList.toggle('read', state.readStatus[paper.id]);
+      item.dataset.paperId = paper.id;
+      
+      // Resource icons
+      const resourceIcons = paper.resources.map(r => {
+        const icons = { paper: '📄', code: '💻', blog: '📝', demo: '🎮' };
+        return `<span class="resource-icon" title="${r.type}">${icons[r.type] || '🔗'}</span>`;
+      }).join('');
+      
+      item.innerHTML = `
+        <div class="paper-checkbox" data-paper-id="${paper.id}">${state.readStatus[paper.id] ? '✓' : ''}</div>
+        <div class="paper-title">${paper.title}</div>
+        <div class="paper-resources">${resourceIcons}</div>
+        <div class="paper-date">${paper.datePublished}</div>
+      `;
+      
+      // Checkbox click
+      const checkbox = item.querySelector('.paper-checkbox');
+      checkbox.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleRead(paper.id);
+      });
+      
+      // Paper click
+      item.addEventListener('click', () => {
+        showDetailPanel(paper);
+      });
+      
+      list.appendChild(item);
+    });
+    
+    section.appendChild(header);
+    section.appendChild(list);
+    body.appendChild(section);
+  });
+}
+
+// ===== DETAIL PANEL =====
+function showDetailPanel(paper) {
+  state.activePaper = paper;
+  renderDetailPanel(paper);
+  
+  const empty = document.getElementById('detail-empty');
+  const content = document.getElementById('detail-content');
+  const panel = document.getElementById('detail-panel');
+  
+  empty.style.display = 'none';
+  content.style.display = 'block';
+  content.classList.add('visible');
+  
+  if (window.innerWidth <= 600) {
+    panel.classList.add('visible');
+  }
+}
+
+function hideDetailPanel() {
+  state.activePaper = null;
+  
+  const empty = document.getElementById('detail-empty');
+  const content = document.getElementById('detail-content');
+  const panel = document.getElementById('detail-panel');
+  
+  empty.style.display = 'flex';
+  content.style.display = 'none';
+  content.classList.remove('visible');
+  
+  if (window.innerWidth <= 600) {
+    panel.classList.remove('visible');
+  }
+}
+
+function renderDetailPanel(paper) {
+  const content = document.getElementById('detail-content');
+  const isRead = state.readStatus[paper.id];
+  
+  // Theme badges
+  const themeBadges = paper.themes.map(t => {
+    const theme = THEMES[t];
+    return `<span class="dp-theme-badge" style="color: ${theme.color}; border-color: ${theme.color}">${theme.name}</span>`;
+  }).join('');
+  
+  // Resources
+  const resourceLinks = paper.resources.map(r => {
+    const icons = { paper: '📄', code: '💻', blog: '📝', demo: '🎮' };
+    const labels = { paper: 'Paper', code: 'Code', blog: 'Blog', demo: 'Demo' };
+    return `<a href="${r.url}" class="dp-resource-link" target="_blank" rel="noopener">${icons[r.type] || '🔗'} ${labels[r.type] || 'Link'}</a>`;
+  }).join('');
+  
+  content.innerHTML = `
+    <div class="dp-header">
+      <div class="dp-header-top">
+        <div class="dp-title">${paper.title}</div>
+        <button class="dp-close" onclick="hideDetailPanel()">×</button>
+      </div>
+      <div class="dp-meta">
+        <span class="dp-year">${paper.datePublished}</span>
+        ${themeBadges}
+      </div>
+      <div class="dp-actions">
+        <button class="dp-btn ${isRead ? 'read' : ''}" onclick="toggleRead('${paper.id}')">${isRead ? '✓ Read' : 'Mark as Read'}</button>
+        ${paper.resources.find(r => r.type === 'paper') ? `<a href="${paper.resources.find(r => r.type === 'paper').url}" class="dp-btn" target="_blank" rel="noopener">📄 PDF</a>` : ''}
+      </div>
+    </div>
+    ${paper.summary ? `<div class="dp-summary">${paper.summary}</div>` : ''}
+    ${resourceLinks ? `
+      <div class="dp-section">
+        <div class="dp-section-title">Resources</div>
+        <div class="dp-resources">${resourceLinks}</div>
+      </div>
+    ` : ''}
+    ${paper.themes.length > 1 ? `
+      <div class="dp-section">
+        <div class="dp-section-title">Also appears in</div>
+        <div>${paper.themes.slice(1).map(t => `<span class="dp-theme-badge" style="color: ${THEMES[t].color}; border-color: ${THEMES[t].color}">${THEMES[t].name}</span>`).join(' ')}</div>
+      </div>
+    ` : ''}
+  `;
+}
+
+// ===== INITIALIZATION =====
+function initApp() {
+  loadReadStatus();
+  updateProgressUI();
+  
+  // Update stats
+  document.getElementById('total-papers').textContent = PAPERS_DATA.papers.length;
+  
+  // Render dashboard
+  renderDashboard();
+  
+  // Event listeners
+  document.querySelectorAll('.nav-tab').forEach(tab => {
+    tab.addEventListener('click', () => switchView(tab.dataset.view));
+  });
+  
+  document.getElementById('back-to-dashboard').addEventListener('click', hideThemeDetail);
+  
+  // Search
+  document.getElementById('search-input').addEventListener('input', (e) => {
+    state.searchQuery = e.target.value.toLowerCase();
+    // TODO: Implement search filtering
+  });
+  
+  console.log('✅ App initialized');
+  console.log(`Loaded ${PAPERS_DATA.papers.length} papers`);
+  console.log(`${Object.keys(state.readStatus).filter(k => state.readStatus[k]).length} papers read`);
+}
+
+// Expose functions globally for onclick handlers
+window.toggleRead = toggleRead;
+window.hideDetailPanel = hideDetailPanel;
+</script>
+</body>
+</html>
