@@ -842,16 +842,7 @@ html, body {
 
     <!-- Ilya Canon View -->
     <div class="tab-view" id="view-canon">
-      <div class="radar-dashboard">
-        <div class="dashboard-header">
-          <h2>📚 Ilya's 30 Papers — Evolution Tree</h2>
-          <p>The canonical reading list Ilya Sutskever recommended to John Carmack (2016–2025).</p>
-        </div>
-        <div style="padding: 40px; text-align: center; color: var(--text-secondary);">
-          <p>Evolution tree view coming soon...</p>
-          <p style="margin-top: 8px; font-size: 13px;">For now, use the original <a href="./index-original.html" style="color: var(--purple-primary);">Evolution Tree view</a></p>
-        </div>
-      </div>
+      <iframe src="./index-original.html" style="width: 100%; flex: 1; border: none;"></iframe>
     </div>
 
     <!-- Trending View -->
@@ -1219,6 +1210,101 @@ function renderDetailPanel(paper) {
 }
 
 // ===== INITIALIZATION =====
+// ===== TRENDING RENDERING =====
+function renderTrending() {
+  if (!PAPERS_DATA) return;
+  
+  const container = document.getElementById('trending-content');
+  container.innerHTML = '';
+  
+  // Get papers from last 6 months
+  const sixMonthsAgo = new Date();
+  sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
+  
+  const recentPapers = PAPERS_DATA.papers
+    .filter(p => {
+      if (!p.datePublished) return false;
+      const d = new Date(p.datePublished);
+      return d >= sixMonthsAgo;
+    })
+    .sort((a, b) => new Date(b.datePublished) - new Date(a.datePublished));
+  
+  if (recentPapers.length === 0) {
+    container.innerHTML = '<p style="color: var(--text-secondary); text-align: center; padding: 40px;">No papers from the last 6 months.</p>';
+    return;
+  }
+  
+  // Group by month
+  const byMonth = {};
+  recentPapers.forEach(paper => {
+    const d = new Date(paper.datePublished);
+    const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+    if (!byMonth[key]) byMonth[key] = [];
+    byMonth[key].push(paper);
+  });
+  
+  Object.entries(byMonth).forEach(([month, papers]) => {
+    const section = document.createElement('div');
+    section.style.marginBottom = '24px';
+    
+    const monthDate = new Date(month + '-01');
+    const monthName = monthDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long' });
+    
+    section.innerHTML = `
+      <div style="font-size: 14px; font-weight: 600; color: var(--text-secondary); margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border);">
+        ${monthName} <span style="color: var(--text-tertiary); font-weight: 400;">(${papers.length})</span>
+      </div>
+    `;
+    
+    const list = document.createElement('div');
+    list.style.display = 'flex';
+    list.style.flexDirection = 'column';
+    list.style.gap = '4px';
+    
+    papers.forEach(paper => {
+      const isRead = state.readStatus[paper.id];
+      const themeBadges = paper.themes.map(t => {
+        const theme = THEMES[t];
+        if (!theme) return '';
+        return `<span style="font-size: 11px; padding: 2px 6px; border-radius: 4px; color: ${theme.color}; border: 1px solid ${theme.color}33; white-space: nowrap;">${theme.icon} ${theme.name}</span>`;
+      }).join(' ');
+      
+      const item = document.createElement('div');
+      item.className = 'paper-item';
+      item.classList.toggle('read', isRead);
+      item.dataset.paperId = paper.id;
+      item.style.cssText = 'display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-radius: 6px; cursor: pointer; transition: background 0.15s;';
+      item.onmouseenter = () => item.style.background = 'var(--bg-card)';
+      item.onmouseleave = () => item.style.background = 'transparent';
+      
+      item.innerHTML = `
+        <div style="width: 20px; height: 20px; border-radius: 4px; border: 1px solid ${isRead ? 'var(--green)' : 'var(--border)'}; display: flex; align-items: center; justify-content: center; font-size: 12px; color: var(--green); cursor: pointer; flex-shrink: 0;" data-paper-id="${paper.id}">${isRead ? '✓' : ''}</div>
+        <div style="flex: 1; min-width: 0;">
+          <div style="font-size: 13px; font-weight: 500; color: ${isRead ? 'var(--text-tertiary)' : 'var(--text-primary)'}; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">${paper.title}</div>
+          <div style="display: flex; gap: 4px; margin-top: 4px; flex-wrap: wrap;">${themeBadges}</div>
+        </div>
+        <div style="font-size: 12px; color: var(--text-tertiary); flex-shrink: 0;">${paper.datePublished}</div>
+      `;
+      
+      // Checkbox click
+      item.querySelector('[data-paper-id]').addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleRead(paper.id);
+        renderTrending(); // re-render to update styles
+      });
+      
+      // Paper click → detail panel
+      item.addEventListener('click', () => showDetailPanel(paper));
+      
+      list.appendChild(item);
+    });
+    
+    section.appendChild(list);
+    container.appendChild(section);
+  });
+}
+
+// ===== INITIALIZATION =====
 function initApp() {
   loadReadStatus();
   updateProgressUI();
@@ -1228,6 +1314,7 @@ function initApp() {
   
   // Render dashboard
   renderDashboard();
+  renderTrending();
   
   // Event listeners
   document.querySelectorAll('.nav-tab').forEach(tab => {

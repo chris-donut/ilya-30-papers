@@ -1,0 +1,2159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ilya's 30 Papers — Research Evolution Tree</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg-deep:#0b0b0b;--bg-surface:#111116;--bg-card:#1b1b1b;
+  --text-primary:#f1f1f1;--text-secondary:#a6a6a6;--text-tertiary:#8c8c8c;
+  --purple-primary:#acaaff;--purple-light:#7255e7;--purple-dark:#312b48;
+  --green:#0dc95c;--orange:#fea149;--red:#ec4d4d;
+  --border:rgba(153,151,255,0.2);--glow:inset 0 0 12px 0 rgba(153,151,255,0.4);
+  --font-sans:'Open Sans',system-ui,sans-serif;
+  --font-mono:'JetBrains Mono',monospace;
+  --header-h:90px;
+}
+html,body{height:100%;overflow:hidden;background:var(--bg-deep);color:var(--text-primary);font-family:var(--font-sans);}
+#app{display:flex;flex-direction:column;height:100vh;overflow:hidden;}
+
+/* ── HEADER ── */
+#app-header{
+  height:var(--header-h);min-height:var(--header-h);
+  background:var(--bg-surface);
+  border-bottom:1px solid var(--border);
+  display:flex;flex-direction:column;justify-content:space-between;
+  padding:10px 20px 0;z-index:100;flex-shrink:0;
+}
+.header-top{display:flex;align-items:center;justify-content:space-between;gap:16px;}
+.app-title{
+  font-size:18px;font-weight:700;letter-spacing:-0.3px;
+  display:flex;align-items:center;gap:10px;
+  background:linear-gradient(90deg,#f1f1f1 0%,#acaaff 60%,#7255e7 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  flex-shrink:0;
+}
+.app-title .donut-emoji{-webkit-text-fill-color:initial;font-size:20px;}
+.app-subtitle{font-size:13px;font-weight:400;color:var(--text-secondary);-webkit-text-fill-color:var(--text-secondary);margin-left:4px;}
+
+/* Header right controls */
+.header-right{display:flex;align-items:center;gap:12px;flex-shrink:0;}
+
+/* Progress display */
+.progress-display{
+  display:flex;align-items:center;gap:8px;
+  background:var(--bg-card);border:1px solid var(--border);
+  border-radius:8px;padding:5px 10px;
+}
+.progress-text{font-size:12px;color:var(--text-secondary);font-family:var(--font-mono);white-space:nowrap;}
+.progress-bar-outer{width:60px;height:5px;background:rgba(255,255,255,0.08);border-radius:3px;overflow:hidden;}
+.progress-bar-inner{height:100%;background:linear-gradient(90deg,#0dc95c,#acaaff);border-radius:3px;transition:width 0.3s;}
+
+/* Search bar */
+.search-wrap{position:relative;flex-shrink:0;}
+.search-input{
+  background:var(--bg-card);border:1px solid var(--border);
+  color:var(--text-primary);font-family:var(--font-sans);font-size:13px;
+  padding:5px 10px 5px 32px;border-radius:8px;width:200px;
+  outline:none;transition:border-color 0.15s,width 0.2s;
+}
+.search-input:focus{border-color:var(--purple-primary);width:240px;}
+.search-input::placeholder{color:var(--text-tertiary);}
+.search-icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:13px;color:var(--text-tertiary);pointer-events:none;}
+.search-clear{position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--text-tertiary);cursor:pointer;font-size:16px;line-height:1;display:none;padding:0;}
+.search-clear.visible{display:block;}
+.search-clear:hover{color:var(--text-primary);}
+
+/* Zoom controls */
+.zoom-controls{display:flex;align-items:center;gap:6px;flex-shrink:0;}
+.zoom-btn{
+  background:var(--bg-card);border:1px solid var(--border);color:var(--text-primary);
+  font-size:14px;font-weight:600;width:28px;height:28px;border-radius:6px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;transition:all 0.15s;
+  font-family:var(--font-sans);
+}
+.zoom-btn:hover{background:var(--purple-dark);border-color:var(--purple-primary);}
+.zoom-label{font-size:12px;color:var(--text-secondary);font-family:var(--font-mono);width:36px;text-align:center;}
+
+/* ── NAV TABS ── */
+.nav-tabs{display:flex;gap:2px;align-items:center;padding-bottom:0;}
+.nav-tab{
+  background:transparent;border:none;color:var(--text-tertiary);
+  font-size:13px;font-weight:500;padding:7px 16px;cursor:pointer;
+  border-bottom:2px solid transparent;transition:all 0.15s;
+  font-family:var(--font-sans);white-space:nowrap;
+  border-radius:6px 6px 0 0;
+}
+.nav-tab:hover{color:var(--text-primary);background:rgba(255,255,255,0.04);}
+.nav-tab.active{color:var(--purple-primary);border-bottom-color:var(--purple-primary);background:rgba(172,170,255,0.06);}
+
+/* Thread filter bar — inside tree view, below nav bar */
+#tree-toolbar{
+  flex-shrink:0;background:var(--bg-surface);
+  border-bottom:1px solid var(--border);
+  padding:4px 20px;display:flex;align-items:center;
+}
+.filter-bar{display:flex;gap:4px;align-items:center;overflow-x:auto;flex-wrap:nowrap;flex:1;}
+.filter-bar::-webkit-scrollbar{height:0;}
+.filter-tab{
+  position:relative;background:transparent;border:none;
+  color:var(--text-secondary);font-size:12px;font-weight:500;
+  padding:4px 12px;border-radius:20px;cursor:pointer;
+  white-space:nowrap;transition:all 0.18s;font-family:var(--font-sans);
+  border:1px solid transparent;
+}
+.filter-tab::before{
+  content:'';position:absolute;inset:-1px;border-radius:20px;
+  background:linear-gradient(90deg,#588AFD,#ACAAFF,#4800FB);
+  opacity:0;transition:opacity 0.18s;z-index:-1;
+}
+.filter-tab::after{
+  content:'';position:absolute;inset:0px;border-radius:20px;
+  background:var(--bg-card);z-index:-1;
+}
+.filter-tab:hover{color:var(--text-primary);}
+.filter-tab:hover::before{opacity:0.4;}
+.filter-tab.active{color:var(--text-primary);}
+.filter-tab.active::before{opacity:1;}
+.tab-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:5px;vertical-align:middle;}
+
+/* ── MAIN BODY ── */
+#app-body{
+  display:flex;flex:1;overflow:hidden;
+}
+
+/* ── CANVAS AREA ── */
+#canvas-outer{
+  flex:1;overflow:hidden;position:relative;
+  background:var(--bg-deep);
+}
+#canvas-scroller{
+  width:100%;height:100%;overflow:auto;
+  cursor:default;
+}
+#canvas-scroller::-webkit-scrollbar{width:8px;height:8px;}
+#canvas-scroller::-webkit-scrollbar-track{background:var(--bg-surface);}
+#canvas-scroller::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px;}
+#canvas-size-shim{position:relative;}
+#canvas{
+  position:absolute;top:0;left:0;
+  transform-origin:top left;
+}
+
+/* ── SVG CONNECTION LAYER ── */
+#connections-svg{
+  position:absolute;top:0;left:0;
+  pointer-events:none;overflow:visible;
+}
+.conn-path{
+  fill:none;stroke-width:1.5;
+  transition:opacity 0.25s,stroke-width 0.25s;
+}
+.conn-same{stroke-dasharray:none;}
+.conn-cross{stroke-dasharray:6,4;}
+.conn-path.faded{opacity:0.08;}
+.conn-path.highlighted{stroke-width:2.5;opacity:1!important;}
+
+/* ── YEAR AXIS ── */
+#year-axis{position:absolute;top:0;left:0;right:0;pointer-events:none;}
+.year-mark{
+  position:absolute;top:0;
+  display:flex;flex-direction:column;align-items:center;
+  transform:translateX(-50%);
+}
+.year-label{font-size:10px;color:var(--text-tertiary);font-family:var(--font-mono);white-space:nowrap;}
+.year-tick{width:1px;height:8px;background:var(--border);}
+
+/* ── THREAD LANES ── */
+#thread-lanes{position:absolute;top:0;left:0;right:0;bottom:0;pointer-events:none;}
+.thread-lane{position:absolute;left:0;right:0;display:flex;align-items:center;}
+.lane-label{
+  position:sticky;left:0;z-index:20;
+  font-size:11px;font-weight:600;letter-spacing:0.3px;
+  text-transform:uppercase;padding:0 10px;
+  background:linear-gradient(to right, var(--bg-deep) 80%, transparent);
+  white-space:nowrap;cursor:default;
+}
+.lane-line{
+  position:absolute;height:1px;
+  transition:opacity 0.25s;
+}
+.thread-lane.hidden{opacity:0.1;}
+
+/* ── PAPER NODES ── */
+.paper-node{
+  position:absolute;
+  border-radius:50%;
+  background:var(--bg-card);
+  border:2px solid var(--node-color,#acaaff);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-mono);font-size:9px;font-weight:700;
+  color:var(--node-color,#acaaff);
+  cursor:pointer;
+  transform:translate(-50%,-50%);
+  transition:transform 0.18s,box-shadow 0.18s,opacity 0.25s;
+  z-index:30;
+  user-select:none;
+}
+.paper-node:hover{
+  transform:translate(-50%,-50%) scale(1.2);
+  box-shadow:0 0 16px 4px var(--node-color,#acaaff);
+  z-index:50;
+}
+.paper-node.active{
+  border-width:3px;
+  box-shadow:0 0 20px 6px var(--node-color,#acaaff);
+  z-index:50;
+}
+.paper-node.faded{opacity:0.15;}
+.paper-node.search-hidden{opacity:0.07;}
+
+/* Read checkbox overlay */
+.node-check{
+  position:absolute;
+  top:-4px;right:-4px;
+  width:14px;height:14px;border-radius:50%;
+  background:var(--bg-deep);
+  border:1.5px solid rgba(255,255,255,0.15);
+  display:flex;align-items:center;justify-content:center;
+  font-size:8px;
+  transition:all 0.15s;
+  z-index:10;
+  cursor:pointer;
+  color:transparent;
+}
+.paper-node.read .node-check{
+  background:var(--green);
+  border-color:var(--green);
+  color:white;
+}
+.paper-node:hover .node-check{
+  border-color:rgba(255,255,255,0.4);
+}
+
+/* Frontier glow animation */
+@keyframes frontier-pulse{
+  0%,100%{box-shadow:0 0 6px 1px var(--node-color,#acaaff);}
+  50%{box-shadow:0 0 20px 8px var(--node-color,#acaaff),0 0 40px 12px color-mix(in srgb,var(--node-color,#acaaff) 30%,transparent);}
+}
+.paper-node.frontier-active{
+  animation:frontier-pulse 2.5s ease-in-out infinite;
+}
+.paper-node.active.frontier-active{animation:none;}
+
+/* Milestone dots */
+.milestone-dot{
+  position:absolute;
+  width:6px;height:6px;border-radius:50%;
+  transform:translate(-50%,-50%);
+  cursor:default;z-index:25;
+  transition:opacity 0.25s,transform 0.18s;
+  border:1px solid rgba(255,255,255,0.2);
+}
+.milestone-dot:hover{transform:translate(-50%,-50%) scale(2);z-index:40;}
+.milestone-dot.faded{opacity:0.06;}
+
+/* ── TOOLTIP ── */
+#tooltip{
+  position:fixed;z-index:999;
+  background:var(--bg-card);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:10px 14px;
+  max-width:260px;
+  pointer-events:none;
+  opacity:0;transition:opacity 0.15s;
+  box-shadow:0 8px 32px rgba(0,0,0,0.5),var(--glow);
+}
+#tooltip.visible{opacity:1;}
+.tt-num{font-family:var(--font-mono);font-size:10px;color:var(--text-tertiary);margin-bottom:3px;}
+.tt-title{font-size:13px;font-weight:600;color:var(--text-primary);margin-bottom:4px;line-height:1.3;}
+.tt-year{font-size:11px;color:var(--text-secondary);margin-bottom:4px;}
+.tt-summary{font-size:11px;color:var(--text-secondary);line-height:1.45;}
+.tt-thread{font-size:10px;font-weight:600;margin-top:6px;text-transform:uppercase;letter-spacing:0.4px;}
+
+/* ── DETAIL PANEL ── */
+#detail-panel{
+  width:400px;min-width:400px;max-width:400px;
+  background:var(--bg-surface);
+  border-left:1px solid var(--border);
+  display:flex;flex-direction:column;
+  overflow:hidden;
+  transition:width 0.3s;
+}
+#detail-empty{
+  flex:1;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;gap:8px;padding:40px;text-align:center;
+}
+.empty-icon{font-size:40px;margin-bottom:8px;}
+#detail-empty p{color:var(--text-secondary);font-size:14px;}
+#detail-empty .hint{font-size:12px;color:var(--text-tertiary);}
+#detail-content{flex:1;overflow-y:auto;display:none;}
+#detail-content::-webkit-scrollbar{width:4px;}
+#detail-content::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
+
+/* Detail panel header */
+.dp-header{
+  padding:16px 16px 12px;
+  border-bottom:1px solid var(--border);
+  position:sticky;top:0;
+  background:var(--bg-surface);z-index:10;
+}
+.dp-header-top{display:flex;align-items:flex-start;gap:12px;}
+.dp-num{
+  font-family:var(--font-mono);font-size:20px;font-weight:700;
+  color:var(--dp-color,#acaaff);
+  line-height:1;margin-top:2px;flex-shrink:0;
+}
+.dp-title{font-size:15px;font-weight:700;line-height:1.35;color:var(--text-primary);flex:1;}
+.dp-close{
+  background:transparent;border:none;color:var(--text-tertiary);
+  font-size:20px;cursor:pointer;width:28px;height:28px;
+  display:flex;align-items:center;justify-content:center;
+  border-radius:6px;transition:all 0.15s;flex-shrink:0;
+}
+.dp-close:hover{background:var(--bg-card);color:var(--text-primary);}
+.dp-meta{display:flex;align-items:center;gap:6px;margin-top:6px;flex-wrap:wrap;}
+.dp-year{
+  font-size:12px;font-family:var(--font-mono);color:var(--text-secondary);
+}
+.dp-thread-badge{
+  font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;
+  padding:2px 8px;border-radius:10px;
+  border:1px solid var(--dp-color,#acaaff);
+  color:var(--dp-color,#acaaff);
+}
+.dp-frontier-badge{
+  font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.3px;
+  padding:2px 8px;border-radius:10px;
+  background:linear-gradient(166deg,#588afd,#4800fb);
+  color:white;
+}
+.dp-difficulty-badge{
+  font-size:11px;padding:2px 8px;border-radius:10px;
+  background:rgba(255,255,255,0.06);
+  border:1px solid rgba(255,255,255,0.1);
+}
+.dp-time-badge{
+  font-size:11px;color:var(--text-tertiary);font-family:var(--font-mono);
+}
+.dp-read-btn{
+  margin-left:auto;
+  background:transparent;border:1px solid rgba(255,255,255,0.15);
+  color:var(--text-secondary);font-size:11px;font-family:var(--font-sans);
+  padding:3px 10px;border-radius:20px;cursor:pointer;transition:all 0.15s;
+  white-space:nowrap;
+}
+.dp-read-btn:hover{border-color:var(--green);color:var(--green);}
+.dp-read-btn.marked{background:rgba(13,201,92,0.12);border-color:var(--green);color:var(--green);}
+.dp-pdf-btn{
+  display:inline-flex;align-items:center;gap:4px;
+  font-size:12px;font-weight:600;padding:4px 12px;border-radius:6px;
+  background:rgba(172,170,255,0.1);border:1px solid var(--purple-primary);
+  color:var(--purple-primary);cursor:pointer;text-decoration:none;
+  transition:all 0.15s;margin-left:6px;font-family:var(--font-sans);
+}
+.dp-pdf-btn:hover{background:rgba(172,170,255,0.25);}
+.dp-summary{
+  padding:10px 16px 0;
+  font-size:12px;color:var(--text-secondary);font-style:italic;line-height:1.5;
+}
+
+/* Detail sections */
+.dp-section{padding:14px 16px;border-bottom:1px solid var(--border);}
+.dp-section:last-child{border-bottom:none;}
+.dp-section-title{
+  font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;
+  color:var(--text-tertiary);margin-bottom:8px;display:flex;align-items:center;gap:6px;
+}
+.dp-section-body{font-size:13px;color:var(--text-secondary);line-height:1.6;}
+
+/* Evolution list */
+.dp-evolution{list-style:none;display:flex;flex-direction:column;gap:7px;}
+.dp-evo-item{display:flex;gap:10px;align-items:flex-start;}
+.dp-evo-year{
+  font-family:var(--font-mono);font-size:11px;font-weight:700;
+  color:var(--dp-color,#acaaff);flex-shrink:0;width:32px;line-height:1.6;
+}
+.dp-evo-text{font-size:12px;color:var(--text-secondary);line-height:1.55;}
+
+/* Connected papers */
+.dp-connected{display:flex;flex-wrap:wrap;gap:6px;margin-top:2px;}
+.dp-conn-chip{
+  font-family:var(--font-mono);font-size:11px;font-weight:700;
+  padding:4px 10px;border-radius:6px;cursor:pointer;
+  border:1px solid var(--chip-color,#acaaff);
+  color:var(--chip-color,#acaaff);
+  background:transparent;
+  transition:all 0.15s;
+}
+.dp-conn-chip:hover{
+  background:var(--chip-color,#acaaff);color:var(--bg-deep);
+}
+
+/* ── TAB VIEWS ── */
+.tab-view{display:none;flex:1;overflow:hidden;}
+.tab-view.active{display:flex;}
+#view-tree{flex-direction:column;}
+#tree-content{display:flex;flex-direction:row;flex:1;overflow:hidden;}
+#view-paths{flex-direction:column;overflow-y:auto;background:var(--bg-deep);}
+#view-glossary{flex-direction:column;overflow-y:auto;background:var(--bg-deep);}
+
+/* ── READING PATHS TAB ── */
+.paths-container{
+  max-width:900px;margin:0 auto;padding:40px 24px;width:100%;
+}
+.paths-header{margin-bottom:32px;}
+.paths-header h2{
+  font-size:24px;font-weight:700;margin-bottom:8px;
+  background:linear-gradient(90deg,#f1f1f1 0%,#acaaff 60%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.paths-header p{color:var(--text-secondary);font-size:14px;line-height:1.6;}
+
+.path-card{
+  background:var(--bg-surface);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:24px;
+  margin-bottom:24px;
+  transition:border-color 0.2s;
+}
+.path-card:hover{border-color:rgba(172,170,255,0.35);}
+.path-name{
+  font-size:16px;font-weight:700;margin-bottom:6px;
+  display:flex;align-items:center;gap:10px;
+}
+.path-name-icon{font-size:20px;}
+.path-desc{font-size:13px;color:var(--text-secondary);margin-bottom:18px;line-height:1.5;}
+.path-papers{display:flex;align-items:center;flex-wrap:wrap;gap:0;}
+.path-paper{
+  display:flex;flex-direction:column;
+  background:var(--bg-card);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:10px 14px;
+  cursor:pointer;
+  transition:all 0.18s;
+  min-width:120px;max-width:160px;
+  position:relative;
+}
+.path-paper:hover{
+  border-color:var(--pp-color,#acaaff);
+  box-shadow:0 0 12px rgba(172,170,255,0.2);
+  transform:translateY(-2px);
+}
+.path-paper.completed{
+  background:rgba(13,201,92,0.06);
+  border-color:rgba(13,201,92,0.3);
+}
+.path-paper .pp-num{
+  font-family:var(--font-mono);font-size:11px;font-weight:700;
+  color:var(--pp-color,#acaaff);margin-bottom:4px;
+}
+.path-paper .pp-title{
+  font-size:12px;font-weight:600;color:var(--text-primary);
+  line-height:1.3;margin-bottom:6px;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+}
+.path-paper .pp-meta{display:flex;align-items:center;gap:5px;flex-wrap:wrap;}
+.path-paper .pp-year{font-size:10px;font-family:var(--font-mono);color:var(--text-tertiary);}
+.path-paper .pp-diff{font-size:11px;}
+.path-paper .pp-check{
+  position:absolute;top:6px;right:6px;
+  font-size:12px;
+  opacity:0;transition:opacity 0.15s;
+}
+.path-paper.completed .pp-check{opacity:1;}
+.path-arrow{
+  font-size:18px;color:var(--text-tertiary);padding:0 6px;flex-shrink:0;
+  display:flex;align-items:center;
+}
+
+/* ── GLOSSARY TAB ── */
+.glossary-container{
+  max-width:1000px;margin:0 auto;padding:40px 24px;width:100%;
+}
+.glossary-header{margin-bottom:28px;}
+.glossary-header h2{
+  font-size:24px;font-weight:700;margin-bottom:8px;
+  background:linear-gradient(90deg,#f1f1f1 0%,#acaaff 60%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.glossary-search-wrap{position:relative;max-width:360px;margin-top:16px;}
+.glossary-search{
+  background:var(--bg-card);border:1px solid var(--border);
+  color:var(--text-primary);font-family:var(--font-sans);font-size:14px;
+  padding:8px 12px 8px 36px;border-radius:10px;width:100%;
+  outline:none;transition:border-color 0.15s;
+}
+.glossary-search:focus{border-color:var(--purple-primary);}
+.glossary-search::placeholder{color:var(--text-tertiary);}
+.glossary-search-icon{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--text-tertiary);font-size:14px;pointer-events:none;}
+.glossary-count{font-size:12px;color:var(--text-tertiary);margin-top:8px;}
+
+.glossary-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  gap:14px;
+}
+.gloss-card{
+  background:var(--bg-surface);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:16px;
+  transition:border-color 0.2s,opacity 0.2s;
+}
+.gloss-card:hover{border-color:rgba(172,170,255,0.35);}
+.gloss-card.hidden{display:none;}
+.gloss-term{
+  font-size:14px;font-weight:700;color:var(--text-primary);
+  margin-bottom:6px;display:flex;align-items:center;gap:8px;
+}
+.gloss-tag{
+  font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.4px;
+  padding:2px 7px;border-radius:8px;background:rgba(172,170,255,0.1);
+  border:1px solid rgba(172,170,255,0.2);color:var(--purple-primary);
+}
+.gloss-def{font-size:13px;color:var(--text-secondary);line-height:1.55;}
+.gloss-papers{margin-top:8px;display:flex;flex-wrap:wrap;gap:4px;}
+.gloss-paper-chip{
+  font-family:var(--font-mono);font-size:10px;font-weight:700;
+  padding:2px 8px;border-radius:6px;
+  border:1px solid var(--border);color:var(--text-tertiary);
+  cursor:pointer;transition:all 0.15s;background:transparent;
+}
+.gloss-paper-chip:hover{border-color:var(--purple-primary);color:var(--purple-primary);}
+
+/* Responsive */
+@media(max-width:900px){
+  #detail-panel{width:320px;min-width:320px;max-width:320px;}
+  .path-paper{min-width:100px;}
+}
+@media(max-width:600px){
+  .search-input{width:140px;}
+  .search-input:focus{width:160px;}
+  #detail-panel{width:100%;min-width:unset;max-width:unset;position:absolute;right:0;top:0;bottom:0;z-index:200;}
+}
+</style>
+</head>
+<body>
+<div id="app">
+  <header id="app-header">
+    <div class="header-top">
+      <h1 class="app-title">
+        <span class="donut-emoji">🍩</span> Ilya's 30 Papers
+        <span class="app-subtitle">Research Evolution Tree</span>
+      </h1>
+      <div class="header-right">
+        <!-- Progress display -->
+        <div class="progress-display" id="progress-display">
+          <span class="progress-text" id="progress-text">0 / 30 read</span>
+          <div class="progress-bar-outer"><div class="progress-bar-inner" id="progress-bar" style="width:0%"></div></div>
+        </div>
+        <!-- Search (only visible on tree tab) -->
+        <div class="search-wrap" id="search-wrap">
+          <span class="search-icon">🔍</span>
+          <input class="search-input" id="search-input" type="text" placeholder="Search papers…" autocomplete="off">
+          <button class="search-clear" id="search-clear">×</button>
+        </div>
+        <!-- Zoom controls (only visible on tree tab) -->
+        <div class="zoom-controls" id="zoom-controls">
+          <button class="zoom-btn" id="btn-zoom-out">−</button>
+          <span class="zoom-label" id="zoom-label">100%</span>
+          <button class="zoom-btn" id="btn-zoom-in">+</button>
+          <button class="zoom-btn" style="font-size:11px;width:auto;padding:0 8px;" id="btn-zoom-reset">Reset</button>
+            <span style="color:var(--text-tertiary);font-size:11px;margin:0 4px;">Y:</span>
+            <button class="zoom-btn" id="btn-zoom-y-out">−</button>
+            <span id="zoom-y-label" style="color:var(--text-secondary);font-size:12px;min-width:36px;text-align:center;">100%</span>
+            <button class="zoom-btn" id="btn-zoom-y-in">+</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation tabs — primary navigation only -->
+    <div class="nav-tabs">
+      <button class="nav-tab active" data-view="tree">🌳 Evolution Tree</button>
+      <button class="nav-tab" data-view="paths">🗺️ Reading Paths</button>
+      <button class="nav-tab" data-view="glossary">📖 Glossary</button>
+    </div>
+  </header>
+
+  <div id="app-body">
+
+    <!-- ── TREE VIEW ── -->
+    <div class="tab-view active" id="view-tree">
+      <!-- Thread filter bar — secondary filter, inside tree view only -->
+      <div id="tree-toolbar">
+        <div class="filter-bar" id="filter-bar"></div>
+      </div>
+      <!-- Canvas + detail panel side by side -->
+      <div id="tree-content">
+        <div id="canvas-outer">
+          <div id="canvas-scroller">
+            <div id="canvas-size-shim">
+              <div id="canvas">
+                <svg id="connections-svg" xmlns="http://www.w3.org/2000/svg"></svg>
+                <div id="year-axis"></div>
+                <div id="thread-lanes"></div>
+                <div id="nodes-layer"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="detail-panel">
+          <div id="detail-empty">
+            <div class="empty-icon">🔬</div>
+            <p>Click any node to explore a paper</p>
+            <p class="hint">✨ Pulsing nodes have active 2025–2026 frontiers</p>
+            <p class="hint" style="margin-top:4px;">☑️ Check nodes as you read them</p>
+          </div>
+          <div id="detail-content"></div>
+        </div>
+      </div><!-- /#tree-content -->
+    </div><!-- /#view-tree -->
+
+    <!-- ── READING PATHS VIEW ── -->
+    <div class="tab-view" id="view-paths">
+      <div class="paths-container">
+        <div class="paths-header">
+          <h2>📚 Guided Reading Paths</h2>
+          <p>Structured sequences through Ilya's 30 papers, organized by learning goal. Click any paper card to open it in the Evolution Tree.</p>
+        </div>
+        <div id="paths-content"></div>
+      </div>
+    </div>
+
+    <!-- ── GLOSSARY VIEW ── -->
+    <div class="tab-view" id="view-glossary">
+      <div class="glossary-container">
+        <div class="glossary-header">
+          <h2>📖 AI/ML Glossary</h2>
+          <p style="color:var(--text-secondary);font-size:14px;">Key concepts from Ilya's 30 papers — from foundational math to frontier research.</p>
+          <div class="glossary-search-wrap">
+            <span class="glossary-search-icon">🔍</span>
+            <input class="glossary-search" id="glossary-search" type="text" placeholder="Search concepts…" autocomplete="off">
+          </div>
+          <div class="glossary-count" id="glossary-count"></div>
+        </div>
+        <div class="glossary-grid" id="glossary-grid"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div id="tooltip"></div>
+
+<script>
+// =========================================================
+// DIFFICULTY + READING TIME
+// =========================================================
+const DIFFICULTY = {
+  easy: [1,4,5,6,24],
+  medium: [7,8,9,10,11,12,14,15,16,18,19,21,22,27,28,29,30],
+  hard: [2,3,13,17,20,23,25,26],
+};
+const DIFF_LABEL = { easy:'🟢 Accessible', medium:'🟡 Intermediate', hard:'🔴 Advanced' };
+const DIFF_TIME  = { easy:'1–2 hrs', medium:'2–4 hrs', hard:'4–8 hrs' };
+
+function getDiff(id) {
+  if (DIFFICULTY.easy.includes(id)) return 'easy';
+  if (DIFFICULTY.hard.includes(id)) return 'hard';
+  return 'medium';
+}
+
+// =========================================================
+// DATA
+// =========================================================
+
+const THREADS = [
+  { id: 1, name: 'Attention & Transformers', short: 'Attention', color: '#588afd' },
+  { id: 2, name: 'Vision', short: 'Vision', color: '#0dc95c' },
+  { id: 3, name: 'Sequence Models & Language', short: 'Sequence', color: '#acaaff' },
+  { id: 4, name: 'Optimization', short: 'Optimization', color: '#fea149' },
+  { id: 5, name: 'Reasoning & Memory', short: 'Memory', color: '#f17421' },
+  { id: 6, name: 'Generative Models', short: 'Generative', color: '#ec4d4d' },
+  { id: 7, name: 'Scaling & Emergence', short: 'Scaling', color: '#01a78b' },
+  { id: 8, name: 'Meta / Philosophy', short: 'Meta', color: '#d4d4f5' },
+];
+
+const PAPERS = [
+  {
+    id:1,num:'01',title:'The Annotated Transformer',year:2018,thread:1,
+    summary:'Line-by-line pedagogical PyTorch implementation making the Transformer mechanistically clear.',
+    origin:'Sasha Rush and Harvard NLP created a line-by-line pedagogical re-implementation of "Attention Is All You Need" in PyTorch with inline commentary. Ilya included it because understanding the Transformer mechanistically — not just using it — is essential. The annotated form forces readers to understand every tensor operation, building intuition that abstractions hide.',
+    evolution:[
+      {year:2018,text:'Published; became the de facto tutorial for learning the Transformer architecture'},
+      {year:2020,text:'Updated to reflect pre-LayerNorm convention and integrated BERT/GPT-2 insights'},
+      {year:2022,text:'v2 updated for modern PyTorch idioms; extended for GPT-2 and T5'},
+      {year:2023,text:'Community forks added Flash Attention, multi-query attention, RoPE positional encoding'},
+      {year:2025,text:'"Annotated" genre spread: Mamba, Llama 3, DeepSeek — format became a pedagogical standard'},
+    ],
+    frontier:'The teaching tradition it started is the active frontier. Modern equivalents: Karpathy\'s nanoGPT, annotated Llama 2. Used to explain Flash Attention 3, GQA, KV cache management, and Mamba SSM blocks.',
+    connected:[14,15,4],frontierActive:false,
+  },
+  {
+    id:2,num:'02',title:'The First Law of Complexodynamics',year:2011,thread:8,
+    summary:'Connects computational complexity to thermodynamics — frames what "complex" means for neural learning.',
+    origin:'Scott Aaronson\'s blog post argues that a complex state (neither maximally ordered nor disordered) must first increase then decrease in complexity over time. Ilya included it because it frames a deep question about what complexity means — central to understanding what neural networks are learning and what intelligence is.',
+    evolution:[
+      {year:2011,text:'Aaronson\'s blog post; a thought experiment about physics and computation'},
+      {year:2016,text:'Connection to Kolmogorov complexity and MDL starts appearing in ML literature'},
+      {year:2020,text:'Ilya Sutskever publicly cites this in discussions about neural network understanding'},
+      {year:2022,text:'Grokking paper implicitly touches this — delayed generalization as a complexity phase transition'},
+      {year:2024,text:'Mechanistic interpretability researchers use complexity/circuit analysis to understand grokking'},
+    ],
+    frontier:'Connects to mechanistic interpretability (Anthropic interpretability team) and complexity as a lens for alignment. If you can measure the complexity of what a model represents, you can audit it. Resonates with the 2025 debate: "does scaling give understanding or just pattern matching?"',
+    connected:[6,23,24],frontierActive:true,
+  },
+  {
+    id:3,num:'03',title:'Unreasonable Effectiveness of RNNs',year:2015,thread:3,
+    summary:'Demonstrated character-level RNNs can generate code, Shakespeare, and LaTeX — proving sequence models learn deep structure.',
+    origin:'Andrej Karpathy\'s blog post demonstrated that character-level LSTMs could generate syntactically plausible code, Shakespeare, Wikipedia markup, and LaTeX proofs — surprising everyone with how much sequential structure they could learn from raw text. Ilya included it as a visceral proof-of-concept that sequence models can learn deep structure from data alone.',
+    evolution:[
+      {year:2015,text:'Karpathy\'s blog post published; char-rnn becomes viral, inspiring thousands'},
+      {year:2017,text:'OpenAI sentiment neuron: LSTMs learn interpretable features (single neuron tracking sentiment)'},
+      {year:2019,text:'GPT-2 and GPT-3 vindicate the key insight: scale up autoregressive prediction → emergent capabilities'},
+      {year:2023,text:'Karpathy\'s nanoGPT and makemore continue the same pedagogical mission with transformers'},
+    ],
+    frontier:'The "unreasonable effectiveness" thesis is now established fact at scale. The frontier: what else is unreasonably effective? Video tokens, audio tokens, action tokens in robotics (RT-2, π0). Mamba/SSM models revisit whether O(n) sequence models can match transformer quality.',
+    connected:[4,5,25,14,22],frontierActive:false,
+  },
+  {
+    id:4,num:'04',title:'Understanding LSTM Networks',year:2015,thread:3,
+    summary:'Canonical visual explanation of LSTM gates — why cell state highways solve vanishing gradients.',
+    origin:'Christopher Olah\'s blog post provided the clearest visual explanation of LSTM gates (forget, input, output, cell state) using hand-drawn diagrams. Ilya included it because architectural intuition matters — understanding why LSTM solves vanishing gradients through cell state highways gives a design principle, not just a formula.',
+    evolution:[
+      {year:2015,text:'Blog post published; becomes the reference LSTM explanation for years'},
+      {year:2016,text:'Gate design principle spreads: GRU, Highway Networks, ResNet skip connections share the same intuition'},
+      {year:2017,text:'Transformer replaces LSTM for NLP, but gate intuition lives on in GLU (Gated Linear Units)'},
+      {year:2020,text:'LSTMs in on-device models; GRU in streaming speech models'},
+      {year:2024,text:'xLSTM (Hochreiter group): explicit LSTM revival with matrix memory cells at scale'},
+    ],
+    frontier:'LSTMs themselves are niche; but design principles are very alive. Mamba-2 (2024) unifies SSMs and attention. RWKV-7 (2025): pure RNN at billion-scale, competitive on long sequences. The forget gate intuition directly informs KV cache eviction policies in long-context transformers.',
+    connected:[3,5,11,20],frontierActive:false,
+  },
+  {
+    id:5,num:'05',title:'RNN Regularization',year:2014,thread:3,
+    summary:'Dropout only on non-recurrent connections makes LSTMs practical — co-authored by Ilya Sutskever.',
+    origin:'Zaremba, Sutskever, and Vinyals showed that applying dropout only to non-recurrent connections dramatically improves LSTM language model performance. Ilya co-authored this — he included it because getting training to work is as important as the architecture. A masterclass in closing the gap between a good idea and a working system.',
+    evolution:[
+      {year:2014,text:'Paper published; LSTM dropout becomes standard practice for all sequence modeling'},
+      {year:2016,text:'Variational Dropout (Gal & Ghahramani) provided theoretical grounding — dropout as Bayesian inference'},
+      {year:2017,text:'Zoneout: applying dropout idea to recurrent state directly'},
+      {year:2019,text:'AWD-LSTM achieved state-of-the-art language modeling with heavily tuned LSTM + dropout'},
+      {year:2020,text:'Transformer dominance reduced practical relevance; dropout in transformers carries the intuition forward'},
+    ],
+    frontier:'Stochastic Depth (DropPath) — randomly drop entire residual blocks during training, used in ViTs. DropKey/DropToken in vision transformers. Large models are less prone to overfitting, making dropout less critical; but remains important for smaller models and fine-tuning.',
+    connected:[4,29,3,14],frontierActive:false,
+  },
+  {
+    id:6,num:'06',title:'Keeping Networks Simple (MDL)',year:1993,thread:8,
+    summary:'Hinton\'s MDL paper: train networks by minimizing description length — compression is learning.',
+    origin:'Geoffrey Hinton and Drew van Camp proposed training neural networks by minimizing the description length (MDL) of weights and data misfit — Bayesian compression. This framed regularization as compression: a simpler model that fits the data is preferred because it encodes less information. Ilya included it because MDL is a foundational way to think about what learning is.',
+    evolution:[
+      {year:1993,text:'Paper published; ahead of its time — neural networks weren\'t yet practical enough'},
+      {year:2000,text:'MDL became a framework in Bayesian ML; PAC-Bayes bounds connected compression to generalization'},
+      {year:2017,text:'Distillation and model compression work revisit this; lottery tickets as compression statements'},
+      {year:2022,text:'Quantization (GPTQ, AWQ, GGUF) — compressing billion-parameter models to 4-bit is MDL in practice'},
+      {year:2024,text:'1-bit LLMs (BitNet): extreme compression with ternary weights {-1, 0, +1}'},
+    ],
+    frontier:'Quantization-aware training (QAT) and post-training quantization (PTQ) are standard. Llama 3 in 4-bit runs on laptops. DeepSeek-R1 distilled into smaller models is explicit MDL. Information-theoretic generalization bounds active in learning theory.',
+    connected:[2,23,5,29,22],frontierActive:false,
+  },
+  {
+    id:7,num:'07',title:'Pointer Networks',year:2015,thread:1,
+    summary:'Attention as a pointer mechanism to select input elements — solves structured combinatorial problems.',
+    origin:'Vinyals, Fortunato, and Jaitly showed that attention can be used as a pointer mechanism to select elements from the input sequence — solving problems like the Traveling Salesman Problem where the output is a permutation of inputs. Ilya included it because Pointer Networks demonstrate attention as a general computational primitive.',
+    evolution:[
+      {year:2015,text:'Published; directly inspired copy mechanisms in NLP summarization/dialogue'},
+      {year:2016,text:'Copy mechanism applied to dialogue systems and summarization — widely used in NLP pipelines'},
+      {year:2017,text:'Transformer\'s cross-attention is essentially a generalized pointer'},
+      {year:2022,text:'Pointer networks revived for code generation (pointing to variable names in context)'},
+      {year:2024,text:'Neural Combinatorial Optimization uses attention-based models for TSP, VRP, scheduling'},
+    ],
+    frontier:'Explicit Pointer Networks are niche; but the mechanism is ubiquitous. RAG: model points to retrieved documents. Tool calling: model points to API endpoints. Code generation: LLMs implicitly point to variable names. Neural Combinatorial Optimization (NCO) is a direct descendant.',
+    connected:[15,9,14,20],frontierActive:false,
+  },
+  {
+    id:8,num:'08',title:'AlexNet (ImageNet Classification)',year:2012,thread:2,
+    summary:'The moment deep learning became undeniable — 10.8% better than runners-up on ImageNet. Co-authored by Ilya.',
+    origin:'Krizhevsky, Sutskever, and Hinton achieved 15.3% top-5 error on ImageNet 2012 — 10.8 percentage points better than the runner-up — using ReLU, data augmentation, and dropout on two GPUs. Ilya co-authored this and included it because AlexNet is the moment deep learning became undeniable. Without AlexNet, there is no modern AI.',
+    evolution:[
+      {year:2012,text:'AlexNet — 15.3% top-5 error, 8 layers, 60M parameters. Deep learning era begins'},
+      {year:2014,text:'VGGNet — 16-19 layers, 3×3 convolutions only; cleaner, deeper (7.3% error)'},
+      {year:2015,text:'GoogLeNet/Inception — parallel convolutions, 22 layers. ResNet — 152 layers, beats humans'},
+      {year:2021,text:'Vision Transformer (ViT) — pure attention beats CNNs at scale; ConvNeXt modernizes CNN design'},
+    ],
+    frontier:'AlexNet-style CNNs are obsolete for frontier tasks; but design principles (ReLU, GPU parallelism, data augmentation) are universal. ViT-22B (Google), SAM 2 (Meta), multimodal frontier: vision encoders (SigLIP, DINOv2) feed into LLMs (LLaVA, InternVL, Gemini 2.0).',
+    connected:[11,29,12],frontierActive:false,
+  },
+  {
+    id:9,num:'09',title:'Order Matters: Seq2Seq for Sets',year:2016,thread:1,
+    summary:'Neural networks are order-sensitive in undesirable ways — first paper to confront permutation invariance.',
+    origin:'Vinyals et al. showed that the order in which elements are presented to seq2seq models matters significantly, and proposed a "read" phase using attention over the input set before "writing" the output. Ilya included it because it addresses a subtle issue: neural networks are sensitive to order in ways we don\'t always want.',
+    evolution:[
+      {year:2016,text:'Paper published; the result that optimal ordering for sets is a complex unsolved problem'},
+      {year:2017,text:'Set Transformer (Lee et al.) — full transformer architecture for permutation-invariant set encoding'},
+      {year:2018,text:'Deep Sets (Zaheer et al.) — principled approach to functions over sets'},
+      {year:2021,text:'GNNs and point cloud processing (PointNet++) address the same issue in 3D'},
+      {year:2024,text:'The ordering issue reappears in in-context learning: few-shot example order affects LLM performance'},
+    ],
+    frontier:'Set and permutation invariance important in: protein structure prediction (AlphaFold uses equivariant networks), multi-agent AI (sets of agents), RAG systems (retrieved document ordering affects reasoning quality). "Lost in the middle" effect in LLMs is a direct manifestation.',
+    connected:[7,15,13,17],frontierActive:false,
+  },
+  {
+    id:10,num:'10',title:'GPipe: Efficient Training of Giant Networks',year:2019,thread:7,
+    summary:'Pipeline parallelism splits network layers across accelerators — foundation for training billion+ parameter models.',
+    origin:'Huang et al. (Google Brain) introduced pipeline parallelism: split a neural network\'s layers across multiple accelerators and process multiple micro-batches in a pipeline fashion. Ilya included it because you can\'t separate ideas from infrastructure — understanding how to actually train large models is part of understanding deep learning.',
+    evolution:[
+      {year:2019,text:'GPipe published — enables 1.3B parameter BERT training'},
+      {year:2020,text:'Megatron-LM — combines tensor + pipeline parallelism; trains GPT-3-scale models'},
+      {year:2021,text:'ZeRO (DeepSpeed) — shards optimizer states, gradients, parameters; enables trillion-parameter models'},
+      {year:2022,text:'3D parallelism (tensor + pipeline + data) becomes standard; PaLM 540B, Chinchilla use it'},
+      {year:2024,text:'Flash Attention 2 & 3, ring attention (1M+ context), sequence parallelism — scale engineering advances'},
+    ],
+    frontier:'Mixture-of-Experts (MoE) training requires specialized expert parallelism. Llama 3 405B trained on 16K H100s. DeepSeek-V3 trained at only ~$6M using aggressive MoE + FP8 training — cost optimization is now a research area in itself.',
+    connected:[22,14,11],frontierActive:false,
+  },
+  {
+    id:11,num:'11',title:'ResNet: Deep Residual Learning',year:2016,thread:2,
+    summary:'Skip connections x + F(x) enable 152-layer networks — beats human performance on ImageNet, universally adopted.',
+    origin:'He et al. proposed skip connections: the output of a block is x + F(x) rather than F(x) alone. This allowed training 152+ layer networks, beat human performance on ImageNet, and dominated ILSVRC 2015. Ilya included it because residual connections are one of the most important ideas in deep learning — now universal in virtually every deep network.',
+    evolution:[
+      {year:2016,text:'ResNet paper — 3.57% top-5 error on ImageNet, beating humans; 152 layers'},
+      {year:2016,text:'Identity Mappings follow-up — pre-activation ResNet, theoretically cleaner gradient flow'},
+      {year:2017,text:'ResNeXt — grouped convolutions; DenseNet — every layer connected to every later layer'},
+      {year:2021,text:'ViT shows attention-only transformers can match ResNet; but ResNet backbones dominate practice'},
+      {year:2022,text:'ConvNeXt — ResNet modernized with transformer design principles; matches ViT performance'},
+    ],
+    frontier:'Residual connections are universal — every modern architecture uses them: BERT, GPT, ViT, Mamba, Diffusion models. ConvNeXt V2 (2023), DINOv2 (Meta 2023): vision foundation model widely used for downstream tasks. ResNet is the "hello world" of transfer learning.',
+    connected:[8,16,4,14],frontierActive:false,
+  },
+  {
+    id:12,num:'12',title:'Dilated Convolutions',year:2016,thread:2,
+    summary:'Convolutions with gaps exponentially expand receptive field without losing resolution — key for segmentation and audio.',
+    origin:'Yu and Koltun introduced dilated (atrous) convolutions — convolutions with gaps between filter elements, allowing exponential expansion of the receptive field without loss of resolution or additional parameters. Critical for semantic segmentation. Ilya included it to demonstrate how to capture multi-scale context without sacrificing spatial resolution.',
+    evolution:[
+      {year:2016,text:'Dilated convolutions paper; immediately adopted for semantic segmentation (DeepLab series)'},
+      {year:2017,text:'DeepLabV3 — dilated convolutions + ASPP becomes the standard for segmentation'},
+      {year:2018,text:'WaveNet (DeepMind) used dilated causal convolutions for high-quality audio synthesis'},
+      {year:2021,text:'DeepLabV3+ superseded by transformer-based methods (SETR, SegFormer)'},
+      {year:2024,text:'Audio: dilated convolutions in EnCodec (Meta), BigVGAN neural audio vocoder'},
+    ],
+    frontier:'For semantic segmentation: Transformers (SAM, Mask2Former) dominate, but dilated convolutions remain in hybrid architectures. Audio generation frontier: BigVGAN neural audio vocoder (2023) used in modern TTS systems (ElevenLabs, Bark, Kokoro). Still used in real-time mobile segmentation.',
+    connected:[8,11,9,21],frontierActive:false,
+  },
+  {
+    id:13,num:'13',title:'Neural Message Passing (MPNN)',year:2017,thread:8,
+    summary:'Unifies diverse graph neural networks under one framework — applied to quantum chemistry, now powers AlphaFold.',
+    origin:'Gilmer et al. proposed the Message Passing Neural Network (MPNN) framework unifying diverse GNN architectures: nodes aggregate messages from neighbors, update states, repeat for K steps. Applied to predicting quantum chemical properties of molecules. Ilya included it because graph-structured computation is universal — molecules, social networks, knowledge graphs are all graphs.',
+    evolution:[
+      {year:2017,text:'MPNN paper — unifies GCN, GraphSAGE, GGNN; achieves state-of-the-art on QM9 dataset'},
+      {year:2019,text:'Graph Attention Networks (GAT), Graph Transformers — attention applied to graphs'},
+      {year:2020,text:'AlphaFold 2 uses attention on residue pairs (Evoformer) — graph attention on protein structure'},
+      {year:2022,text:'OGB (Open Graph Benchmark) standardizes GNN evaluation'},
+      {year:2024,text:'AlphaFold 3 — unified model for all biomolecule types using diffusion + graph attention (Pairformer)'},
+    ],
+    frontier:'AlphaFold 3 (2024): predicts protein-ligand, protein-RNA, protein-DNA interactions — massive scientific impact. Drug discovery at industrial scale (Insilico Medicine, Recursion, Isomorphic Labs). Material science: GNNs for crystal structure prediction (Microsoft MatterGen, 2024).',
+    connected:[9,17,14,15,26],frontierActive:true,
+  },
+  {
+    id:14,num:'14',title:'Attention Is All You Need (Transformer)',year:2017,thread:1,
+    summary:'The most important AI paper after AlexNet — every GPT, BERT, ViT, AlphaFold is built on this architecture.',
+    origin:'Vaswani et al. (Google Brain) proposed the Transformer: built entirely on self-attention and feed-forward layers, with no recurrence, achieving state-of-the-art on machine translation. Ilya included it because this is arguably the most important paper in AI history after 2012. Every major model — GPT, BERT, T5, PaLM, LLaMA, Stable Diffusion, Sora, AlphaFold — is built on this architecture.',
+    evolution:[
+      {year:2017,text:'Original Transformer — 6-layer encoder-decoder for machine translation'},
+      {year:2019,text:'GPT-2, BERT — autoregressive and bidirectional pre-training unlock transfer learning for NLP'},
+      {year:2020,text:'GPT-3 (175B) — in-context few-shot learning emerges; Chinchilla optimizes compute tradeoff'},
+      {year:2022,text:'ChatGPT (GPT-3.5), GPT-4 — RLHF alignment + instruction tuning; Claude, Gemini, Llama family'},
+      {year:2025,text:'Long context (1M+ tokens), multimodal, MoE Transformers; test-time compute scaling (o1, o3, R1)'},
+    ],
+    frontier:'Frontier models (Feb 2026): GPT-4o, Claude 3.7, Gemini 2.0, DeepSeek-R1, Llama 3.3 — all transformer-based. Multi-Query/Grouped-Query Attention, Flash Attention 3, Ring Attention (1M+ context), MoE sparse activation. Test-time compute scaling: the transformer computes "longer" rather than "larger".',
+    connected:[15,7,1,11,22,10],frontierActive:true,
+  },
+  {
+    id:15,num:'15',title:'Bahdanau Attention (Neural Machine Translation)',year:2015,thread:1,
+    summary:'The origin of attention — decoder learns to softly align with different source positions at each step.',
+    origin:'Bahdanau, Cho, and Bengio introduced the attention mechanism: rather than compressing the entire source sentence into a fixed-length vector, the decoder learns to "attend" to different parts of the source at each decoding step via a learned alignment function. Ilya included it because attention is the core idea that makes transformers possible — this is its origin.',
+    evolution:[
+      {year:2015,text:'Bahdanau attention — soft alignment for seq2seq; achieves state-of-the-art NMT'},
+      {year:2015,text:'Luong attention — simplified global and local attention variants'},
+      {year:2016,text:'Hierarchical attention for document classification; attention in image captioning (Show, Attend and Tell)'},
+      {year:2017,text:'Transformer — attention generalized to self-attention, multi-head, scaled dot-product; replaces RNN'},
+      {year:2019,text:'Pre-trained transformers make attention the universal backbone'},
+    ],
+    frontier:'Bahdanau attention is now a historical stepping stone; the frontier is multi-head self-attention with variations. Linear attention (O(n)), sparse attention (BigBird, Longformer), sliding window attention (Mistral), Flash Attention 3. Studied intensively via mechanistic interpretability — what do individual attention heads actually compute?',
+    connected:[14,7,1,4,9],frontierActive:false,
+  },
+  {
+    id:16,num:'16',title:'Identity Mappings in Deep Residual Networks',year:2016,thread:2,
+    summary:'Pre-activation ResNet: BatchNorm before convolution → cleaner gradient flow, better training stability.',
+    origin:'He et al. followed up on ResNet with a theoretical analysis showing that pre-activation ResNets (BatchNorm and ReLU before the convolution) produce cleaner gradient flow and are easier to train. Ilya included it because it demonstrates first-principles architectural refinement: not just "this works," but "here\'s exactly why it works and how to make it cleaner."',
+    evolution:[
+      {year:2016,text:'Pre-activation ResNet paper; pre-LN vs. post-LN becomes the dominant design question'},
+      {year:2018,text:'GPT-2 uses pre-LN Transformer (LayerNorm before attention/FFN) — the transformer equivalent'},
+      {year:2020,text:'PaLM, GPT-3, LLaMA all use pre-LN as standard — more stable training, better gradient flow'},
+      {year:2022,text:'ResiDual (Tie et al.) — mix of pre-LN and post-LN for stability'},
+      {year:2024,text:'DeepSeek-V3 uses modified residual connections with careful initialization to train 671B MoE models'},
+    ],
+    frontier:'Pre-LN is now the standard for transformer training stability. RMSNorm (instead of LayerNorm) — used in LLaMA, Mistral: simpler, faster, equally effective. The core lesson — clean gradient highways — is embedded in every modern architecture through pre-LN, residual connections, and careful initialization.',
+    connected:[11,14,30],frontierActive:false,
+  },
+  {
+    id:17,num:'17',title:'A Simple Neural Network Module for Relational Reasoning',year:2017,thread:5,
+    summary:'Relation Networks compute all pairwise object relationships — superhuman performance on CLEVR visual QA.',
+    origin:'Santoro et al. (DeepMind) introduced the Relation Network (RN): a module that explicitly computes pairwise relationships between all objects in a scene and aggregates them — achieving superhuman performance on CLEVR visual question answering. Ilya included it because inductive biases can be powerful: baking in "consider all pairwise relations" dramatically reduces sample complexity.',
+    evolution:[
+      {year:2017,text:'Relation Networks — achieve 96%+ on CLEVR with far less data than end-to-end CNNs'},
+      {year:2018,text:'Relational RNN (same group) — adds relational reasoning to recurrent models'},
+      {year:2020,text:'Self-attention in Transformers is a form of relational reasoning — every token attends to every other'},
+      {year:2022,text:'Perceiver / Perceiver IO (DeepMind) — generalizes relational reasoning across modalities'},
+      {year:2024,text:'Chain-of-thought prompting is essentially explicit relational reasoning — LLMs reason over relations in text'},
+    ],
+    frontier:'Explicit Relation Networks are rare; the inductive bias lives in transformer attention. Compositional generalization still active (SCAN, SQOOP, ARC-AGI). ARC-AGI challenge (François Chollet): tests relational reasoning and abstraction. o3 model achieves high ARC-AGI scores using extended test-time computation.',
+    connected:[19,13,14,9],frontierActive:false,
+  },
+  {
+    id:18,num:'18',title:'Variational Lossy Autoencoder (VLAE)',year:2017,thread:6,
+    summary:'Combines VAE with autoregressive decoder — forces meaningful latent codes by making decoder "lossy".',
+    origin:'Xi Chen et al. combined VAEs with autoregressive decoders (PixelCNN) to learn useful latent representations — by making the decoder "lossy" (limited capacity), the model is forced to use the latent code for global structure. Ilya included it because it demonstrates the tension between compression and generation, showing how architectural biases shape what is learned in latent space.',
+    evolution:[
+      {year:2017,text:'VLAE paper — lossy decoders force meaningful latent codes'},
+      {year:2019,text:'VQ-VAE (van den Oord) — discrete latent codes via vector quantization; DALL-E 1 uses this'},
+      {year:2021,text:'Hierarchical VAEs (NVAE, VDVAE) — deep latent variable models for high-quality image generation'},
+      {year:2022,text:'LDM (Latent Diffusion Models) — diffusion in a VAE\'s latent space; basis of Stable Diffusion'},
+      {year:2024,text:'FLUX, SD3, Sora, Veo 2, Wan: video generation in latent VAE space + transformer backbone'},
+    ],
+    frontier:'The VAE latent space has become the standard substrate for image/video generation. Stable Diffusion 3/FLUX: improved VAE (16-channel). Sora, Veo 2, Wan: video generation in latent VAE space + transformer. Audio: EnCodec (Meta) is a neural audio codec underlying MusicGen, VoiceBox, AudioCraft.',
+    connected:[27,6,19],frontierActive:true,
+  },
+  {
+    id:19,num:'19',title:'Relational Recurrent Neural Networks',year:2018,thread:5,
+    summary:'LSTM + multi-head attention memory slots — combining relational reasoning with sequential processing.',
+    origin:'Santoro et al. (DeepMind) added a multi-head attention memory module to an LSTM, allowing the recurrent state to be partitioned into "slots" that attend to each other — improving performance on relational reasoning over time. Ilya included it because it explores the intersection of memory, relational reasoning, and sequential processing — pointing toward the Transformer\'s residual stream as "memory" updated by attention.',
+    evolution:[
+      {year:2018,text:'Relational RNN paper — LSTM + self-attention over memory slots'},
+      {year:2019,text:'Transformer-XL — attention over a long memory segment; recurrence returns to transformers'},
+      {year:2020,text:'Compressive Transformer (DeepMind) — hierarchical memory compression for very long sequences'},
+      {year:2023,text:'Mamba/SSM — recurrent models with selective state updates (attention-like behavior with O(n) cost)'},
+      {year:2025,text:'RWKV-7 (2025): fully recurrent but attention-like, scales to 14B parameters'},
+    ],
+    frontier:'The "recurrent + relational" combination is active. Mamba-2 (2024): recurrence with structured state space models. Jamba (AI21, 2024): Mamba + Transformer hybrid. RWKV-7 (2025): fully recurrent but attention-like, scales to 14B. Titans (Google, 2024): neural long-term memory module — direct descendant of this line.',
+    connected:[17,20,4],frontierActive:true,
+  },
+  {
+    id:20,num:'20',title:'Neural Turing Machines',year:2014,thread:5,
+    summary:'Neural networks + differentiable external memory with attention-based read/write heads — learning algorithmic tasks.',
+    origin:'Graves, Wayne, and Danihelka proposed NTMs: neural networks coupled with external differentiable memory, where the controller uses attention-based read/write heads to interact with memory — capable of learning algorithmic tasks (copying, sorting, associative recall) from examples. Ilya included it because NTMs are the first serious attempt to give neural networks algorithmic power.',
+    evolution:[
+      {year:2014,text:'NTM paper — learns copying, sorting, associative recall'},
+      {year:2016,text:'Differentiable Neural Computer (DNC, DeepMind) — improved NTM with dynamic memory allocation'},
+      {year:2020,text:'Universal Transformer — applies transformer blocks iteratively with dynamic halting (Turing-complete)'},
+      {year:2023,text:'KV cache in transformer inference IS external memory — attention over context = read from memory'},
+      {year:2025,text:'Titans (Google): neural long-term memory via gradient-based meta-learning at inference — closest modern NTM'},
+    ],
+    frontier:'Explicit NTM-style architectures are rare; but the vision is realized differently. LLM + tools (code execution, search, calculators): external memory via retrieval. MemGPT (2023): OS-style memory management. AlphaCode, OpenAI o3: code execution as external "working memory". Algorithmic learning via chain-of-thought and code generation.',
+    connected:[7,19,14,26],frontierActive:true,
+  },
+  {
+    id:21,num:'21',title:'Deep Speech 2',year:2016,thread:3,
+    summary:'The AlexNet moment for speech — end-to-end RNN+CTC matches commercial ASR in English and Mandarin.',
+    origin:'Amodei et al. (Baidu Research) showed that a deep RNN trained end-to-end with CTC loss could match or exceed commercial speech recognition across English and Mandarin — scale + simple architecture beats hand-engineered systems. Ilya included it because Deep Speech 2 is the AlexNet moment for speech — proving end-to-end training can solve complex structured prediction.',
+    evolution:[
+      {year:2016,text:'Deep Speech 2 — end-to-end CTC-based ASR, competitive with commercial systems'},
+      {year:2018,text:'Listen Attend Spell (LAS) and RNN-T — attention-based and streaming ASR architectures'},
+      {year:2020,text:'Conformer (Google) — CNN + Transformer hybrid for ASR; becomes standard backbone'},
+      {year:2022,text:'Whisper (OpenAI) — large-scale weakly supervised ASR in 99 languages, near-human performance'},
+      {year:2024,text:'SeamlessM4T (Meta) — speech-to-text and text-to-speech in 100+ languages, unified multimodal model'},
+    ],
+    frontier:'Whisper v3 and fine-tuned Whisper variants are the production standard for ASR. Real-time streaming ASR at millisecond latency (Deepgram, AssemblyAI). GPT-4o voice mode — audio-in, audio-out without separate ASR/TTS pipeline. Universal audio models: AudioPaLM, SpeechVerse — audio + text in unified transformer.',
+    connected:[12,5,22],frontierActive:false,
+  },
+  {
+    id:22,num:'22',title:'Scaling Laws for Neural Language Models',year:2020,thread:7,
+    summary:'Language model loss scales as a power law in model size, data, and compute — the scientific foundation of the LLM era.',
+    origin:'Kaplan et al. (OpenAI) showed that language model loss scales as a power law in model size (N), dataset size (D), and compute (C), with these relationships holding over many orders of magnitude. Ilya included it because scaling laws are the empirical foundation for why "big models work" — the scientific basis for GPT-3, GPT-4, and the entire LLM era.',
+    evolution:[
+      {year:2020,text:'Original scaling laws paper — power law relationships; scale model size given compute budget'},
+      {year:2022,text:'Chinchilla (DeepMind) — corrects Kaplan: optimal model/data ratio is ~1:20 tokens per parameter'},
+      {year:2023,text:'Scaling laws extended to code LLMs, multimodal (image + text), and RLHF'},
+      {year:2024,text:'Scaling laws for test-time compute (OpenAI o1) — performance scales with inference-time thinking'},
+      {year:2025,text:'Scaling laws for reasoning and data quality — information density matters, not just token count'},
+    ],
+    frontier:'Two scaling axes now: (1) pre-training scale (Chinchilla-optimal), (2) test-time compute scaling (chain-of-thought, search). Data scaling bottleneck: synthetic data (Phi-3, Nemotron) partially compensates. Emerging scaling laws for new domains: robotics (RT-2), biology (ESM-2), materials science.',
+    connected:[10,14,24,6,23],frontierActive:true,
+  },
+  {
+    id:23,num:'23',title:'MDL Tutorial (Grünwald)',year:2004,thread:8,
+    summary:'Comprehensive MDL framework: the best model minimizes description length of data + model — connects compression to intelligence.',
+    origin:'Peter Grünwald\'s tutorial explains MDL as a framework for model selection: the best model minimizes the description length of the data + the model itself. Ilya included it because MDL is the theoretical foundation for "what is generalization?" — a model that generalizes has found a short description of the data, connecting compression to intelligence.',
+    evolution:[
+      {year:2004,text:'Grünwald\'s tutorial makes MDL accessible; applied to decision trees, HMMs'},
+      {year:2012,text:'MDL rarely used directly in deep learning; but regularization (L1, L2, dropout) is implicitly MDL'},
+      {year:2022,text:'MDL explicitly studied for neural network generalization; PAC-Bayes bounds, Kolmogorov complexity'},
+      {year:2024,text:'Quantization + pruning as practical MDL; distillation is MDL-motivated'},
+    ],
+    frontier:'Practical MDL is quantization, pruning, distillation — the field of model compression is thriving. 1-bit LLMs (BitNet): extreme compression while preserving capability. Information-theoretic AI alignment: if you can measure what a model "knows" via description length, you can audit it. Shannon mutual information used in mechanistic interpretability.',
+    connected:[6,2,24,22],frontierActive:false,
+  },
+  {
+    id:24,num:'24',title:'Grokking: Generalization Beyond Overfitting',year:2022,thread:7,
+    summary:'Small transformers first memorize, then suddenly generalize long after — revealing phase transitions in learning algorithms.',
+    origin:'Power et al. (OpenAI) discovered that small transformers trained on algorithmic tasks (modular addition, group operations) would first completely memorize the training set, then — after many more training steps — suddenly generalize to the test set, long after training loss had plateaued. Ilya included it because grokking reveals something deep about how neural networks learn algorithms.',
+    evolution:[
+      {year:2022,text:'Grokking paper published; became viral in ML community'},
+      {year:2023,text:'Mechanistic analysis (Neel Nanda): model learns a Fourier representation of modular arithmetic — beautiful and interpretable'},
+      {year:2023,text:'Grokking observed in larger models; connected to double descent and phase transitions'},
+      {year:2024,text:'Grokking linked to weight decay: regularization pushes from memorizing to generalizing solution'},
+      {year:2025,text:'Grokking as testbed for mechanistic interpretability — best-understood examples of transformer "knowledge"'},
+    ],
+    frontier:'Mechanistic interpretability gold mine: grokking circuits are among the best-understood examples of what a transformer knows. Does o1/o3\'s test-time computation "grok" on harder problems? Emergent abilities in LLMs debates directly connected to grokking\'s phase-transition nature. Grokking for alignment: if models generalize suddenly, safety evaluations may miss the eventual behavior.',
+    connected:[2,6,23,22,14],frontierActive:true,
+  },
+  {
+    id:25,num:'25',title:'A Neural Probabilistic Language Model',year:2003,thread:3,
+    summary:'Bengio\'s 2003 paper: neural LM with word embeddings — the conceptual ancestor of Word2Vec, BERT, and GPT.',
+    origin:'Bengio, Ducharme, Vincent, and Jauvin proposed using a neural network to estimate the probability distribution over word sequences — learning dense word embeddings as a side effect. It introduced the concept of distributed representations of words. Ilya included it because this is the paper that started neural language modeling — the conceptual ancestor of everything.',
+    evolution:[
+      {year:2003,text:'Bengio et al. — neural LM with word embeddings; too slow for practical use but conceptually foundational'},
+      {year:2013,text:'Word2Vec (Mikolov et al.) — efficient shallow embedding model; distributed representations become practical'},
+      {year:2017,text:'GloVe, FastText — improved static embeddings; RNN language models become competitive'},
+      {year:2018,text:'BERT / GPT — contextual embeddings; embeddings no longer static but context-dependent'},
+      {year:2020,text:'GPT-3 embeds the entire world\'s knowledge in contextual representations'},
+    ],
+    frontier:'Static embeddings (Word2Vec, GloVe) obsolete for NLP; contextual embeddings from LLMs power RAG pipelines. Sentence/paragraph embeddings (SBERT, E5, BGE) power vector databases (Pinecone, Weaviate, Chroma). Multimodal embeddings: CLIP (image+text), ImageBind (image+text+audio+video).',
+    connected:[14,3,8,22],frontierActive:false,
+  },
+  {
+    id:26,num:'26',title:'Machine Super Intelligence',year:2008,thread:8,
+    summary:'Shane Legg\'s PhD thesis: formal definition of intelligence, pathways to superintelligence — frames the entire research agenda.',
+    origin:'Shane Legg\'s PhD thesis (supervised by Marcus Hutter, co-founder of DeepMind) provided a formal definition of intelligence as the ability to achieve goals in a wide range of environments, and discussed pathways to machine superintelligence. Ilya included it because it frames the end goal: what is intelligence, how do we measure it, what would a superintelligent machine look like?',
+    evolution:[
+      {year:2008,text:'Legg thesis — Universal Intelligence measure based on Kolmogorov complexity and Solomonoff induction'},
+      {year:2014,text:'DeepMind (Legg\'s company) — AlphaGo, DNC — concrete progress toward goal-directed intelligence'},
+      {year:2022,text:'ChatGPT shocks the world; public debate about AGI timelines intensifies'},
+      {year:2023,text:'OpenAI o1/o3, Claude 3.7 — models that "reason" — debate: is this intelligence or pattern matching?'},
+      {year:2025,text:'Ilya Sutskever\'s SSI (Safe Superintelligence Inc.) — explicitly pursuing the superintelligence goal safely'},
+    ],
+    frontier:'AGI definitions multiply: OpenAI, DeepMind, Chollet\'s ARC-based definition. ARC-AGI (Chollet): benchmark for genuine general intelligence; o3 achieves ~87% in late 2024. SSI (Sutskever, 2024) explicitly pursuing superintelligence. AI Alignment is now a major field: RLHF, constitutional AI, scalable oversight — all motivated by the question Legg posed.',
+    connected:[2,23,6,24,22],frontierActive:true,
+  },
+  {
+    id:27,num:'27',title:'Generative Adversarial Nets (GANs)',year:2014,thread:6,
+    summary:'Generator vs. discriminator in a zero-sum game — the first practically successful deep generative model.',
+    origin:'Ian Goodfellow et al. proposed GANs: train two networks in a zero-sum game — a generator (creates fake data) vs. a discriminator (distinguishes real from fake). At Nash equilibrium, the generator produces samples indistinguishable from real data. Ilya included it because GANs were the first practically successful approach to deep generative modeling of complex distributions.',
+    evolution:[
+      {year:2014,text:'GAN paper — proof of concept on MNIST; training notoriously unstable'},
+      {year:2017,text:'WGAN, WGAN-GP — Wasserstein distance makes training stable; ProGAN enables high-res faces'},
+      {year:2019,text:'StyleGAN / StyleGAN2 (NVIDIA) — photorealistic face generation at 1024×1024'},
+      {year:2021,text:'DALL-E 1 uses VAE+transformer; GAN vs. diffusion battle begins'},
+      {year:2023,text:'Stable Diffusion, DALL-E 2, Midjourney — Diffusion models decisively outperform GANs'},
+    ],
+    frontier:'GANs are largely superseded for image generation by diffusion models and flow matching. GAN descendants live on: adversarial fine-tuning of diffusion (ADD, DMD2), face restoration (GFPGAN, CodeFormer). Flow Matching (SD3, FLUX, 2024) has superseded both. The adversarial framework lives on in RLHF: reward model = discriminator, policy = generator.',
+    connected:[18,28,29,30,22],frontierActive:false,
+  },
+  {
+    id:28,num:'28',title:'Adam: A Method for Stochastic Optimization',year:2015,thread:4,
+    summary:'Per-parameter adaptive learning rates via first and second moment estimates — enabled training models that wouldn\'t converge with SGD.',
+    origin:'Diederik Kingma and Jimmy Ba proposed Adam: an optimizer maintaining per-parameter adaptive learning rates by tracking the first moment (mean) and second moment (variance) of gradients. Ilya included it because optimization is infrastructure — the optimizer determines whether a model trains at all, and Adam enabled training neural networks that simply wouldn\'t converge with SGD.',
+    evolution:[
+      {year:2015,text:'Adam published — immediately dominates for NLP, generative models'},
+      {year:2019,text:'AdamW (Loshchilov & Hutter) — decoupled weight decay; fixes a critical flaw; standard for transformers'},
+      {year:2022,text:'Lion optimizer (Google Brain) — sign-based update, 2-3× less memory than Adam'},
+      {year:2024,text:'Muon (gradient orthogonalization) — promising for LLM training; used in frontier research'},
+      {year:2025,text:'Schedule-free optimizers (Defazio, Meta) — no learning rate schedule needed'},
+    ],
+    frontier:'AdamW is still the default for almost all LLM training (Llama 3, DeepSeek, Gemini, Claude). Distributed Adam: ZeRO-1 shards optimizer state; FSDP standard for large-scale training. Muon gains traction in 2025 for transformer layers. Second-order methods (Shampoo, SOAP) used at Google for efficiency.',
+    connected:[29,30,5,27,14],frontierActive:false,
+  },
+  {
+    id:29,num:'29',title:'Dropout',year:2014,thread:4,
+    summary:'Randomly zero neurons during training — prevents co-adaptation, trains exponential ensemble. Co-authored by Ilya Sutskever.',
+    origin:'Srivastava, Hinton, Krizhevsky, Sutskever, and Salakhutdinov proposed Dropout: randomly set each neuron\'s output to zero with probability p during training. This prevents co-adaptation of neurons, reduces overfitting, and trains an exponential ensemble of models. Ilya (co-author) included it because dropout is the first universally effective regularizer for deep networks.',
+    evolution:[
+      {year:2014,text:'Dropout paper — immediately adopted in AlexNet, achieving state-of-the-art in vision and NLP'},
+      {year:2016,text:'Variational Dropout (Gal & Ghahramani) — Bayesian interpretation; dropout as approximate inference'},
+      {year:2017,text:'Concrete Dropout — automatic tuning of dropout rate; applied to Bayesian uncertainty'},
+      {year:2021,text:'In transformers: dropout on attention weights, residuals, embeddings — standard training recipe'},
+      {year:2024,text:'Large models (>1B parameters) trained with very little or no dropout — data diversity acts as regularizer'},
+    ],
+    frontier:'DropPath/Stochastic Depth: drop entire residual blocks — used in ViT training (DeiT, DINO). Dropout heavily used for LoRA/QLoRA fine-tuning to prevent overfitting on small datasets. MC Dropout for uncertainty estimation in production. Ensemble interpretation connects to model merging (model soup, TIES, DARE).',
+    connected:[8,5,30,28],frontierActive:false,
+  },
+  {
+    id:30,num:'30',title:'Batch Normalization',year:2015,thread:4,
+    summary:'Normalize activations per mini-batch — enables higher learning rates, 14× faster training, enabling the ResNet era.',
+    origin:'Sergey Ioffe and Christian Szegedy proposed Batch Normalization: normalize activations within a mini-batch at each layer, then scale and shift with learned parameters. This dramatically reduces training time, allows higher learning rates, and acts as regularization. Ilya included it because BatchNorm transformed how we train networks — the key missing piece that made deep network training reliable and fast.',
+    evolution:[
+      {year:2015,text:'BatchNorm paper — 14× faster training, enables very deep networks without careful initialization'},
+      {year:2017,text:'BatchNorm adopted universally in CNNs; Group Norm fixes BatchNorm\'s batch-size sensitivity'},
+      {year:2016,text:'Layer Normalization (Ba et al.) — normalizes across features; works for RNNs and later transformers'},
+      {year:2019,text:'RMSNorm (Zhang & Sennrich) — Root Mean Square Layer Normalization; faster, simpler, equally effective'},
+      {year:2020,text:'LLMs use LayerNorm or RMSNorm exclusively; BatchNorm remains in CNNs'},
+    ],
+    frontier:'BatchNorm still standard in CNN-based vision models. RMSNorm is the standard in LLMs (LLaMA, Mistral, DeepSeek, Gemma) — simpler, slightly faster. Instance Normalization: standard in style transfer. Modern training: normalization + lr warmup + cosine decay + AdamW = the "standard recipe" for transformers.',
+    connected:[8,11,28,29,14,16],frontierActive:false,
+  },
+];
+
+// Edges: [fromId, toId] — key influential connections
+const EDGES = [
+  [25,3],[3,4],[4,5],[5,21],
+  [8,11],[11,12],[11,16],
+  [15,7],[7,9],[15,14],[14,1],
+  [20,17],[17,19],
+  [27,18],
+  [28,29],[29,30],
+  [10,22],[22,24],
+  [6,23],[6,2],[23,24],
+  [25,14],[11,14],[8,14],[14,22],[2,24],[6,24],
+  [30,11],[4,20],[12,21],[13,14],[9,14],[29,8],[3,22],[28,27],
+];
+
+// =========================================================
+// READING PATHS
+// =========================================================
+const READING_PATHS = [
+  {
+    name: 'I Want to Understand LLMs',
+    icon: '🧠',
+    color: '#588afd',
+    desc: 'Start from sequence modeling roots, through attention, to transformers and why scaling works. The core LLM lineage from RNNs to GPT-4.',
+    papers: [3, 5, 7, 9, 14, 10, 22],
+  },
+  {
+    name: 'Computer Vision Journey',
+    icon: '👁️',
+    color: '#0dc95c',
+    desc: 'From AlexNet\'s breakthrough moment through ResNet skip connections to modern architectures. How deep learning conquered visual perception.',
+    papers: [8, 11, 12, 16],
+  },
+  {
+    name: 'Generative AI Foundations',
+    icon: '🎨',
+    color: '#ec4d4d',
+    desc: 'The generative modeling arc: GANs, VAEs, latent spaces, and why diffusion models and flow matching now dominate image and video generation.',
+    papers: [27, 18, 7, 9],
+  },
+  {
+    name: 'AI Safety & Alignment',
+    icon: '🛡️',
+    color: '#01a78b',
+    desc: 'The theoretical foundations of AI safety: graph reasoning, compression/MDL, complexity theory, intelligence measurement, and what grokking reveals about alignment risks.',
+    papers: [13, 6, 2, 23, 26, 24],
+  },
+];
+
+// =========================================================
+// GLOSSARY DATA
+// =========================================================
+const GLOSSARY = [
+  {term:'Attention Mechanism',tag:'Architecture',def:'A neural network component that computes weighted sums over input elements, where weights (attention scores) determine which inputs to focus on. The core operation underlying transformers.',papers:[15,7,14]},
+  {term:'Transformer',tag:'Architecture',def:'Neural architecture built entirely on self-attention and feed-forward layers, replacing recurrence. Introduced in "Attention Is All You Need" (2017). Now the dominant architecture for language, vision, and beyond.',papers:[14,1]},
+  {term:'LSTM (Long Short-Term Memory)',tag:'Architecture',def:'A recurrent neural network variant with gated cell states that solve the vanishing gradient problem. Gates control what information to keep, forget, or output. Predecessor to the Transformer.',papers:[4,3,5]},
+  {term:'Residual Connection (Skip Connection)',tag:'Architecture',def:'An additive shortcut x + F(x) that bypasses one or more neural network layers, enabling gradient flow through very deep networks. Introduced in ResNet; now universal in all deep architectures.',papers:[11,16]},
+  {term:'Self-Attention',tag:'Architecture',def:'Attention where a sequence attends to itself — every position can attend to every other position. Enables transformers to capture long-range dependencies without recurrence.',papers:[14,15,17]},
+  {term:'Dropout',tag:'Training',def:'Regularization technique that randomly sets neuron outputs to zero during training with probability p. Prevents co-adaptation, acts as training an exponential ensemble of models.',papers:[29,5]},
+  {term:'Batch Normalization',tag:'Training',def:'Normalizes layer activations per mini-batch, then re-scales with learned parameters. Dramatically speeds training, allows higher learning rates, acts as regularizer.',papers:[30]},
+  {term:'Adam Optimizer',tag:'Training',def:'Adaptive moment estimation optimizer maintaining per-parameter learning rates via first and second gradient moments. Default optimizer for most deep learning, especially NLP. AdamW adds correct weight decay.',papers:[28]},
+  {term:'Gradient Descent',tag:'Training',def:'Iterative optimization algorithm that updates parameters in the direction of negative loss gradient. SGD (stochastic), mini-batch, and second-order variants all descend this gradient.',papers:[28,30]},
+  {term:'Scaling Laws',tag:'Theory',def:'Empirical power-law relationships between model performance and training compute, model size, and dataset size. Discovered by Kaplan et al. (2020); corrected by Chinchilla (2022).',papers:[22,10]},
+  {term:'Minimum Description Length (MDL)',tag:'Theory',def:'The principle that the best model minimizes the combined description length of the model and data misfit. Frames learning as compression; unifies regularization, Occam\'s razor, and information theory.',papers:[6,23,2]},
+  {term:'Grokking',tag:'Theory',def:'Phenomenon where models first completely memorize training data, then suddenly generalize to test data long after training loss plateaued. Reveals phase transitions in learning dynamics.',papers:[24,2]},
+  {term:'VAE (Variational Autoencoder)',tag:'Generative',def:'Generative model that learns a structured latent space by maximizing the ELBO (evidence lower bound). Encoder maps to latent distribution; decoder reconstructs. Foundation for latent diffusion models.',papers:[18]},
+  {term:'GAN (Generative Adversarial Network)',tag:'Generative',def:'Generator-discriminator framework where a generator learns to produce data that fools a discriminator trained to distinguish real from fake. First major success in image synthesis.',papers:[27]},
+  {term:'Diffusion Models',tag:'Generative',def:'Generative models that learn to reverse a gradual noising process (Gaussian noise addition). Currently dominant for image/video generation. Stable Diffusion, DALL-E 3, Sora use diffusion in latent space.',papers:[18,27]},
+  {term:'Dilated Convolution',tag:'Architecture',def:'Convolution with gaps (dilation rate > 1) between filter elements, exponentially expanding the receptive field without additional parameters or resolution loss. Used in segmentation and WaveNet audio.',papers:[12]},
+  {term:'Graph Neural Network (GNN)',tag:'Architecture',def:'Neural architecture operating on graph-structured data via message passing between nodes. Applications: molecular property prediction, social networks, knowledge graphs, protein structure.',papers:[13,17]},
+  {term:'Message Passing',tag:'Architecture',def:'Computation pattern in GNNs where nodes iteratively aggregate information from their neighbors and update their state. Unified in the MPNN framework; foundation of AlphaFold.',papers:[13]},
+  {term:'Pointer Network',tag:'Architecture',def:'Architecture that uses attention to select elements from the input sequence as outputs — solving structured prediction problems where the output is a subset or permutation of inputs.',papers:[7,9]},
+  {term:'Pipeline Parallelism',tag:'Systems',def:'Training strategy that splits model layers across multiple accelerators, pipelining multiple micro-batches. Key technique for training models with billions of parameters that don\'t fit on one device.',papers:[10]},
+  {term:'Neural Turing Machine (NTM)',tag:'Memory',def:'Neural architecture with an external differentiable memory and attention-based read/write heads. First neural architecture capable of learning algorithmic tasks like sorting and copying.',papers:[20,19]},
+  {term:'Permutation Invariance',tag:'Theory',def:'Property of a function that gives the same output regardless of the order of its inputs. Desired for set-valued inputs; achieved with architectures like Set Transformer or Deep Sets.',papers:[9,13,17]},
+  {term:'Kolmogorov Complexity',tag:'Theory',def:'The length of the shortest computer program that produces a given string. Theoretically connects compression and intelligence; computationally intractable but motivates MDL and neural network generalization theory.',papers:[2,6,23,26]},
+  {term:'Pre-LayerNorm (Pre-LN)',tag:'Architecture',def:'Placement of layer normalization before the attention/FFN block rather than after. Produces cleaner gradient flow and more stable training. Standard in GPT-2, LLaMA, and modern transformers.',papers:[16,30,14]},
+  {term:'KV Cache',tag:'Systems',def:'Cached key-value pairs from previous attention computations, enabling efficient autoregressive inference without recomputing context. Equivalent to external memory that grows with context length.',papers:[14,20,10]},
+  {term:'In-Context Learning',tag:'Emergence',def:'Ability of large language models to perform new tasks from examples in the prompt, without weight updates. Emerged at scale in GPT-3; mechanism related to implicit gradient descent on the context.',papers:[14,22,9]},
+  {term:'RLHF (Reinforcement Learning from Human Feedback)',tag:'Alignment',def:'Training technique that fine-tunes LLMs to follow human preferences using a reward model trained on human comparisons. Used in ChatGPT, Claude, and Gemini to align outputs with human values.',papers:[26,6]},
+  {term:'Mechanistic Interpretability',tag:'Alignment',def:'Research program that aims to reverse-engineer neural networks into human-understandable algorithms. Grokking and circuit analysis are key tools. Aims to answer: what exactly is a model computing?',papers:[2,24,6]},
+  {term:'Emergent Abilities',tag:'Emergence',def:'Capabilities that appear suddenly in models above a certain scale — not present in smaller models and not predicted by smooth extrapolation. Controversial: may be real phase transitions or measurement artifacts.',papers:[22,24]},
+  {term:'Latent Diffusion Model',tag:'Generative',def:'Diffusion model operating in the compressed latent space of a VAE rather than pixel space. Dramatically reduces computational cost. Foundation of Stable Diffusion, FLUX, Sora.',papers:[18,27]},
+  {term:'Tokenization',tag:'Systems',def:'Process of converting raw text/images/audio into discrete tokens for processing by neural networks. BPE (Byte Pair Encoding) and SentencePiece are standard. "Next token prediction" is the core task of LLMs.',papers:[25,3,14]},
+  {term:'CTC (Connectionist Temporal Classification)',tag:'Training',def:'Loss function for sequence prediction where the alignment between input and output is unknown. Key technique for end-to-end speech recognition without pre-segmented labels.',papers:[21]},
+  {term:'Vanishing Gradient',tag:'Theory',def:'Problem where gradients become extremely small during backpropagation through deep networks, preventing early layers from learning. Solved by LSTM gates, ResNet skip connections, and normalization.',papers:[4,11,16,30]},
+  {term:'Mixture of Experts (MoE)',tag:'Architecture',def:'Architecture where only a subset of specialized "expert" networks are activated per input via a routing mechanism. Enables very large models (hundreds of billions of parameters) to be computationally tractable.',papers:[10,22,14]},
+  {term:'Word Embeddings',tag:'Representation',def:'Dense vector representations of words in a continuous space where similar words are geometrically close. Introduced in neural LMs (Bengio 2003); popularized by Word2Vec. Now superseded by contextual embeddings.',papers:[25,3,14]},
+  {term:'Test-Time Compute Scaling',tag:'Scaling',def:'Scaling performance by allocating more inference-time computation (chain-of-thought, search trees) rather than larger models. Introduced with OpenAI o1; extends scaling laws to the inference dimension.',papers:[22,24,26]},
+];
+
+// =========================================================
+// PROGRESS TRACKER
+// =========================================================
+const LS_KEY = 'ilya30_read_papers';
+let readPapers = new Set(JSON.parse(localStorage.getItem(LS_KEY) || '[]'));
+
+function saveProgress() {
+  localStorage.setItem(LS_KEY, JSON.stringify([...readPapers]));
+}
+
+function updateProgressUI() {
+  const count = readPapers.size;
+  document.getElementById('progress-text').textContent = `${count} / 30 read`;
+  document.getElementById('progress-bar').style.width = (count / 30 * 100) + '%';
+}
+
+function toggleRead(paperId) {
+  if (readPapers.has(paperId)) {
+    readPapers.delete(paperId);
+  } else {
+    readPapers.add(paperId);
+  }
+  saveProgress();
+  updateProgressUI();
+
+  // Update node UI
+  const el = nodeEls[paperId];
+  if (el) el.classList.toggle('read', readPapers.has(paperId));
+
+  // Update detail panel button
+  const btn = document.getElementById('dp-read-btn');
+  if (btn && parseInt(btn.dataset.id) === paperId) {
+    btn.textContent = readPapers.has(paperId) ? '✓ Marked Read' : 'Mark as Read';
+    btn.classList.toggle('marked', readPapers.has(paperId));
+  }
+
+  // Update path cards
+  document.querySelectorAll(`.path-paper[data-id="${paperId}"]`).forEach(card => {
+    card.classList.toggle('completed', readPapers.has(paperId));
+  });
+}
+
+// =========================================================
+// LAYOUT CONSTANTS
+// =========================================================
+
+const MIN_YEAR = 1993;
+const MAX_YEAR = 2026;
+const PX_PER_YEAR_BASE = 110;
+const LABEL_W = 150;
+const LANE_H = 110;
+const LANE_GAP = 14;
+const YEAR_AXIS_H = 38;
+const PAD_RIGHT = 80;
+const PAD_BOTTOM = 40;
+
+let zoomLevel = 1.0;
+let zoomY = 1.0;
+let pxPerYear = PX_PER_YEAR_BASE;
+let laneH = LANE_H;
+
+function canvasW() {
+  return LABEL_W + (MAX_YEAR - MIN_YEAR) * pxPerYear + PAD_RIGHT;
+}
+function canvasH() {
+  return YEAR_AXIS_H + THREADS.length * (laneH + LANE_GAP) - laneH + LANE_H + PAD_BOTTOM;
+}
+function yearX(year) {
+  // Quantize to grid columns (every 2 years)
+  const GRID_YEARS = 2;
+  const quantizedYear = Math.round(year / GRID_YEARS) * GRID_YEARS;
+  return LABEL_W + (quantizedYear - MIN_YEAR) * pxPerYear;
+}
+function threadY(threadIdx) {
+  return YEAR_AXIS_H + threadIdx * (laneH + LANE_GAP) + laneH / 2;
+}
+function threadIdxById(tid) {
+  return THREADS.findIndex(t => t.id === tid);
+}
+
+function computeInfluence() {
+  const counts = {};
+  PAPERS.forEach(p => counts[p.id] = 0);
+  EDGES.forEach(([from, to]) => {
+    if (counts[to] !== undefined) counts[to]++;
+  });
+  PAPERS.forEach(p => {
+    (p.connected || []).forEach(cid => {
+      if (counts[cid] !== undefined) counts[cid]++;
+    });
+  });
+  return counts;
+}
+
+const PDF_MAP = {
+  "05":"papers/05-recurrent-neural-network-regularization.pdf",
+  "06":"papers/06-keeping-networks-simple-mdl.pdf",
+  "07":"papers/07-pointer-networks.pdf",
+  "08":"papers/08-alexnet-imagenet-classification.pdf",
+  "09":"papers/09-order-matters-seq2seq-sets.pdf",
+  "10":"papers/10-gpipe-pipeline-parallelism.pdf",
+  "11":"papers/11-resnet-deep-residual-learning.pdf",
+  "12":"papers/12-dilated-convolutions-context.pdf",
+  "13":"papers/13-neural-message-passing-chemistry.pdf",
+  "14":"papers/14-attention-is-all-you-need.pdf",
+  "15":"papers/15-neural-machine-translation-attention.pdf",
+  "16":"papers/16-identity-mappings-resnet.pdf",
+  "17":"papers/17-relational-reasoning-module.pdf",
+  "18":"papers/18-variational-lossy-autoencoder.pdf",
+  "19":"papers/19-relational-recurrent-networks.pdf",
+  "20":"papers/20-neural-turing-machines.pdf",
+  "21":"papers/21-deep-speech-2.pdf",
+  "22":"papers/22-scaling-laws-language-models.pdf",
+  "23":"papers/23-minimum-description-length.pdf",
+  "24":"papers/24-grokking-generalization.pdf",
+  "25":"papers/25-neural-probabilistic-language-model.pdf",
+  "27":"papers/27-generative-adversarial-nets.pdf",
+  "28":"papers/28-adam-optimizer.pdf",
+  "29":"papers/29-dropout-regularization.pdf",
+  "30":"papers/30-batch-normalization.pdf"
+};
+
+const influence = computeInfluence();
+const maxInfluence = Math.max(...Object.values(influence));
+
+// Group papers by thread, then detect clusters (papers within 2 years of each other)
+const threadPapers = {};
+PAPERS.forEach(paper => {
+  if (!threadPapers[paper.thread]) threadPapers[paper.thread] = [];
+  threadPapers[paper.thread].push(paper);
+});
+// Sort by year within each thread
+Object.values(threadPapers).forEach(arr => arr.sort((a, b) => a.year - b.year));
+
+// Assign y-offsets for papers that are too close on the same track
+const paperYOffsets = {};
+Object.entries(threadPapers).forEach(([thread, papers]) => {
+  // Find clusters: papers within 2 years of each other (quantized positions)
+  const clusters = [];
+  let currentCluster = [papers[0]];
+  for (let i = 1; i < papers.length; i++) {
+    // Check quantized year positions to determine clusters
+    const prevQuantized = Math.round(currentCluster[currentCluster.length - 1].year / 2) * 2;
+    const currQuantized = Math.round(papers[i].year / 2) * 2;
+    if (currQuantized === prevQuantized) {
+      currentCluster.push(papers[i]);
+    } else {
+      clusters.push(currentCluster);
+      currentCluster = [papers[i]];
+    }
+  }
+  clusters.push(currentCluster);
+  
+  clusters.forEach(cluster => {
+    if (cluster.length <= 1) { paperYOffsets[cluster[0].id] = 0; return; }
+    // Use uniform grid spacing: 32px increments
+    const GRID_SPACING = 32;
+    cluster.forEach((p, idx) => {
+      paperYOffsets[p.id] = (idx - (cluster.length - 1) / 2) * GRID_SPACING;
+    });
+  });
+});
+
+function getPaperY(paper) {
+  const tidx = threadIdxById(paper.thread);
+  const baseY = threadY(tidx);
+  return baseY + (paperYOffsets[paper.id] || 0);
+}
+
+function nodeRadius(paperId) {
+  const inf = influence[paperId] || 1;
+  const MIN_R = 14, MAX_R = 23;
+  return MIN_R + ((inf / maxInfluence) * (MAX_R - MIN_R));
+}
+
+// =========================================================
+// STATE
+// =========================================================
+
+let activeThread = 0;
+let activePaperId = null;
+let activeView = 'tree';
+let searchQuery = '';
+let nodeEls = {};
+let connEls = [];
+let milestoneEls = [];
+
+// =========================================================
+// TAB NAVIGATION
+// =========================================================
+
+function switchView(view) {
+  activeView = view;
+
+  document.querySelectorAll('.nav-tab').forEach(tab => {
+    tab.classList.toggle('active', tab.dataset.view === view);
+  });
+
+  document.querySelectorAll('.tab-view').forEach(v => {
+    v.classList.toggle('active', v.id === 'view-' + view);
+  });
+
+  // Show/hide tree-specific controls in the header
+  const treeOnly = view === 'tree';
+  document.getElementById('search-wrap').style.display = treeOnly ? '' : 'none';
+  document.getElementById('zoom-controls').style.display = treeOnly ? '' : 'none';
+  // filter-bar lives inside #tree-toolbar (inside the tree tab), no need to toggle
+}
+
+document.querySelectorAll('.nav-tab').forEach(tab => {
+  tab.addEventListener('click', () => switchView(tab.dataset.view));
+});
+
+// =========================================================
+// SEARCH
+// =========================================================
+
+const searchInput = document.getElementById('search-input');
+const searchClear = document.getElementById('search-clear');
+
+searchInput.addEventListener('input', () => {
+  searchQuery = searchInput.value.trim().toLowerCase();
+  searchClear.classList.toggle('visible', searchQuery.length > 0);
+  applySearch();
+});
+
+searchClear.addEventListener('click', () => {
+  searchInput.value = '';
+  searchQuery = '';
+  searchClear.classList.remove('visible');
+  applySearch();
+});
+
+function applySearch() {
+  if (!searchQuery) {
+    Object.values(nodeEls).forEach(el => el.classList.remove('search-hidden'));
+    return;
+  }
+  PAPERS.forEach(paper => {
+    const el = nodeEls[paper.id];
+    if (!el) return;
+    const match = (
+      paper.title.toLowerCase().includes(searchQuery) ||
+      paper.summary.toLowerCase().includes(searchQuery) ||
+      paper.num.includes(searchQuery) ||
+      String(paper.year).includes(searchQuery)
+    );
+    el.classList.toggle('search-hidden', !match);
+  });
+}
+
+// =========================================================
+// BUILD FILTER TABS
+// =========================================================
+
+function buildFilterTabs() {
+  const bar = document.getElementById('filter-bar');
+  const allBtn = document.createElement('button');
+  allBtn.className = 'filter-tab active';
+  allBtn.dataset.thread = '0';
+  allBtn.innerHTML = 'All Papers';
+  allBtn.addEventListener('click', () => setThread(0));
+  bar.appendChild(allBtn);
+
+  THREADS.forEach(t => {
+    const btn = document.createElement('button');
+    btn.className = 'filter-tab';
+    btn.dataset.thread = String(t.id);
+    btn.innerHTML = `<span class="tab-dot" style="background:${t.color}"></span>${t.short}`;
+    btn.addEventListener('click', () => setThread(t.id));
+    bar.appendChild(btn);
+  });
+}
+
+// =========================================================
+// BUILD CANVAS
+// =========================================================
+
+function buildYearAxis() {
+  const axis = document.getElementById('year-axis');
+  axis.style.width = canvasW() + 'px';
+  axis.style.height = YEAR_AXIS_H + 'px';
+
+  const years = [];
+  for (let y = 1993; y <= 2026; y++) {
+    if (y <= 2000 && y % 3 !== 0) continue;
+    if (y > 2000 && y < 2012 && y % 2 !== 0) continue;
+    years.push(y);
+  }
+
+  years.forEach(year => {
+    const mark = document.createElement('div');
+    mark.className = 'year-mark';
+    mark.style.left = yearX(year) + 'px';
+    mark.style.top = '0';
+    mark.innerHTML = `<span class="year-label">${year}</span><span class="year-tick"></span>`;
+    axis.appendChild(mark);
+  });
+}
+
+function buildThreadLanes() {
+  const lanesEl = document.getElementById('thread-lanes');
+  lanesEl.style.width = canvasW() + 'px';
+  lanesEl.style.height = canvasH() + 'px';
+
+  THREADS.forEach((thread, idx) => {
+    const lane = document.createElement('div');
+    lane.className = 'thread-lane';
+    lane.dataset.thread = thread.id;
+    const y = threadY(idx);
+    lane.style.top = (y - laneH / 2) + 'px';
+    lane.style.height = laneH + 'px';
+
+    const stripe = document.createElement('div');
+    stripe.style.cssText = `position:absolute;inset:0;background:${thread.color}08;border-bottom:1px solid ${thread.color}15;`;
+    lane.appendChild(stripe);
+
+    const line = document.createElement('div');
+    line.className = 'lane-line';
+    line.style.cssText = `left:${LABEL_W}px;right:${PAD_RIGHT}px;top:${laneH / 2}px;background:${thread.color};opacity:0.25;`;
+    lane.appendChild(line);
+
+    const label = document.createElement('div');
+    label.className = 'lane-label';
+    label.style.cssText = `color:${thread.color};height:${laneH}px;line-height:${laneH}px;width:${LABEL_W}px;background:linear-gradient(to right,#0b0b0b 75%,transparent);`;
+    label.textContent = thread.short.toUpperCase();
+    lane.appendChild(label);
+
+    lanesEl.appendChild(lane);
+  });
+}
+
+function buildNodes() {
+  const layer = document.getElementById('nodes-layer');
+  layer.style.width = canvasW() + 'px';
+  layer.style.height = canvasH() + 'px';
+  layer.style.position = 'absolute';
+  layer.style.top = '0';
+  layer.style.left = '0';
+
+  PAPERS.forEach(paper => {
+    const thread = THREADS.find(t => t.id === paper.thread);
+    const x = yearX(paper.year);
+    const y = getPaperY(paper);  // uses offset when multiple papers share same thread+year
+    const r = nodeRadius(paper.id);
+
+    const el = document.createElement('div');
+    el.className = 'paper-node' + (paper.frontierActive ? ' frontier-active' : '') + (readPapers.has(paper.id) ? ' read' : '');
+    el.dataset.id = paper.id;
+    el.style.cssText = `
+      left:${x}px;top:${y}px;
+      width:${r * 2}px;height:${r * 2}px;
+      --node-color:${thread.color};
+      font-size:${r < 18 ? '8' : '9'}px;
+    `;
+    el.textContent = paper.num;
+
+    // Read checkbox overlay
+    const check = document.createElement('div');
+    check.className = 'node-check';
+    check.title = readPapers.has(paper.id) ? 'Mark as unread' : 'Mark as read';
+    check.textContent = '✓';
+    check.addEventListener('click', e => {
+      e.stopPropagation();
+      toggleRead(paper.id);
+      check.title = readPapers.has(paper.id) ? 'Mark as unread' : 'Mark as read';
+    });
+    el.appendChild(check);
+
+    el.addEventListener('mouseenter', e => showTooltip(paper, e));
+    el.addEventListener('mousemove', e => moveTooltip(e));
+    el.addEventListener('mouseleave', hideTooltip);
+    el.addEventListener('click', () => selectPaper(paper.id));
+
+    layer.appendChild(el);
+    nodeEls[paper.id] = el;
+  });
+
+  // Milestone dots — track used positions to avoid stacking
+  const usedDotPositions = new Set();
+  PAPERS.forEach(paper => {
+    const thread = THREADS.find(t => t.id === paper.thread);
+    const baseY = threadY(threadIdxById(paper.thread));
+
+    paper.evolution.forEach((evo, i) => {
+      if (evo.year < MIN_YEAR || evo.year > MAX_YEAR) return;
+      if (evo.year === paper.year) return;
+      // Skip if a paper node already exists at this (thread, year) position
+      if (posGroups[`${paper.thread}_${evo.year}`]) return;
+
+      const dotY = baseY + (i % 2 === 0 ? 22 : -22);
+      // Skip duplicate milestone dots at same pixel position
+      const posKey = `${paper.thread}_${evo.year}_${i % 2}`;
+      if (usedDotPositions.has(posKey)) return;
+      usedDotPositions.add(posKey);
+
+      const dot = document.createElement('div');
+      dot.className = 'milestone-dot';
+      dot.style.cssText = `
+        left:${yearX(evo.year)}px;top:${dotY}px;
+        background:${thread.color};opacity:0.4;
+      `;
+      dot.title = `[${paper.num}] ${evo.year}: ${evo.text}`;
+      dot.dataset.paperId = paper.id;
+
+      dot.addEventListener('mouseenter', e => showMilestoneTooltip(paper, evo, e));
+      dot.addEventListener('mousemove', e => moveTooltip(e));
+      dot.addEventListener('mouseleave', hideTooltip);
+
+      layer.appendChild(dot);
+      milestoneEls.push(dot);
+    });
+  });
+}
+
+function buildConnections() {
+  const svg = document.getElementById('connections-svg');
+  svg.setAttribute('width', canvasW());
+  svg.setAttribute('height', canvasH());
+  svg.style.width = canvasW() + 'px';
+  svg.style.height = canvasH() + 'px';
+
+  const paperMap = {};
+  PAPERS.forEach(p => paperMap[p.id] = p);
+
+  const seen = new Set();
+  const allEdges = [...EDGES];
+
+  allEdges.forEach(([fromId, toId]) => {
+    const key = `${Math.min(fromId,toId)}-${Math.max(fromId,toId)}`;
+    if (seen.has(key)) return;
+    seen.add(key);
+
+    const from = paperMap[fromId];
+    const to = paperMap[toId];
+    if (!from || !to) return;
+
+    const fromThread = THREADS.find(t => t.id === from.thread);
+    const toThread = THREADS.find(t => t.id === to.thread);
+    if (!fromThread || !toThread) return;
+
+    const x1 = yearX(from.year);
+    const y1 = getPaperY(from);  // actual node y (accounts for offset)
+    const x2 = yearX(to.year);
+    const y2 = getPaperY(to);    // actual node y (accounts for offset)
+
+    const sameThread = from.thread === to.thread;
+
+    let d;
+    let opacity;
+    
+    // Count connections for this source node to adjust opacity
+    const fromConnections = allEdges.filter(([fid, tid]) => fid === fromId || tid === fromId).length;
+    
+    if (sameThread) {
+      // Same-thread: simple gentle arc
+      const cx = (x1 + x2) / 2;
+      const cy = Math.min(y1, y2) - 28;
+      d = `M ${x1} ${y1} Q ${cx} ${cy} ${x2} ${y2}`;
+      opacity = '0.3';
+    } else {
+      // Cross-thread: orthogonal (circuit-board style) routing
+      // Horizontal → Vertical → Horizontal
+      const midX = (x1 + x2) / 2;
+      
+      // Add small random offset to prevent exact overlap of parallel vertical segments
+      const verticalOffset = (Math.abs(fromId * 7 + toId * 11) % 10 - 5) * 2;
+      const adjustedMidX = midX + verticalOffset;
+      
+      // Route: start horizontal, then vertical, then horizontal to target
+      d = `M ${x1} ${y1} L ${adjustedMidX} ${y1} L ${adjustedMidX} ${y2} L ${x2} ${y2}`;
+      
+      // Reduce opacity for nodes with many connections
+      opacity = fromConnections > 3 ? '0.12' : '0.18';
+    }
+
+    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    path.setAttribute('d', d);
+    path.setAttribute('class', `conn-path ${sameThread ? 'conn-same' : 'conn-cross'}`);
+    path.setAttribute('stroke', fromThread.color);
+    path.setAttribute('stroke-opacity', opacity);
+    path.dataset.from = fromId;
+    path.dataset.to = toId;
+    path.dataset.sameThread = sameThread ? '1' : '0';
+    path.dataset.thread = from.thread;
+
+    svg.appendChild(path);
+    connEls.push(path);
+  });
+}
+
+// =========================================================
+// INTERACTIONS
+// =========================================================
+
+function setThread(tid) {
+  activeThread = tid;
+
+  document.querySelectorAll('.filter-tab').forEach(btn => {
+    btn.classList.toggle('active', parseInt(btn.dataset.thread) === tid);
+  });
+
+  Object.entries(nodeEls).forEach(([id, el]) => {
+    const paper = PAPERS.find(p => p.id === parseInt(id));
+    const visible = tid === 0 || paper.thread === tid;
+    el.classList.toggle('faded', !visible);
+  });
+
+  document.querySelectorAll('.thread-lane').forEach(lane => {
+    const ltid = parseInt(lane.dataset.thread);
+    lane.classList.toggle('hidden', tid !== 0 && ltid !== tid);
+  });
+
+  connEls.forEach(path => {
+    const ft = parseInt(path.dataset.thread);
+    const visible = tid === 0 || ft === tid;
+    path.classList.toggle('faded', !visible);
+    if (visible) {
+      path.setAttribute('stroke-opacity', path.dataset.sameThread === '1' ? '0.3' : '0.2');
+    }
+  });
+
+  milestoneEls.forEach(dot => {
+    const pid = parseInt(dot.dataset.paperId);
+    const paper = PAPERS.find(p => p.id === pid);
+    const visible = tid === 0 || paper.thread === tid;
+    dot.classList.toggle('faded', !visible);
+  });
+
+  if (activePaperId) {
+    const paper = PAPERS.find(p => p.id === activePaperId);
+    if (tid !== 0 && paper.thread !== tid) {
+      deselectPaper();
+    }
+  }
+}
+
+function selectPaper(paperId) {
+  const paper = PAPERS.find(p => p.id === paperId);
+  if (!paper) return;
+
+  // Switch to tree view if not already there
+  if (activeView !== 'tree') switchView('tree');
+
+  activePaperId = paperId;
+
+  Object.entries(nodeEls).forEach(([id, el]) => {
+    const iid = parseInt(id);
+    const isActive = iid === paperId;
+    const isConnected = paper.connected.includes(iid);
+    el.classList.toggle('active', isActive);
+    el.classList.toggle('faded', !isActive && !isConnected && activeThread === 0);
+    if (isConnected || isActive) el.classList.remove('faded');
+  });
+
+  const connectedIds = new Set([paperId, ...paper.connected]);
+  connEls.forEach(path => {
+    const fid = parseInt(path.dataset.from);
+    const tid = parseInt(path.dataset.to);
+    const relevant = connectedIds.has(fid) && connectedIds.has(tid);
+    if (relevant) {
+      path.classList.add('highlighted');
+      path.classList.remove('faded');
+      path.setAttribute('stroke-opacity', '0.9');
+    } else {
+      path.classList.remove('highlighted');
+      path.setAttribute('stroke-opacity', '0.06');
+    }
+  });
+
+  renderDetailPanel(paper);
+  scrollToNode(paperId);
+}
+
+function deselectPaper() {
+  activePaperId = null;
+
+  Object.values(nodeEls).forEach(el => {
+    el.classList.remove('active', 'faded');
+  });
+
+  connEls.forEach(path => {
+    path.classList.remove('highlighted', 'faded');
+    path.setAttribute('stroke-opacity', path.dataset.sameThread === '1' ? '0.3' : '0.2');
+  });
+
+  document.getElementById('detail-content').style.display = 'none';
+  document.getElementById('detail-empty').style.display = 'flex';
+
+  if (activeThread !== 0) setThread(activeThread);
+}
+
+function renderDetailPanel(paper) {
+  const thread = THREADS.find(t => t.id === paper.thread);
+  const content = document.getElementById('detail-content');
+  const empty = document.getElementById('detail-empty');
+
+  empty.style.display = 'none';
+  content.style.display = 'block';
+  content.style.setProperty('--dp-color', thread.color);
+
+  const diff = getDiff(paper.id);
+  const isRead = readPapers.has(paper.id);
+
+  const connChips = (paper.connected || []).map(cid => {
+    const cp = PAPERS.find(p => p.id === cid);
+    if (!cp) return '';
+    const ct = THREADS.find(t => t.id === cp.thread);
+    const title3 = cp.title.split(' ').slice(0,4).join(' ') + (cp.title.split(' ').length > 4 ? '…' : '');
+    return `<button class="dp-conn-chip" data-id="${cid}" style="--chip-color:${ct.color}" title="${cp.title}">[${cp.num}] ${title3}</button>`;
+  }).join('');
+
+  const evoItems = paper.evolution.map(e =>
+    `<li class="dp-evo-item"><span class="dp-evo-year">${e.year}</span><span class="dp-evo-text">${e.text}</span></li>`
+  ).join('');
+
+  content.innerHTML = `
+    <div class="dp-header">
+      <div class="dp-header-top">
+        <div class="dp-num">[${paper.num}]</div>
+        <div style="flex:1">
+          <h2 class="dp-title">${paper.title}</h2>
+          <div class="dp-meta">
+            <span class="dp-year">${paper.year}</span>
+            <span class="dp-thread-badge">${thread.short}</span>
+            ${paper.frontierActive ? '<span class="dp-frontier-badge">🔮 Active Frontier</span>' : ''}
+            <span class="dp-difficulty-badge">${DIFF_LABEL[diff]}</span>
+            <span class="dp-time-badge">⏱ ${DIFF_TIME[diff]}</span>
+          </div>
+          <div style="margin-top:8px;">
+            <button class="dp-read-btn ${isRead ? 'marked' : ''}" id="dp-read-btn" data-id="${paper.id}">
+              ${isRead ? '✓ Marked Read' : 'Mark as Read'}
+            </button>
+            ${PDF_MAP[paper.id] ? `<a class="dp-pdf-btn" href="${PDF_MAP[paper.id]}" download title="Download PDF">⬇ PDF</a>` : ''}
+          </div>
+        </div>
+        <button class="dp-close" id="dp-close">×</button>
+      </div>
+    </div>
+    <div class="dp-summary">${paper.summary}</div>
+    <div class="dp-section">
+      <div class="dp-section-title">🌱 Origin</div>
+      <div class="dp-section-body">${paper.origin}</div>
+    </div>
+    <div class="dp-section">
+      <div class="dp-section-title">📈 Evolution</div>
+      <ul class="dp-evolution">${evoItems}</ul>
+    </div>
+    <div class="dp-section">
+      <div class="dp-section-title">🔮 2025–2026 Frontier</div>
+      <div class="dp-section-body">${paper.frontier}</div>
+    </div>
+    ${paper.connected && paper.connected.length ? `
+    <div class="dp-section">
+      <div class="dp-section-title">🔗 Connected Papers</div>
+      <div class="dp-connected">${connChips}</div>
+    </div>` : ''}
+  `;
+
+  document.getElementById('dp-close').addEventListener('click', deselectPaper);
+  document.getElementById('dp-read-btn').addEventListener('click', () => {
+    toggleRead(paper.id);
+  });
+  content.querySelectorAll('.dp-conn-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      const cid = parseInt(chip.dataset.id);
+      selectPaper(cid);
+    });
+  });
+
+  content.scrollTop = 0;
+}
+
+// =========================================================
+// TOOLTIP
+// =========================================================
+
+const tooltip = document.getElementById('tooltip');
+
+function showTooltip(paper, e) {
+  const thread = THREADS.find(t => t.id === paper.thread);
+  const diff = getDiff(paper.id);
+  tooltip.innerHTML = `
+    <div class="tt-num">[${paper.num}] ${DIFF_LABEL[diff]}</div>
+    <div class="tt-title">${paper.title}</div>
+    <div class="tt-year">${paper.year} · ⏱ ${DIFF_TIME[diff]}</div>
+    <div class="tt-summary">${paper.summary}</div>
+    <div class="tt-thread" style="color:${thread.color}">${thread.name}</div>
+  `;
+  tooltip.classList.add('visible');
+  moveTooltip(e);
+}
+
+function showMilestoneTooltip(paper, evo, e) {
+  tooltip.innerHTML = `
+    <div class="tt-num">[${paper.num}] Milestone</div>
+    <div class="tt-title">${paper.title}</div>
+    <div class="tt-year">${evo.year}</div>
+    <div class="tt-summary">${evo.text}</div>
+  `;
+  tooltip.classList.add('visible');
+  moveTooltip(e);
+}
+
+function moveTooltip(e) {
+  const vw = window.innerWidth, vh = window.innerHeight;
+  const tw = 260, th = 120;
+  let x = e.clientX + 12, y = e.clientY + 12;
+  if (x + tw > vw) x = e.clientX - tw - 12;
+  if (y + th > vh) y = e.clientY - th - 12;
+  tooltip.style.left = x + 'px';
+  tooltip.style.top = y + 'px';
+}
+
+function hideTooltip() {
+  tooltip.classList.remove('visible');
+}
+
+// =========================================================
+// SCROLL TO NODE
+// =========================================================
+
+function scrollToNode(paperId) {
+  const paper = PAPERS.find(p => p.id === paperId);
+  if (!paper) return;
+  const scroller = document.getElementById('canvas-scroller');
+  const x = yearX(paper.year);
+  const tidx = threadIdxById(paper.thread);
+  const y = threadY(tidx);
+  scroller.scrollTo({
+    left: Math.max(0, x * zoomLevel - scroller.clientWidth / 2),
+    top: Math.max(0, y * zoomLevel - scroller.clientHeight / 2),
+    behavior: 'smooth'
+  });
+}
+
+// =========================================================
+// ZOOM
+// =========================================================
+
+function setZoom(z, axis) {
+  if (axis === 'y') {
+    zoomY = Math.min(2.5, Math.max(0.5, z));
+    laneH = LANE_H * zoomY;
+    document.getElementById('zoom-y-label').textContent = Math.round(zoomY * 100) + '%';
+  } else {
+    zoomLevel = Math.min(2.5, Math.max(0.5, z));
+    pxPerYear = PX_PER_YEAR_BASE * zoomLevel;
+    document.getElementById('zoom-label').textContent = Math.round(zoomLevel * 100) + '%';
+  }
+  rebuildCanvas();
+}
+
+function rebuildCanvas() {
+  document.getElementById('connections-svg').innerHTML = '';
+  document.getElementById('year-axis').innerHTML = '';
+  document.getElementById('thread-lanes').innerHTML = '';
+  document.getElementById('nodes-layer').innerHTML = '';
+  connEls = [];
+  milestoneEls = [];
+  nodeEls = {};
+
+  const cw = canvasW();
+  const ch = canvasH();
+
+  const canvas = document.getElementById('canvas');
+  canvas.style.width = cw + 'px';
+  canvas.style.height = ch + 'px';
+
+  const shim = document.getElementById('canvas-size-shim');
+  shim.style.width = cw + 'px';
+  shim.style.height = ch + 'px';
+
+  buildYearAxis();
+  buildThreadLanes();
+  buildConnections();
+  buildNodes();
+
+  applySearch();
+  if (activeThread !== 0) setThread(activeThread);
+  if (activePaperId) selectPaper(activePaperId);
+}
+
+document.getElementById('canvas-scroller').addEventListener('wheel', e => {
+  if (e.ctrlKey || e.metaKey) {
+    e.preventDefault();
+    const delta = e.deltaY < 0 ? 0.1 : -0.1;
+    setZoom(zoomLevel + delta);
+  }
+}, { passive: false });
+
+document.getElementById('btn-zoom-in').addEventListener('click', () => setZoom(zoomLevel + 0.1, 'x'));
+document.getElementById('btn-zoom-out').addEventListener('click', () => setZoom(zoomLevel - 0.1, 'x'));
+document.getElementById('btn-zoom-reset').addEventListener('click', () => { setZoom(1.0, 'x'); setZoom(1.0, 'y'); });
+document.getElementById('btn-zoom-y-in').addEventListener('click', () => setZoom(zoomY + 0.15, 'y'));
+document.getElementById('btn-zoom-y-out').addEventListener('click', () => setZoom(zoomY - 0.15, 'y'));
+
+// =========================================================
+// KEYBOARD
+// =========================================================
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') deselectPaper();
+  if (e.key === '+' || e.key === '=') setZoom(zoomLevel + 0.1);
+  if (e.key === '-') setZoom(zoomLevel - 0.1);
+});
+
+// =========================================================
+// BUILD READING PATHS
+// =========================================================
+
+function buildReadingPaths() {
+  const container = document.getElementById('paths-content');
+  const paperMap = {};
+  PAPERS.forEach(p => paperMap[p.id] = p);
+
+  READING_PATHS.forEach(path => {
+    const card = document.createElement('div');
+    card.className = 'path-card';
+
+    const papersHtml = path.papers.map((pid, i) => {
+      const p = paperMap[pid];
+      if (!p) return '';
+      const thread = THREADS.find(t => t.id === p.thread);
+      const diff = getDiff(pid);
+      const isRead = readPapers.has(pid);
+      const arrow = i < path.papers.length - 1 ? `<span class="path-arrow">→</span>` : '';
+      return `
+        <div class="path-paper${isRead ? ' completed' : ''}" data-id="${pid}" style="--pp-color:${thread.color}" title="${p.title}">
+          <span class="pp-check">✓</span>
+          <div class="pp-num">[${p.num}]</div>
+          <div class="pp-title">${p.title}</div>
+          <div class="pp-meta">
+            <span class="pp-year">${p.year}</span>
+            <span class="pp-diff">${diff === 'easy' ? '🟢' : diff === 'hard' ? '🔴' : '🟡'}</span>
+          </div>
+        </div>${arrow}
+      `;
+    }).join('');
+
+    card.innerHTML = `
+      <div class="path-name" style="color:${path.color}">
+        <span class="path-name-icon">${path.icon}</span>
+        ${path.name}
+      </div>
+      <div class="path-desc">${path.desc}</div>
+      <div class="path-papers">${papersHtml}</div>
+    `;
+
+    // Click on paper card → switch to tree and select it
+    card.querySelectorAll('.path-paper').forEach(el => {
+      el.addEventListener('click', () => {
+        const pid = parseInt(el.dataset.id);
+        switchView('tree');
+        selectPaper(pid);
+      });
+    });
+
+    container.appendChild(card);
+  });
+}
+
+// =========================================================
+// BUILD GLOSSARY
+// =========================================================
+
+function buildGlossary() {
+  const grid = document.getElementById('glossary-grid');
+  const searchEl = document.getElementById('glossary-search');
+  const countEl = document.getElementById('glossary-count');
+
+  GLOSSARY.forEach(item => {
+    const card = document.createElement('div');
+    card.className = 'gloss-card';
+    card.dataset.term = item.term.toLowerCase();
+    card.dataset.def = item.def.toLowerCase();
+    card.dataset.tag = item.tag.toLowerCase();
+
+    const chipsHtml = (item.papers || []).map(pid => {
+      const p = PAPERS.find(x => x.id === pid);
+      if (!p) return '';
+      return `<button class="gloss-paper-chip" data-id="${pid}" title="${p.title}">[${p.num}]</button>`;
+    }).join('');
+
+    card.innerHTML = `
+      <div class="gloss-term">
+        ${item.term}
+        <span class="gloss-tag">${item.tag}</span>
+      </div>
+      <div class="gloss-def">${item.def}</div>
+      ${chipsHtml ? `<div class="gloss-papers">${chipsHtml}</div>` : ''}
+    `;
+
+    card.querySelectorAll('.gloss-paper-chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        const pid = parseInt(chip.dataset.id);
+        switchView('tree');
+        selectPaper(pid);
+      });
+    });
+
+    grid.appendChild(card);
+  });
+
+  const total = GLOSSARY.length;
+  countEl.textContent = `${total} concepts`;
+
+  searchEl.addEventListener('input', () => {
+    const q = searchEl.value.trim().toLowerCase();
+    let visible = 0;
+    grid.querySelectorAll('.gloss-card').forEach(card => {
+      const match = !q ||
+        card.dataset.term.includes(q) ||
+        card.dataset.def.includes(q) ||
+        card.dataset.tag.includes(q);
+      card.classList.toggle('hidden', !match);
+      if (match) visible++;
+    });
+    countEl.textContent = q ? `${visible} of ${total} concepts` : `${total} concepts`;
+  });
+}
+
+// =========================================================
+// INIT
+// =========================================================
+
+buildFilterTabs();
+
+const cw = canvasW();
+const ch = canvasH();
+
+const canvas = document.getElementById('canvas');
+canvas.style.width = cw + 'px';
+canvas.style.height = ch + 'px';
+canvas.style.position = 'relative';
+
+const shim = document.getElementById('canvas-size-shim');
+shim.style.width = cw + 'px';
+shim.style.height = ch + 'px';
+shim.style.position = 'relative';
+
+buildYearAxis();
+buildThreadLanes();
+buildConnections();
+buildNodes();
+
+buildReadingPaths();
+buildGlossary();
+
+updateProgressUI();
+
+// Filter bar is inside #tree-toolbar (inside the tree tab) — no need to toggle
+// Only the header controls need to be initialized visible
+document.getElementById('search-wrap').style.display = '';
+document.getElementById('zoom-controls').style.display = '';
+
+// Scroll to ~2014 on load
+requestAnimationFrame(() => {
+  const scroller = document.getElementById('canvas-scroller');
+  scroller.scrollLeft = Math.max(0, yearX(2014) - scroller.clientWidth / 3);
+});
+</script>
+</body>
+</html>
