@@ -842,7 +842,7 @@ html, body {
 
     <!-- Ilya Canon View -->
     <div class="tab-view" id="view-canon">
-      <iframe src="./index-original.html" style="width: 100%; flex: 1; border: none;"></iframe>
+      <iframe id="ilya-iframe" src="./ilya-embed.html" style="width: 100%; flex: 1; border: none;"></iframe>
     </div>
 
     <!-- Trending View -->
@@ -975,6 +975,12 @@ function switchView(view) {
   document.querySelectorAll('.tab-view').forEach(v => {
     v.classList.toggle('active', v.id === 'view-' + view);
   });
+  
+  // Hide outer detail panel when in canon (Ilya) tab — it has its own
+  const detailPanel = document.getElementById('detail-panel');
+  if (detailPanel) {
+    detailPanel.style.display = view === 'canon' ? 'none' : '';
+  }
 }
 
 // ===== DASHBOARD RENDERING =====
