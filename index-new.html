@@ -632,15 +632,22 @@ html, body {
 
 /* ===== DETAIL PANEL ===== */
 #detail-panel {
-  width: 400px;
-  min-width: 400px;
-  max-width: 400px;
+  width: 0;
+  min-width: 0;
+  max-width: 0;
   background: var(--bg-surface);
-  border-left: 1px solid var(--border);
+  border-left: none;
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  transition: width 0.3s;
+  transition: width 0.3s, min-width 0.3s, max-width 0.3s, border-left 0.3s;
+}
+
+#detail-panel.open {
+  width: 400px;
+  min-width: 400px;
+  max-width: 400px;
+  border-left: 1px solid var(--border);
 }
 
 #detail-empty {
@@ -833,7 +840,7 @@ html, body {
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 900px) {
-  #detail-panel {
+  #detail-panel.open {
     width: 320px;
     min-width: 320px;
     max-width: 320px;
@@ -1268,6 +1275,7 @@ function showDetailPanel(paper) {
   empty.style.display = 'none';
   content.style.display = 'block';
   content.classList.add('visible');
+  panel.classList.add('open');
   
   if (window.innerWidth <= 600) {
     panel.classList.add('visible');
@@ -1281,9 +1289,10 @@ function hideDetailPanel() {
   const content = document.getElementById('detail-content');
   const panel = document.getElementById('detail-panel');
   
-  empty.style.display = 'flex';
+  empty.style.display = 'none';
   content.style.display = 'none';
   content.classList.remove('visible');
+  panel.classList.remove('open');
   
   if (window.innerWidth <= 600) {
     panel.classList.remove('visible');
