@@ -832,6 +832,40 @@ html, body {
   background: rgba(172,170,255,0.1);
 }
 
+.dp-read-btn {
+  margin-left: auto;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.15);
+  color: var(--text-secondary);
+  font-size: 11px;
+  font-family: var(--font-sans);
+  padding: 3px 10px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.dp-read-btn:hover { border-color: var(--green); color: var(--green); }
+.dp-read-btn.marked { background: rgba(13,201,92,0.12); border-color: var(--green); color: var(--green); }
+
+.dp-pdf-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 6px;
+  background: rgba(172,170,255,0.1);
+  border: 1px solid var(--purple-primary);
+  color: var(--purple-primary);
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.15s;
+  font-family: var(--font-sans);
+}
+.dp-pdf-btn:hover { background: rgba(172,170,255,0.25); }
+
 /* ===== RESPONSIVE ===== */
 @media (max-width: 900px) {
   #detail-panel.open {
@@ -1296,48 +1330,44 @@ function hideDetailPanel() {
 function renderDetailPanel(paper) {
   const content = document.getElementById('detail-content');
   const isRead = state.readStatus[paper.id];
+  const primaryTheme = THEMES[paper.themes[0]];
+  const themeColor = primaryTheme?.color || '#acaaff';
   
-  // Theme badges
+  // Theme badges (matching Canon style)
   const themeBadges = paper.themes.map(t => {
     const theme = THEMES[t];
-    return `<span class="dp-theme-badge" style="color: ${theme.color}; border-color: ${theme.color}">${theme.name}</span>`;
-  }).join('');
+    return `<span class="dp-theme-badge" style="color: ${theme.color}; border-color: ${theme.color}">${theme.icon} ${theme.name}</span>`;
+  }).join(' ');
   
-  // Resources
-  const resourceLinks = paper.resources.map(r => {
+  // Resources as pill buttons (matching Canon dp-pdf-btn style)
+  const resourceBtns = paper.resources.map(r => {
     const icons = { paper: '📄', code: '💻', blog: '📝', demo: '🎮' };
     const labels = { paper: 'Paper', code: 'Code', blog: 'Blog', demo: 'Demo' };
-    return `<a href="${r.url}" class="dp-resource-link" target="_blank" rel="noopener">${icons[r.type] || '🔗'} ${labels[r.type] || 'Link'}</a>`;
+    return `<a href="${r.url}" class="dp-pdf-btn" target="_blank" rel="noopener">${icons[r.type] || '🔗'} ${labels[r.type] || 'Link'}</a>`;
   }).join('');
   
   content.innerHTML = `
-    <div class="dp-header">
+    <div class="dp-header" style="--dp-color: ${themeColor}">
       <div class="dp-header-top">
         <div class="dp-title">${paper.title}</div>
         <button class="dp-close" onclick="hideDetailPanel()">×</button>
       </div>
       <div class="dp-meta">
         <span class="dp-year">${paper.datePublished}</span>
-        ${themeBadges}
-      </div>
-      <div class="dp-actions">
-        <button class="dp-btn ${isRead ? 'read' : ''}" onclick="toggleRead('${paper.id}')">${isRead ? '✓ Read' : 'Mark as Read'}</button>
-        ${paper.resources.find(r => r.type === 'paper') ? `<a href="${paper.resources.find(r => r.type === 'paper').url}" class="dp-btn" target="_blank" rel="noopener">📄 PDF</a>` : ''}
+        ${paper.subCategory ? `<span class="dp-theme-badge" style="color: ${themeColor}; border-color: ${themeColor}">${paper.subCategory}</span>` : ''}
+        <span class="dp-read-btn ${isRead ? 'marked' : ''}" onclick="event.stopPropagation(); toggleRead('${paper.id}')">${isRead ? '✓ Read' : '☐ Mark Read'}</span>
       </div>
     </div>
-    ${paper.summary ? `<div class="dp-summary">${paper.summary}</div>` : ''}
-    ${resourceLinks ? `
-      <div class="dp-section">
-        <div class="dp-section-title">Resources</div>
-        <div class="dp-resources">${resourceLinks}</div>
-      </div>
-    ` : ''}
-    ${paper.themes.length > 1 ? `
-      <div class="dp-section">
-        <div class="dp-section-title">Also appears in</div>
-        <div>${paper.themes.slice(1).map(t => `<span class="dp-theme-badge" style="color: ${THEMES[t].color}; border-color: ${THEMES[t].color}">${THEMES[t].name}</span>`).join(' ')}</div>
-      </div>
-    ` : ''}
+    <div class="dp-body" style="padding: 14px 16px;">
+      ${paper.summary ? `<div style="font-size: 13px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 16px;">${paper.summary}</div>` : ''}
+      ${resourceBtns ? `<div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px;">${resourceBtns}</div>` : ''}
+      ${paper.themes.length > 0 ? `
+        <div style="margin-top: 12px;">
+          <div class="dp-section-title" style="margin-bottom: 8px;">Themes</div>
+          <div style="display: flex; flex-wrap: wrap; gap: 6px;">${themeBadges}</div>
+        </div>
+      ` : ''}
+    </div>
   `;
 }
 
