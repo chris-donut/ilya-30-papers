@@ -1,4 +1,4 @@
 {
-  "buildCommand": "mkdir -p dist && cp *.html dist/ && cp -r papers dist/papers",
+  "buildCommand": "mkdir -p dist && cp *.html dist/ && cp papers.json dist/ && cp -r papers dist/papers",
   "outputDirectory": "dist"
 }
